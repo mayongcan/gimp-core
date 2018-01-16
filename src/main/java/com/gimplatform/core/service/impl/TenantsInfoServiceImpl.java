@@ -28,6 +28,11 @@ import com.gimplatform.core.utils.BeanUtils;
 import com.gimplatform.core.utils.RestfulRetUtils;
 import com.gimplatform.core.utils.StringUtils;
 
+/**
+ * 租户信息服务类
+ * @author zzd
+ *
+ */
 @Service
 public class TenantsInfoServiceImpl implements TenantsInfoService{
 

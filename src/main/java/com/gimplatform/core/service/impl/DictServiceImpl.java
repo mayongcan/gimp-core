@@ -31,6 +31,11 @@ import com.gimplatform.core.utils.RedisUtils;
 import com.gimplatform.core.utils.RestfulRetUtils;
 import com.gimplatform.core.utils.StringUtils;
 
+/**
+ * 字典信息服务类
+ * @author zzd
+ *
+ */
 @Service
 public class DictServiceImpl implements DictService{
 	

@@ -39,6 +39,11 @@ import com.gimplatform.core.utils.RestfulRetUtils;
 import com.gimplatform.core.utils.SessionUtils;
 import com.gimplatform.core.utils.StringUtils;
 
+/**
+ * 组织信息服务类
+ * @author zzd
+ *
+ */
 @Service
 public class OrganizerInfoServiceImpl implements OrganizerInfoService{
 

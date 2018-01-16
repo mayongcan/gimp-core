@@ -25,6 +25,11 @@ import com.gimplatform.core.utils.SessionUtils;
 import com.gimplatform.core.utils.StringUtils;
 import com.gimplatform.core.utils.UserAgentUtils;
 
+/**
+ * 日志消息服务类
+ * @author zzd
+ *
+ */
 @Service
 public class LogInfoServiceImpl implements LogInfoService{
 

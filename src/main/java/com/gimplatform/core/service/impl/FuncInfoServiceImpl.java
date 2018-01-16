@@ -28,6 +28,11 @@ import com.gimplatform.core.utils.RestfulRetUtils;
 import com.gimplatform.core.utils.StringUtils;
 import com.gimplatform.core.utils.JsonUtils;
 
+/**
+ * 权限信息服务类
+ * @author zzd
+ *
+ */
 @Service
 public class FuncInfoServiceImpl implements FuncInfoService{
 	

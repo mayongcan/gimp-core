@@ -45,16 +45,7 @@ public class RoleInfoServiceImpl implements RoleInfoService{
      * @return
      */
     public List<String> getRolesNameByUser(UserInfo userInfo){
-    	return roleInfoRepository.getUserRoleName(userInfo.getUserCode(), userInfo.getOrganizerId());
-//    	List<String> list1 = roleInfoRepository.getRolesNameByUserCode(userInfo.getUserCode());
-//    	List<String> list2 = roleInfoRepository.getRolesNameByOrganizerId(userInfo.getOrganizerId());
-//    	//去重
-//    	Set<String> set = new LinkedHashSet<>();
-//        set.addAll(list1);
-//        set.addAll(list2);
-//        List<String> retList = new ArrayList<String>();
-//        retList.addAll(set);
-//        return retList;
+    		return roleInfoRepository.getUserRoleName(userInfo.getUserCode(), userInfo.getOrganizerId());
     }
 
 	@Override
