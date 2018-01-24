@@ -234,7 +234,7 @@ public class FuncInfoServiceImpl implements FuncInfoService{
 			text = MapUtils.getString(mapObj, "funcName", "");
 			parent = MapUtils.getString(mapObj, "parentFuncId", "root");
 			//当获取到的根ID不为null，则将传送过来的parentId作为rootId
-			if(parentId != null && parentId.equals(StringUtils.toLong(id))){
+			if(parentId != null && parentId.equals(id)){
 				parent = parentId.toString();
 			}
 			

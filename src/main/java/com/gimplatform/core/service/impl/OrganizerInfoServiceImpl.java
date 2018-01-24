@@ -347,6 +347,7 @@ public class OrganizerInfoServiceImpl implements OrganizerInfoService{
 		OrganizerRecur orgExt = new OrganizerRecur();
 		orgExt.setOrganizerId(organizerInfo.getOrganizerId());
 		orgExt.setOrganizerChildId(organizerInfo.getOrganizerId());
+		organizerInfoRepository.delOrganizerRecur(orgExt.getOrganizerId(), orgExt.getOrganizerChildId());
 		organizerInfoRepository.saveOrganizerRecur(orgExt.getOrganizerId(), orgExt.getOrganizerChildId());
 		
 		Long orgParentId = organizerInfo.getParentOrgId();
@@ -361,6 +362,7 @@ public class OrganizerInfoServiceImpl implements OrganizerInfoService{
 					orgExt.setOrganizerChildId(organizerInfo.getOrganizerId());
 					orgParentId = orgInfoParent.getParentOrgId();
 					namePath = orgInfoParent.getOrganizerName() + ">>" + namePath;
+					organizerInfoRepository.delOrganizerRecur(orgExt.getOrganizerId(), orgExt.getOrganizerChildId());
 					organizerInfoRepository.saveOrganizerRecur(orgExt.getOrganizerId(), orgExt.getOrganizerChildId());
 				}else{
 					orgParentId = null;

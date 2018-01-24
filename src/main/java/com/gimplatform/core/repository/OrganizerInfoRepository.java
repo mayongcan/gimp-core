@@ -120,6 +120,19 @@ public interface OrganizerInfoRepository extends JpaRepository<OrganizerInfo, Lo
 			+ "WHERE ORGANIZER_CHILD_ID = :organizerChildId ", nativeQuery = true)
 	public void delOrganizerRecurByOrganizerChildId(@Param("organizerChildId")Long organizerChildId);
 	
+
+	/**
+	 * 保存Organizer
+	 * @param organizerId
+	 * @param organizerChildId
+	 */
+	@Transactional
+    @Modifying
+	@Query(value = "DELETE FROM sys_organizer_recur "
+			+ "WHERE ORGANIZER_ID =:organizerId and ORGANIZER_CHILD_ID = :organizerChildId ", nativeQuery = true)
+	public void delOrganizerRecur(@Param("organizerId")Long organizerId, @Param("organizerChildId")Long organizerChildId);
+	
+	
 	/**
 	 * 保存Organizer
 	 * @param organizerId
