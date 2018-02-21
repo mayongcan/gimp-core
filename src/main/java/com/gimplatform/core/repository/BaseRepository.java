@@ -146,7 +146,7 @@ public class BaseRepository {
 	 * @param sqlParams
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected int getResultListTotalCount(SqlParams sqlParams){
 		//创建查询对象
 		Query query = entityManager.createNativeQuery(sqlParams.querySql.toString()); 
@@ -155,10 +155,12 @@ public class BaseRepository {
 		for(int i = 0; i < sqlParams.paramsList.size(); i++){
 			query.setParameter(sqlParams.paramsList.get(i), sqlParams.valueList.get(i));
 		}
-		if(query.getResultList().size()==0 ){
+		List resultList = query.getResultList();
+		if(resultList.size() == 0 ){
 			return 0;
 		}else{
-			Map<String, Object> map = (Map<String, Object>) query.getSingleResult();
+			//Map<String, Object> map = (Map<String, Object>) query.getSingleResult();
+			Map<String, Object> map = (Map<String, Object>) resultList.get(0);
 			return MapUtils.getInteger(map, "count", 0);
 		}
 	}

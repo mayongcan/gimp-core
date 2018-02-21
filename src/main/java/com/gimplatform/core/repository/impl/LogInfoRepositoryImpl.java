@@ -68,11 +68,11 @@ public class LogInfoRepositoryImpl extends BaseRepository implements LogInfoRepo
 			sqlParams.valueList.add(userInfo.getUserId());
 		}
         if(!StringUtils.isBlank(beginTime) && !StringUtils.isBlank(endTime)) {
-        	sqlParams.querySql.append(" AND log.CREATE_DATE between :beginTime and :endTime ");
-        	sqlParams.paramsList.add("beginTime");
-        	sqlParams.paramsList.add("endTime");
-        	sqlParams.valueList.add(beginTime);
-        	sqlParams.valueList.add(endTime);
+	        	sqlParams.querySql.append(" AND log.CREATE_DATE between :beginTime and :endTime ");
+	        	sqlParams.paramsList.add("beginTime");
+	        	sqlParams.paramsList.add("endTime");
+	        	sqlParams.valueList.add(beginTime);
+	        	sqlParams.valueList.add(endTime);
         }
         return sqlParams;
 	}
