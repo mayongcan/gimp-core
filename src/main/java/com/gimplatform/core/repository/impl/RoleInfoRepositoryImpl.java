@@ -69,21 +69,21 @@ public class RoleInfoRepositoryImpl extends BaseRepository implements RoleInfoRe
 			sqlParams.valueList.add(roleId);
         }
         if(tenantsId != null) {
-        	sqlParams.querySql.append(" AND u.TENANTS_ID=:tenantsId ");
-        	sqlParams.paramsList.add("tenantsId");
-        	sqlParams.valueList.add(tenantsId);
+	        	sqlParams.querySql.append(" AND u.TENANTS_ID=:tenantsId ");
+	        	sqlParams.paramsList.add("tenantsId");
+	        	sqlParams.valueList.add(tenantsId);
         }
         if(organizerId != null) {
-        	//查找当前组织下的所有子组织
-        	sqlParams.querySql.append(" AND u.organizer_id in(select distinct(ORGANIZER_CHILD_ID) from sys_organizer_recur where organizer_id=:organizerId ) ");
-			//sqlParams.querySql.append(" AND u.ORGANIZER_ID=:organizerId ");
-        	sqlParams.paramsList.add("organizerId");
-        	sqlParams.valueList.add(organizerId);
+	        	//查找当前组织下的所有子组织
+	        	sqlParams.querySql.append(" AND u.organizer_id in(select distinct(ORGANIZER_CHILD_ID) from sys_organizer_recur where organizer_id=:organizerId ) ");
+				//sqlParams.querySql.append(" AND u.ORGANIZER_ID=:organizerId ");
+	        	sqlParams.paramsList.add("organizerId");
+	        	sqlParams.valueList.add(organizerId);
         }
         if(!StringUtils.isBlank(userType)){
-        	sqlParams.querySql.append(" AND u.USER_TYPE=:userType ");
-        	sqlParams.paramsList.add("userType");
-        	sqlParams.valueList.add(userType);
+	        	sqlParams.querySql.append(" AND u.USER_TYPE=:userType ");
+	        	sqlParams.paramsList.add("userType");
+	        	sqlParams.valueList.add(userType);
         }
         return sqlParams;
 	}
