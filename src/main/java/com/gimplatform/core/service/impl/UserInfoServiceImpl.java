@@ -62,6 +62,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 		else return list.get(0); 
 	}
 
+	@Override
+	public UserInfo getByUserId(Long userId) {
+		return userInfoRepository.findOne(userId);
+	}
+
 	/**
 	 * 获取用户权限目录
 	 * 

@@ -132,6 +132,7 @@ public class RedisUtils {
 		Jedis jedis = null;
 		try {
 			jedis = getResource();
+			if(value == null) value = "";
 			result = jedis.set(key, value);
 			if (cacheSeconds != 0) {
 				jedis.expire(key, cacheSeconds);
@@ -158,6 +159,7 @@ public class RedisUtils {
 		Jedis jedis = null;
 		try {
 			jedis = getResource();
+			if(value == null) value = "";
 			result = jedis.hset(key, field, value);
 			if (cacheSeconds != 0) {
 				jedis.expire(key, cacheSeconds);

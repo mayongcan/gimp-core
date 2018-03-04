@@ -27,6 +27,8 @@ public interface UserInfoService {
 	 */
 	public UserInfo getByUserCode(String userCode);
 
+	public UserInfo getByUserId(Long userId);
+
 	/**
 	 * 获取用户权限目录
 	 * 
