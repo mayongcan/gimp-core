@@ -14,180 +14,181 @@ import com.gimplatform.core.utils.StringUtils;
 import com.thoughtworks.paranamer.*;
 
 public class MethodParameter {
-	
-	int paramIndex = -1; 		// paramIndex,从1开始
-	
-	String paramName; 			//paramName名称
-	
-	JavaClass paramClass; 		//parameter的类型
-	
-	JavaMethod method; 			//与parameter相关联的method
-	
-	public MethodParameter(int paramIndex, JavaMethod method,JavaClass paramClazz) {
-		super();
-		this.method = method;
-		this.paramIndex = paramIndex;
-		this.paramClass = paramClazz;
-	}
+
+    int paramIndex = -1; // paramIndex,从1开始
+
+    String paramName; // paramName名称
+
+    JavaClass paramClass; // parameter的类型
+
+    JavaMethod method; // 与parameter相关联的method
+
+    public MethodParameter(int paramIndex, JavaMethod method, JavaClass paramClazz) {
+        super();
+        this.method = method;
+        this.paramIndex = paramIndex;
+        this.paramClass = paramClazz;
+    }
 
     public JavaMethod getMethod() {
-		return method;
-	}
-    
-	public String getName() {
-	    if(paramIndex < 0) return null;
-		String[] parameterNames = lookupParameterNamesByParanamer();
-		if(parameterNames == null || parameterNames.length == 0)  {
-		    if(StringUtils.isNotBlank(paramName))
-		        return paramName;
-		    if(paramClass.getClazz().isPrimitive() || paramClass.getClazz().getName().startsWith("java.")) {
-		        return "param"+paramIndex;
-		    }else {
-		        return StringUtils.changeFirstCharacterCase(paramClass.getClassName(), false);
-		    }			
-		}else {
-			return parameterNames[paramIndex - 1];
-		}
-	}
-	
-	public static Paranamer paranamer = setParanamer(Thread.currentThread().getContextClassLoader());
-	
-	public static Paranamer setParanamer(ClassLoader classLoader) {
-		paranamer = new CachingParanamer(new AdaptiveParanamer(new DefaultParanamer(),new BytecodeReadingParanamer(),new JavaSourceParanamer(classLoader)) );
-		return paranamer;
-	}
-	
-	private String[] lookupParameterNamesByParanamer() {
-		return paranamer.lookupParameterNames(method.method,false);
-	}
+        return method;
+    }
 
-	public int getParamIndex() {
-		return paramIndex;
-	}
+    public String getName() {
+        if (paramIndex < 0)
+            return null;
+        String[] parameterNames = lookupParameterNamesByParanamer();
+        if (parameterNames == null || parameterNames.length == 0) {
+            if (StringUtils.isNotBlank(paramName))
+                return paramName;
+            if (paramClass.getClazz().isPrimitive() || paramClass.getClazz().getName().startsWith("java.")) {
+                return "param" + paramIndex;
+            } else {
+                return StringUtils.changeFirstCharacterCase(paramClass.getClassName(), false);
+            }
+        } else {
+            return parameterNames[paramIndex - 1];
+        }
+    }
 
-	public String getAsType() {
-		return paramClass.getAsType();
-	}
+    public static Paranamer paranamer = setParanamer(Thread.currentThread().getContextClassLoader());
 
-	public String getClassName() {
-		return paramClass.getClassName();
-	}
+    public static Paranamer setParanamer(ClassLoader classLoader) {
+        paranamer = new CachingParanamer(new AdaptiveParanamer(new DefaultParanamer(), new BytecodeReadingParanamer(), new JavaSourceParanamer(classLoader)));
+        return paranamer;
+    }
 
-	public String getJavaType() {
-		return paramClass.getJavaType();
-	}
+    private String[] lookupParameterNamesByParanamer() {
+        return paranamer.lookupParameterNames(method.method, false);
+    }
 
-	public String getPackageName() {
-		return paramClass.getPackageName();
-	}
+    public int getParamIndex() {
+        return paramIndex;
+    }
 
-	public String getPackagePath() {
-		return paramClass.getPackagePath();
-	}
+    public String getAsType() {
+        return paramClass.getAsType();
+    }
 
-	public String getParentPackageName() {
-		return paramClass.getParentPackageName();
-	}
+    public String getClassName() {
+        return paramClass.getClassName();
+    }
 
-	public String getParentPackagePath() {
-		return paramClass.getParentPackagePath();
-	}
+    public String getJavaType() {
+        return paramClass.getJavaType();
+    }
+
+    public String getPackageName() {
+        return paramClass.getPackageName();
+    }
+
+    public String getPackagePath() {
+        return paramClass.getPackagePath();
+    }
+
+    public String getParentPackageName() {
+        return paramClass.getParentPackageName();
+    }
+
+    public String getParentPackagePath() {
+        return paramClass.getParentPackagePath();
+    }
 
     public boolean isArray() {
-    	return paramClass.isArray();
+        return paramClass.isArray();
     }
-    
-	public String getCanonicalName() {
-		return paramClass.getCanonicalName();
-	}
 
-	public List<JavaField> getFields() {
-		return paramClass.getFields();
-	}
+    public String getCanonicalName() {
+        return paramClass.getCanonicalName();
+    }
 
-	public JavaMethod[] getMethods() {
-		return paramClass.getMethods();
-	}
+    public List<JavaField> getFields() {
+        return paramClass.getFields();
+    }
 
-	public boolean isAnnotation() {
-		return paramClass.isAnnotation();
-	}
+    public JavaMethod[] getMethods() {
+        return paramClass.getMethods();
+    }
 
-	public boolean isAnonymousClass() {
-		return paramClass.isAnonymousClass();
-	}
+    public boolean isAnnotation() {
+        return paramClass.isAnnotation();
+    }
 
-	public boolean isEnum() {
-		return paramClass.isEnum();
-	}
+    public boolean isAnonymousClass() {
+        return paramClass.isAnonymousClass();
+    }
 
-	public boolean isInterface() {
-		return paramClass.isInterface();
-	}
+    public boolean isEnum() {
+        return paramClass.isEnum();
+    }
 
-	public boolean isLocalClass() {
-		return paramClass.isLocalClass();
-	}
+    public boolean isInterface() {
+        return paramClass.isInterface();
+    }
 
-	public boolean isMemberClass() {
-		return paramClass.isMemberClass();
-	}
+    public boolean isLocalClass() {
+        return paramClass.isLocalClass();
+    }
 
-	public boolean isPrimitive() {
-		return paramClass.isPrimitive();
-	}
+    public boolean isMemberClass() {
+        return paramClass.isMemberClass();
+    }
 
-	public boolean isSynthetic() {
-		return paramClass.isSynthetic();
-	}
+    public boolean isPrimitive() {
+        return paramClass.isPrimitive();
+    }
 
-	public JavaProperty[] getProperties() throws Exception {
-		return paramClass.getProperties();
-	}
+    public boolean isSynthetic() {
+        return paramClass.isSynthetic();
+    }
 
-	public String getSuperclassName() {
-		return paramClass.getSuperclassName();
-	}
+    public JavaProperty[] getProperties() throws Exception {
+        return paramClass.getProperties();
+    }
 
-	public JavaClass getParamClass() {
+    public String getSuperclassName() {
+        return paramClass.getSuperclassName();
+    }
+
+    public JavaClass getParamClass() {
         return paramClass;
     }
-	
-	public static String[] parseJavaFileForParamNames(Method method,File javaFile) throws IOException {
-	    String content = FileUtils.readFile(javaFile);
-	    return new JavaSourceFileMethodParametersParser().parseJavaFileForParamNames(method, content);
-	}
-	
-	public static class JavaSourceFileMethodParametersParser {
 
-        public String[] parseJavaFileForParamNames(Method method,String content) {
-            Pattern methodPattern = Pattern.compile("(?s)"+method.getName()+"\\s*\\("+getParamsPattern(method)+"\\)\\s*\\{");
-    	    Matcher m = methodPattern.matcher(content);
-    	    List<String> paramNames = new ArrayList<String>();
-    	    while(m.find()) {
-    	        for(int i = 1; i <= method.getParameterTypes().length; i++) {
+    public static String[] parseJavaFileForParamNames(Method method, File javaFile) throws IOException {
+        String content = FileUtils.readFile(javaFile);
+        return new JavaSourceFileMethodParametersParser().parseJavaFileForParamNames(method, content);
+    }
+
+    public static class JavaSourceFileMethodParametersParser {
+
+        public String[] parseJavaFileForParamNames(Method method, String content) {
+            Pattern methodPattern = Pattern.compile("(?s)" + method.getName() + "\\s*\\(" + getParamsPattern(method) + "\\)\\s*\\{");
+            Matcher m = methodPattern.matcher(content);
+            List<String> paramNames = new ArrayList<String>();
+            while (m.find()) {
+                for (int i = 1; i <= method.getParameterTypes().length; i++) {
                     paramNames.add(m.group(i));
                 }
-    	        return (String[])paramNames.toArray(new String[0]);
-    	    }
-    	    return null;
+                return (String[]) paramNames.toArray(new String[0]);
+            }
+            return null;
         }
-    
+
         @SuppressWarnings("rawtypes")
-		private String getParamsPattern(Method method) {
+        private String getParamsPattern(Method method) {
             List<String> paramPatterns = new ArrayList<String>();
-    	    for(int i = 0; i < method.getParameterTypes().length; i++ ) {
-    	        Class type = method.getParameterTypes()[i];
-    	        String paramPattern = ".*"+type.getSimpleName()+".*\\s+(\\w+).*";
-    	        paramPatterns.add(paramPattern);
-    	    }
-    	    return StringUtils.join(paramPatterns, ",");
+            for (int i = 0; i < method.getParameterTypes().length; i++) {
+                Class type = method.getParameterTypes()[i];
+                String paramPattern = ".*" + type.getSimpleName() + ".*\\s+(\\w+).*";
+                paramPatterns.add(paramPattern);
+            }
+            return StringUtils.join(paramPatterns, ",");
         }
-        
-	}
-    
-	public String toString() {
-		return "MethodParameter:"+getName()+"="+getJavaType();
-	}
-	
+
+    }
+
+    public String toString() {
+        return "MethodParameter:" + getName() + "=" + getJavaType();
+    }
+
 }

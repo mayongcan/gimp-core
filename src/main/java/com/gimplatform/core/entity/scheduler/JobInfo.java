@@ -10,22 +10,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobInfo {
-	
-	private String jobName;
-	
-	private String jobGroup;
-	
-	private String jobDescription;
-	
-	private String jobClassName;
-	
-	private String jobType;
-	
-	private String jobTypeDesc;
-	
-	private JSONObject jobData;
-	
-	private String operType;
-	
-	private List<?> params;
+
+    private String jobName;
+
+    private String jobGroup;
+
+    private String jobDescription;
+
+    private String jobClassName;
+
+    private String jobType;
+
+    private String jobTypeDesc;
+
+    private JSONObject jobData;
+
+    private String operType;
+
+    private List<?> params;
 }

@@ -13,7 +13,6 @@ import lombok.NonNull;
 /**
  * 租户权限关联表
  * @author zzd
- *
  */
 @Data
 @NoArgsConstructor
@@ -21,17 +20,17 @@ import lombok.NonNull;
 @Entity
 @Table(name = "sys_tenants_func")
 public class TenantsFunc implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
 
-	@Id
+    private static final long serialVersionUID = 1L;
+
+    @Id
     @NonNull
-	@Column(name = "TENANTS_ID", unique = true, nullable = false, precision = 10, scale = 0)
+    @Column(name = "TENANTS_ID", unique = true, nullable = false, precision = 10, scale = 0)
     private Long tenantsId;
 
-	@Id
+    @Id
     @NonNull
-	@Column(name = "FUNC_ID", unique = true, nullable = false, precision = 10, scale = 0)
+    @Column(name = "FUNC_ID", unique = true, nullable = false, precision = 10, scale = 0)
     private Long funcId;
-    
+
 }

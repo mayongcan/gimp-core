@@ -5,110 +5,108 @@ import com.gimplatform.core.generator.utils.type.JavaPrimitiveTypeMapping;
 import com.gimplatform.core.utils.StringUtils;
 
 public class SqlParameter extends Column {
-	
-	String parameterClass;
-	
-	String paramName;
-	
-	boolean isListParam = false;
 
-	public SqlParameter() {
-	}
+    String parameterClass;
 
-	public SqlParameter(Column param) {
-		super(param);
-	}
+    String paramName;
 
-	public SqlParameter(SqlParameter param) {
-		super(param);
-		this.isListParam = param.isListParam;
-		this.paramName = param.paramName;
-	}
+    boolean isListParam = false;
 
-	public String getParameterClass() {
-		if (StringUtils.isNotBlank(parameterClass))
-			return parameterClass;
-		return getSimpleJavaType();
-	}
+    public SqlParameter() {
+    }
 
-	public String getPrimitiveParameterClass() {
-		if (StringUtils.isNotBlank(parameterClass))
-			return JavaPrimitiveTypeMapping.getPrimitiveType(parameterClass);
-		return getPrimitiveJavaType();
-	}
+    public SqlParameter(Column param) {
+        super(param);
+    }
 
-	public void setParameterClass(String parameterClass) {
-		this.parameterClass = parameterClass;
-	}
+    public SqlParameter(SqlParameter param) {
+        super(param);
+        this.isListParam = param.isListParam;
+        this.paramName = param.paramName;
+    }
 
-	public String getPreferredParameterJavaType() {
-		return toListParam(getParameterClass());
-	}
+    public String getParameterClass() {
+        if (StringUtils.isNotBlank(parameterClass))
+            return parameterClass;
+        return getSimpleJavaType();
+    }
 
-	public String getPreferredPrimitiveParameterJavaType() {
-		return toListParam(getPrimitiveParameterClass());
-	}
+    public String getPrimitiveParameterClass() {
+        if (StringUtils.isNotBlank(parameterClass))
+            return JavaPrimitiveTypeMapping.getPrimitiveType(parameterClass);
+        return getPrimitiveJavaType();
+    }
 
-	private String toListParam(String parameterClassName) {
-		if (isListParam) {
-			if (parameterClassName.indexOf("[]") >= 0) {
-				return parameterClassName;
-			}
-			if (parameterClassName.indexOf("List") >= 0) {
-				return parameterClassName;
-			}
-			if (parameterClassName.indexOf("Set") >= 0) {
-				return parameterClassName;
-			}
-			return "java.util.List<" + parameterClassName + ">";
-		} else {
-			return parameterClassName;
-		}
-	}
+    public void setParameterClass(String parameterClass) {
+        this.parameterClass = parameterClass;
+    }
 
-	/**
-	 * 参数名称
-	 */
-	public String getParamName() {
-		return paramName;
-	}
+    public String getPreferredParameterJavaType() {
+        return toListParam(getParameterClass());
+    }
 
-	public void setParamName(String paramName) {
-		this.paramName = paramName;
-	}
+    public String getPreferredPrimitiveParameterJavaType() {
+        return toListParam(getPrimitiveParameterClass());
+    }
 
-	/**
-	 * 是否是列表参数,主要是in语句,如 username in (:usernames) 则为true, username =
-	 * :username则false
-	 * 
-	 * @return
-	 */
-	public boolean isListParam() {
-		return isListParam;
-	}
+    private String toListParam(String parameterClassName) {
+        if (isListParam) {
+            if (parameterClassName.indexOf("[]") >= 0) {
+                return parameterClassName;
+            }
+            if (parameterClassName.indexOf("List") >= 0) {
+                return parameterClassName;
+            }
+            if (parameterClassName.indexOf("Set") >= 0) {
+                return parameterClassName;
+            }
+            return "java.util.List<" + parameterClassName + ">";
+        } else {
+            return parameterClassName;
+        }
+    }
 
-	public void setListParam(boolean isListParam) {
-		this.isListParam = isListParam;
-	}
+    /**
+     * 参数名称
+     */
+    public String getParamName() {
+        return paramName;
+    }
 
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		if (obj == null)
-			return false;
-		if (obj instanceof SqlParameter) {
-			SqlParameter other = (SqlParameter) obj;
-			return paramName.equals(other.getParamName());
-		} else {
-			return false;
-		}
-	}
+    public void setParamName(String paramName) {
+        this.paramName = paramName;
+    }
 
-	public int hashCode() {
-		return paramName.hashCode();
-	}
+    /**
+     * 是否是列表参数,主要是in语句,如 username in (:usernames) 则为true, username = :username则false
+     * @return
+     */
+    public boolean isListParam() {
+        return isListParam;
+    }
 
-	public String toString() {
-		return "paramName:" + paramName + " preferredParameterJavaType:" + getPreferredParameterJavaType();
-	}
+    public void setListParam(boolean isListParam) {
+        this.isListParam = isListParam;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+        if (obj == null)
+            return false;
+        if (obj instanceof SqlParameter) {
+            SqlParameter other = (SqlParameter) obj;
+            return paramName.equals(other.getParamName());
+        } else {
+            return false;
+        }
+    }
+
+    public int hashCode() {
+        return paramName.hashCode();
+    }
+
+    public String toString() {
+        return "paramName:" + paramName + " preferredParameterJavaType:" + getPreferredParameterJavaType();
+    }
 }

@@ -13,47 +13,47 @@ import com.gimplatform.core.entity.GenCode;
 /**
  * 服务类接口
  * @version 1.0
- * @author 
+ * @author
  */
 public interface GenCodeService {
-	
-	/**
-	 * 获取列表
-	 * @param page
-	 * @param genCode
-	 * @return
-	 */
-	public JSONObject getList(Pageable page, GenCode genCode);
-	
-	/**
-	 * 新增
-	 * @param genCode
-	 * @param userInfo
-	 * @return
-	 */
-	public JSONObject add(GenCode genCode, UserInfo userInfo);
-	
-	/**
-	 * 编辑
-	 * @param genCode
-	 * @param userInfo
-	 * @return
-	 */
-	public JSONObject edit(GenCode genCode, UserInfo userInfo);
-	
-	/**
-	 * 删除
-	 * @param idsList
-	 * @param userInfo
-	 * @return
-	 */
-	public JSONObject del(String idsList, UserInfo userInfo);
-	
-	/**
-	 * 获取对象
-	 * @param codeId
-	 * @return
-	 */
-	public GenCode getGenCode(Long codeId);
+
+    /**
+     * 获取列表
+     * @param page
+     * @param genCode
+     * @return
+     */
+    public JSONObject getList(Pageable page, GenCode genCode);
+
+    /**
+     * 新增
+     * @param genCode
+     * @param userInfo
+     * @return
+     */
+    public JSONObject add(GenCode genCode, UserInfo userInfo);
+
+    /**
+     * 编辑
+     * @param genCode
+     * @param userInfo
+     * @return
+     */
+    public JSONObject edit(GenCode genCode, UserInfo userInfo);
+
+    /**
+     * 删除
+     * @param idsList
+     * @param userInfo
+     * @return
+     */
+    public JSONObject del(String idsList, UserInfo userInfo);
+
+    /**
+     * 获取对象
+     * @param codeId
+     * @return
+     */
+    public GenCode getGenCode(Long codeId);
 
 }

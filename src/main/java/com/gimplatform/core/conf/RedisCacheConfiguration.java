@@ -16,38 +16,37 @@ import redis.clients.jedis.JedisPoolConfig;
 /**
  * redis配置
  * @author zzd
- *
  */
 @Configuration
 @EnableCaching
 public class RedisCacheConfiguration extends CachingConfigurerSupport {
-	
+
     Logger logger = LoggerFactory.getLogger(RedisCacheConfiguration.class);
 
-	@Value("${spring.redis.host}")
+    @Value("${spring.redis.host}")
     private String host;
-    
+
     @Value("${spring.redis.port}")
     private int port;
 
-	@Value("${spring.redis.database}")
+    @Value("${spring.redis.database}")
     private int database;
-    
+
     @Value("${spring.redis.password}")
     private String redisPassord;
-    
+
     @Value("${spring.redis.timeout}")
     private int timeout;
-    
+
     @Value("${spring.redis.pool.max-active}")
     private int poolMaxActive;
-    
+
     @Value("${spring.redis.pool.max-wait}")
     private long poolMaxWait;
-    
+
     @Value("${spring.redis.pool.max-idle}")
     private int poolMaxIdle;
-    
+
     @Value("${spring.redis.pool.min-idle}")
     private int poolMinIdle;
 
@@ -61,10 +60,10 @@ public class RedisCacheConfiguration extends CachingConfigurerSupport {
         jedisPoolConfig.setMinIdle(poolMinIdle);
         jedisPoolConfig.setMaxWaitMillis(poolMaxWait);
         JedisPool jedisPool = null;
-        if(StringUtils.isBlank(redisPassord))
-        	jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, null, database);
+        if (StringUtils.isBlank(redisPassord))
+            jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, null, database);
         else
-        	jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, redisPassord, database);
+            jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, redisPassord, database);
         return jedisPool;
     }
 

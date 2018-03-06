@@ -20,7 +20,6 @@ import lombok.NoArgsConstructor;
 /**
  * 客户端版本
  * @author zzd
- *
  */
 @Data
 @NoArgsConstructor
@@ -28,38 +27,38 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "sys_audit_info")
 public class AuditInfo implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "ID", unique = true, nullable = false, precision = 10, scale = 0)
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "AuditInfoIdGenerator")
-	@TableGenerator(name = "AuditInfoIdGenerator", table = "sys_tb_generator", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "SYS_AUDIT_INFO_PK", allocationSize = 1)
-	private Long id;
+    private static final long serialVersionUID = 1L;
 
-	@Column(name = "AUDIT_ID", nullable = false, precision = 10, scale = 0)
-	private Long auditId;
-	
-	@Column(name = "AUDIT_TYPE", length = 2)
-	private String auditType;
+    @Id
+    @Column(name = "ID", unique = true, nullable = false, precision = 10, scale = 0)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "AuditInfoIdGenerator")
+    @TableGenerator(name = "AuditInfoIdGenerator", table = "sys_tb_generator", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "SYS_AUDIT_INFO_PK", allocationSize = 1)
+    private Long id;
 
-	@Column(name = "AUDIT_STATUS", length = 2)
-	private String auditStatus;
+    @Column(name = "AUDIT_ID", nullable = false, precision = 10, scale = 0)
+    private Long auditId;
 
-	@Column(name = "EDIT_STATUS", length = 2)
-	private String editStatus;
+    @Column(name = "AUDIT_TYPE", length = 2)
+    private String auditType;
 
-	@Column(name = "EDIT_CACHE", length = 1536)
-	private String editCache;
+    @Column(name = "AUDIT_STATUS", length = 2)
+    private String auditStatus;
 
-	@Column(name = "CREATE_BY", nullable = false, precision = 10, scale = 0)
-	private Long createBy;
+    @Column(name = "EDIT_STATUS", length = 2)
+    private String editStatus;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "CREATE_DATE")
-	private Date createDate;
+    @Column(name = "EDIT_CACHE", length = 1536)
+    private String editCache;
 
-	@Column(name = "IS_VALID", length = 2)
-	private String isValid;
+    @Column(name = "CREATE_BY", nullable = false, precision = 10, scale = 0)
+    private Long createBy;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATE_DATE")
+    private Date createDate;
+
+    @Column(name = "IS_VALID", length = 2)
+    private String isValid;
 
 }

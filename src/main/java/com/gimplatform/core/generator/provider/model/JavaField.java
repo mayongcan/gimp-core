@@ -6,44 +6,41 @@ import java.lang.reflect.Field;
 import com.gimplatform.core.generator.utils.type.ActionScriptDataTypesUtils;
 
 public class JavaField {
-	
-	private Field field;
-	
-	private JavaClass clazz; //与field相关联的class
-	
-	public JavaField(Field field, JavaClass clazz) {
-		super();
-		this.field = field;
-		this.clazz = clazz;
-	}
 
-	public String getFieldName() {
-		return field.getName();
-	}
+    private Field field;
 
-	public JavaClass getClazz() {
-		return clazz;
-	}
+    private JavaClass clazz; // 与field相关联的class
 
-	public String getJavaType() {
-		return field.getType().getName();
-	}
+    public JavaField(Field field, JavaClass clazz) {
+        super();
+        this.field = field;
+        this.clazz = clazz;
+    }
 
-	public String getAsType() {
-		return ActionScriptDataTypesUtils.getPreferredAsType(getJavaType());
-	}
+    public String getFieldName() {
+        return field.getName();
+    }
 
-	public Annotation[] getAnnotations() {
-		return field.getAnnotations();
-	}
+    public JavaClass getClazz() {
+        return clazz;
+    }
 
-	public boolean getIsDateTimeField() {
-		return  getJavaType().equalsIgnoreCase("java.util.Date")
-				|| getJavaType().equalsIgnoreCase("java.sql.Date")
-				|| getJavaType().equalsIgnoreCase("java.sql.Timestamp")
-				|| getJavaType().equalsIgnoreCase("java.sql.Time");
-	}
-	
+    public String getJavaType() {
+        return field.getType().getName();
+    }
+
+    public String getAsType() {
+        return ActionScriptDataTypesUtils.getPreferredAsType(getJavaType());
+    }
+
+    public Annotation[] getAnnotations() {
+        return field.getAnnotations();
+    }
+
+    public boolean getIsDateTimeField() {
+        return getJavaType().equalsIgnoreCase("java.util.Date") || getJavaType().equalsIgnoreCase("java.sql.Date") || getJavaType().equalsIgnoreCase("java.sql.Timestamp") || getJavaType().equalsIgnoreCase("java.sql.Time");
+    }
+
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -68,6 +65,6 @@ public class JavaField {
     }
 
     public String toString() {
-		return "JavaClass:"+clazz+" JavaField:"+getFieldName();
-	}
+        return "JavaClass:" + clazz + " JavaField:" + getFieldName();
+    }
 }

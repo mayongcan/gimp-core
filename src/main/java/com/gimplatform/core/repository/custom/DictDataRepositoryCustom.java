@@ -8,14 +8,13 @@ import org.springframework.data.repository.NoRepositoryBean;
 /**
  * 扩展接口
  * @author zzd
- *
  */
 @NoRepositoryBean
 public interface DictDataRepositoryCustom {
 
-	/**
-	 * 获取所有字典数据
-	 * @return
-	 */
-    public List<Map<String, Object>> getAllDictData();  
+    /**
+     * 获取所有字典数据
+     * @return
+     */
+    public List<Map<String, Object>> getAllDictData();
 }

@@ -20,7 +20,6 @@ import lombok.NoArgsConstructor;
 /**
  * 短信
  * @author zzd
- *
  */
 @Data
 @NoArgsConstructor
@@ -28,53 +27,53 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "sys_weather_info")
 public class WeatherInfo implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "WEATHER_ID", unique = true, nullable = false, precision = 10, scale = 0)
-    @GeneratedValue(strategy = GenerationType.TABLE,generator="WeatherInfoIdGenerator")
-    @TableGenerator(name = "WeatherInfoIdGenerator",table="sys_tb_generator",pkColumnName="GEN_NAME",valueColumnName="GEN_VALUE",pkColumnValue="SYS_WEATHER_INFO_PK",allocationSize=1)
-	private Long weatherId;
+    private static final long serialVersionUID = 1L;
 
-	@Column(name = "CITY", length = 100)
-	private String city;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "WEATHER_DATE")
-	private Date weatherDate;
-	
-	@Column(name = "TEXT_DAY", length = 20)
-	private String textDay;
-	
-	@Column(name = "CODE_DAY", length = 10)
-	private String codeDay;
+    @Id
+    @Column(name = "WEATHER_ID", unique = true, nullable = false, precision = 10, scale = 0)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "WeatherInfoIdGenerator")
+    @TableGenerator(name = "WeatherInfoIdGenerator", table = "sys_tb_generator", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "SYS_WEATHER_INFO_PK", allocationSize = 1)
+    private Long weatherId;
 
-	@Column(name = "TEXT_NIGTH", length = 20)
-	private String textNigth;
+    @Column(name = "CITY", length = 100)
+    private String city;
 
-	@Column(name = "CODE_NIGTH", length = 10)
-	private String codeNight;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "WEATHER_DATE")
+    private Date weatherDate;
 
-	@Column(name = "HIGHT", length = 10)
-	private String hight;
+    @Column(name = "TEXT_DAY", length = 20)
+    private String textDay;
 
-	@Column(name = "LOW", length = 10)
-	private String low;
+    @Column(name = "CODE_DAY", length = 10)
+    private String codeDay;
 
-	@Column(name = "PRECIP", length = 10)
-	private String precip;
+    @Column(name = "TEXT_NIGTH", length = 20)
+    private String textNigth;
 
-	@Column(name = "WIND_DIRECTION", length = 50)
-	private String windDirection;
+    @Column(name = "CODE_NIGTH", length = 10)
+    private String codeNight;
 
-	@Column(name = "WIND_DIRECTION_DEGREE", length = 20)
-	private String windDirectionDegree;
+    @Column(name = "HIGHT", length = 10)
+    private String hight;
 
-	@Column(name = "WIND_SPEED", length = 20)
-	private String windSpeed;
+    @Column(name = "LOW", length = 10)
+    private String low;
 
-	@Column(name = "WIND_SCALE", length = 20)
-	private String windScale;
+    @Column(name = "PRECIP", length = 10)
+    private String precip;
+
+    @Column(name = "WIND_DIRECTION", length = 50)
+    private String windDirection;
+
+    @Column(name = "WIND_DIRECTION_DEGREE", length = 20)
+    private String windDirectionDegree;
+
+    @Column(name = "WIND_SPEED", length = 20)
+    private String windSpeed;
+
+    @Column(name = "WIND_SCALE", length = 20)
+    private String windScale;
 
 }

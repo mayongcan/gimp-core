@@ -20,7 +20,6 @@ import lombok.NoArgsConstructor;
 /**
  * 客户端版本
  * @author zzd
- *
  */
 @Data
 @NoArgsConstructor
@@ -28,41 +27,41 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "sys_client_version")
 public class ClientVersion implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "CLIENT_ID", unique = true, nullable = false, precision = 10, scale = 0)
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "ClientVersionIdGenerator")
-	@TableGenerator(name = "ClientVersionIdGenerator", table = "sys_tb_generator", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "SYS_CLIENT_VERSION_PK", allocationSize = 1)
-	private Long clientId;
+    private static final long serialVersionUID = 1L;
 
-	@Column(name = "NAME", length = 256)
-	private String name;
+    @Id
+    @Column(name = "CLIENT_ID", unique = true, nullable = false, precision = 10, scale = 0)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ClientVersionIdGenerator")
+    @TableGenerator(name = "ClientVersionIdGenerator", table = "sys_tb_generator", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "SYS_CLIENT_VERSION_PK", allocationSize = 1)
+    private Long clientId;
 
-	@Column(name = "VERSION", length = 20)
-	private String version;
+    @Column(name = "NAME", length = 256)
+    private String name;
 
-	@Column(name = "VER_DESC", length = 256)
-	private String verDesc;
+    @Column(name = "VERSION", length = 20)
+    private String version;
 
-	@Column(name = "FILE_SIZE", length = 256)
-	private String fileSize;
+    @Column(name = "VER_DESC", length = 256)
+    private String verDesc;
 
-	@Column(name = "URL", length = 256)
-	private String url;
+    @Column(name = "FILE_SIZE", length = 256)
+    private String fileSize;
 
-	@Column(name = "IS_OPTION", length = 64)
-	private String isOption;
+    @Column(name = "URL", length = 256)
+    private String url;
 
-	@Column(name = "CREATE_BY", nullable = false, precision = 10, scale = 0)
-	private Long createBy;
+    @Column(name = "IS_OPTION", length = 64)
+    private String isOption;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "CREATE_DATE")
-	private Date createDate;
+    @Column(name = "CREATE_BY", nullable = false, precision = 10, scale = 0)
+    private Long createBy;
 
-	@Column(name = "IS_VALID", length = 2)
-	private String isValid;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATE_DATE")
+    private Date createDate;
+
+    @Column(name = "IS_VALID", length = 2)
+    private String isValid;
 
 }

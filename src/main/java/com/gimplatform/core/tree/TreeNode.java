@@ -3,84 +3,83 @@ package com.gimplatform.core.tree;
 /**
  * 生成树节点
  * @author zzd
- *
  */
 public class TreeNode {
-	
-	private String id;
-	private String parent;
-	private String text;
-	private boolean checked;
-	private int print;
-	private String icon;
-	private String state;
 
-	public TreeNode(){
-		
-	}
-	
-	public TreeNode(String id, String text,String parent,boolean checked) {
-		this.id = id;
-		this.text = text;
-		this.parent = parent;
-		this.checked = checked;
-		this.print = 0;
-	}
+    private String id;
+    private String parent;
+    private String text;
+    private boolean checked;
+    private int print;
+    private String icon;
+    private String state;
 
-	public String getId() {
-		return id;
-	}
+    public TreeNode() {
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    }
 
-	public String getText() {
-		return text;
-	}
+    public TreeNode(String id, String text, String parent, boolean checked) {
+        this.id = id;
+        this.text = text;
+        this.parent = parent;
+        this.checked = checked;
+        this.print = 0;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getParent() {
-		return parent;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setParent(String parent) {
-		this.parent = parent;
-	}
+    public String getText() {
+        return text;
+    }
 
-	public int getPrint() {
-		return print;
-	}
+    public void setText(String text) {
+        this.text = text;
+    }
 
-	public void setPrint(int print) {
-		this.print = print;
-	}
+    public String getParent() {
+        return parent;
+    }
 
-	public boolean isChecked() {
-		return checked;
-	}
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
 
-	public void setChecked(boolean checked) {
-		this.checked = checked;
-	}
+    public int getPrint() {
+        return print;
+    }
 
-	public String getIcon() {
-		return icon;
-	}
+    public void setPrint(int print) {
+        this.print = print;
+    }
 
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
+    public boolean isChecked() {
+        return checked;
+    }
 
-	public String getState() {
-		return state;
-	}
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
 
-	public void setState(String state) {
-		this.state = state;
-	}
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
 }

@@ -8,16 +8,16 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper=true)
-public class TriggerInfo extends JobInfo{
-	
-	private String triggerName;
-	
-	private String triggerGroup;
-	
-	private String triggerDesc;
-	
-	private String triggerType;
-	
-	private String triggerValue;
+@EqualsAndHashCode(callSuper = true)
+public class TriggerInfo extends JobInfo {
+
+    private String triggerName;
+
+    private String triggerGroup;
+
+    private String triggerDesc;
+
+    private String triggerType;
+
+    private String triggerValue;
 }

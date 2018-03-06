@@ -13,7 +13,6 @@ import lombok.NonNull;
 /**
  * 用户角色对象关联表
  * @author zzd
- *
  */
 @Data
 @NoArgsConstructor
@@ -21,17 +20,17 @@ import lombok.NonNull;
 @Entity
 @Table(name = "sys_organizer_role")
 public class OrganizerRole implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
 
-	@Id
+    private static final long serialVersionUID = 1L;
+
+    @Id
     @NonNull
-	@Column(name = "ORGANIZER_ID", unique = true, nullable = false, precision = 10, scale = 0)
+    @Column(name = "ORGANIZER_ID", unique = true, nullable = false, precision = 10, scale = 0)
     private Long organizerId;
 
-	@Id
+    @Id
     @NonNull
-	@Column(name = "ROLE_ID", unique = true, nullable = false, precision = 10, scale = 0)
+    @Column(name = "ROLE_ID", unique = true, nullable = false, precision = 10, scale = 0)
     private Long roleId;
 
 }

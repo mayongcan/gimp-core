@@ -8,58 +8,57 @@ import java.util.List;
 import com.gimplatform.core.utils.StringUtils;
 
 public class JavaMethod {
-	Method method;
-	private JavaClass clazz; //与method相关联的class
-	
-	
-	public JavaMethod(Method method, JavaClass clazz) {
-		super();
-		this.method = method;
-		this.clazz = clazz;
-	}
+    Method method;
+    private JavaClass clazz; // 与method相关联的class
 
-	public JavaClass getClazz() {
-		return clazz;
-	}
+    public JavaMethod(Method method, JavaClass clazz) {
+        super();
+        this.method = method;
+        this.clazz = clazz;
+    }
 
-	public String getMethodName() {
-		return method.getName();
-	}
+    public JavaClass getClazz() {
+        return clazz;
+    }
 
-	public JavaClass getReturnType() {
-		return new JavaClass(method.getReturnType());
-	}
+    public String getMethodName() {
+        return method.getName();
+    }
 
-	public Annotation[] getAnnotations() {
-		return method.getAnnotations();
-	}
+    public JavaClass getReturnType() {
+        return new JavaClass(method.getReturnType());
+    }
 
-	public boolean isBridge() {
-		return method.isBridge();
-	}
+    public Annotation[] getAnnotations() {
+        return method.getAnnotations();
+    }
 
-	public boolean isSynthetic() {
-		return method.isSynthetic();
-	}
+    public boolean isBridge() {
+        return method.isBridge();
+    }
 
-	public boolean isVarArgs() {
-		return method.isVarArgs();
-	}
+    public boolean isSynthetic() {
+        return method.isSynthetic();
+    }
 
-	@SuppressWarnings("rawtypes")
-	public List<MethodParameter> getParameters() {
-		Class[] parameters  = method.getParameterTypes();
-		List<MethodParameter> results = new ArrayList<MethodParameter>();
-		for(int i = 0; i < parameters.length; i++) {
-			results.add(new MethodParameter(i+1,this,new JavaClass(parameters[i])));
-		}
-		return results;
-	}
-	
-	public String getMethodNameUpper() {
-		return StringUtils.changeFirstCharacterCase(getMethodName(), true);
-	}
-	
+    public boolean isVarArgs() {
+        return method.isVarArgs();
+    }
+
+    @SuppressWarnings("rawtypes")
+    public List<MethodParameter> getParameters() {
+        Class[] parameters = method.getParameterTypes();
+        List<MethodParameter> results = new ArrayList<MethodParameter>();
+        for (int i = 0; i < parameters.length; i++) {
+            results.add(new MethodParameter(i + 1, this, new JavaClass(parameters[i])));
+        }
+        return results;
+    }
+
+    public String getMethodNameUpper() {
+        return StringUtils.changeFirstCharacterCase(getMethodName(), true);
+    }
+
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -84,6 +83,6 @@ public class JavaMethod {
     }
 
     public String toString() {
-		return "JavaClass:"+clazz+" JavaMethod:"+getMethodName();
-	}
+        return "JavaClass:" + clazz + " JavaMethod:" + getMethodName();
+    }
 }

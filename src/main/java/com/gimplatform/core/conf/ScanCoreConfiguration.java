@@ -8,12 +8,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 /**
  * 扫描核心服务包
  * @author zzd
- *
  */
 @Configuration
-@EnableJpaRepositories(basePackages={"com.gimplatform.core"})
-@EntityScan(basePackages={"com.gimplatform.core"})
-@ComponentScan(basePackages = {"com.gimplatform.core"})
+@EnableJpaRepositories(basePackages = { "com.gimplatform.core" })
+@EntityScan(basePackages = { "com.gimplatform.core" })
+@ComponentScan(basePackages = { "com.gimplatform.core" })
 public class ScanCoreConfiguration {
 
 }

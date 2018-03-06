@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 /**
  * oauth授权客户端列表
  * @author zzd
- *
  */
 @Data
 @NoArgsConstructor
@@ -21,41 +20,41 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "oauth_client_details")
 public class OauthClientDetails implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "client_id", unique = true, nullable = false, length = 64)
-	private String clientId;
+    private static final long serialVersionUID = 1L;
 
-	@Column(name = "resource_ids", length = 256)
-	private String resourceIds;
+    @Id
+    @Column(name = "client_id", unique = true, nullable = false, length = 64)
+    private String clientId;
 
-	@Column(name = "client_secret", length = 256)
-	private String clientSecret;
+    @Column(name = "resource_ids", length = 256)
+    private String resourceIds;
 
-	@Column(name = "scope", length = 256)
-	private String scope;
+    @Column(name = "client_secret", length = 256)
+    private String clientSecret;
 
-	@Column(name = "authorized_grant_types", length = 256)
-	private String authorizedGrantTypes;
+    @Column(name = "scope", length = 256)
+    private String scope;
 
-	@Column(name = "web_server_redirect_uri", length = 256)
-	private String webServerRedirectUri;
+    @Column(name = "authorized_grant_types", length = 256)
+    private String authorizedGrantTypes;
 
-	@Column(name = "authorities", length = 256)
-	private String authorities;
+    @Column(name = "web_server_redirect_uri", length = 256)
+    private String webServerRedirectUri;
 
-	@Column(name = "access_token_validity", precision = 10, scale = 0)
-	private Long accessTokenValidity;
+    @Column(name = "authorities", length = 256)
+    private String authorities;
 
-	@Column(name = "refresh_token_validity", precision = 10, scale = 0)
-	private Long refreshTokenValidity;
+    @Column(name = "access_token_validity", precision = 10, scale = 0)
+    private Long accessTokenValidity;
 
-	@Column(name = "additional_information", length = 4096)
-	private String additionalInformation;
+    @Column(name = "refresh_token_validity", precision = 10, scale = 0)
+    private Long refreshTokenValidity;
 
-	@Column(name = "autoapprove", length = 256)
-	private String autoapprove;
+    @Column(name = "additional_information", length = 4096)
+    private String additionalInformation;
+
+    @Column(name = "autoapprove", length = 256)
+    private String autoapprove;
 
 }

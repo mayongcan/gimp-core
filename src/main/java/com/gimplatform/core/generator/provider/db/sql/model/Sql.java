@@ -11,7 +11,6 @@ import com.gimplatform.core.utils.StringUtils;
 
 /**
  * 用于生成代码的Sql对象.对应数据库的sql语句 使用SqlFactory.parseSql()生成 <br />
- * 
  * SQL参数同时支持以下几种语法
  * 
  * <pre>
@@ -25,459 +24,445 @@ import com.gimplatform.core.utils.StringUtils;
  * <pre>
  * Sql sql = new SqlFactory().parseSql("select * from user_info where username=#username# and password=#password#");
  * </pre>
- *
  */
 public class Sql {
-	public static String MULTIPLICITY_ONE = "one";
-	public static String MULTIPLICITY_MANY = "many";
-	public static String MULTIPLICITY_PAGING = "paging";
 
-	String tableSqlName = null; // 是否需要
-	String operation = null;
-	String resultClass;
-	String parameterClass;
-	String remarks;
+    public static String MULTIPLICITY_ONE = "one";
+    public static String MULTIPLICITY_MANY = "many";
+    public static String MULTIPLICITY_PAGING = "paging";
 
-	String multiplicity = "many"; // many or one or paging
-	boolean paging = false; // 是否分页查询
-	String sqlmap; // for ibatis and ibatis3
+    String tableSqlName = null; // 是否需要
+    String operation = null;
+    String resultClass;
+    String parameterClass;
+    String remarks;
 
-	LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
-	LinkedHashSet<SqlParameter> params = new LinkedHashSet<SqlParameter>();
+    String multiplicity = "many"; // many or one or paging
+    boolean paging = false; // 是否分页查询
+    String sqlmap; // for ibatis and ibatis3
 
-	String sourceSql; // source sql
-	String executeSql;
+    LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
+    LinkedHashSet<SqlParameter> params = new LinkedHashSet<SqlParameter>();
 
-	public Sql() {
-	}
+    String sourceSql; // source sql
+    String executeSql;
 
-	public Sql(Sql sql) {
-		this.tableSqlName = sql.tableSqlName;
+    public Sql() {
+    }
 
-		this.operation = sql.operation;
-		this.parameterClass = sql.parameterClass;
-		this.resultClass = sql.resultClass;
-		this.multiplicity = sql.multiplicity;
+    public Sql(Sql sql) {
+        this.tableSqlName = sql.tableSqlName;
 
-		this.columns = sql.columns;
-		this.params = sql.params;
-		this.sourceSql = sql.sourceSql;
-		this.executeSql = sql.executeSql;
-		this.remarks = sql.remarks;
-	}
+        this.operation = sql.operation;
+        this.parameterClass = sql.parameterClass;
+        this.resultClass = sql.resultClass;
+        this.multiplicity = sql.multiplicity;
 
-	public boolean isColumnsInSameTable() {
-		// FIXME 还要增加表的列数与columns是否相等,才可以为select 生成 include语句
-		if (columns == null || columns.isEmpty())
-			return false;
-		if (columns.size() == 1 && columns.iterator().next().getTable() != null)
-			return true;
-		String preTableName = columns.iterator().next().getSqlName();
-		for (Column c : columns) {
-			Table table = c.getTable();
-			if (table == null) {
-				return false;
-			}
-			if (preTableName.equalsIgnoreCase(table.getSqlName())) {
-				continue;
-			}
-		}
-		return true;
-	}
+        this.columns = sql.columns;
+        this.params = sql.params;
+        this.sourceSql = sql.sourceSql;
+        this.executeSql = sql.executeSql;
+        this.remarks = sql.remarks;
+    }
 
-	/**
-	 * 得到select查询返回的resultClass,可以通过setResultClass()自定义，如果没有自定义则为你自动生成<br />
-	 * resultClass可以为com.company.User的完全路径 示例:
-	 * 
-	 * <pre>
-	 * select count(*) from user, 返回值为: Long
-	 * select * from user 返回值为: User
-	 * select count(*) cnt, sum(age) sum_age 返回值为: getOperation()+"Result";
-	 * </pre>
-	 * 
-	 * @return
-	 */
-	public String getResultClass() {
-		if (StringUtils.isNotBlank(resultClass))
-			return resultClass;
-		if (columns.size() == 1) {
-			return columns.iterator().next().getSimpleJavaType();
-		}
-		if (isColumnsInSameTable()) {
-			return columns.iterator().next().getTable().getClassName();
-		} else {
-			if (operation == null)
-				return null;
-			return StringUtils.makeAllWordFirstLetterUpperCase(StringUtils.toUnderscoreName(operation)) + "Result";
-		}
-	}
+    public boolean isColumnsInSameTable() {
+        // FIXME 还要增加表的列数与columns是否相等,才可以为select 生成 include语句
+        if (columns == null || columns.isEmpty())
+            return false;
+        if (columns.size() == 1 && columns.iterator().next().getTable() != null)
+            return true;
+        String preTableName = columns.iterator().next().getSqlName();
+        for (Column c : columns) {
+            Table table = c.getTable();
+            if (table == null) {
+                return false;
+            }
+            if (preTableName.equalsIgnoreCase(table.getSqlName())) {
+                continue;
+            }
+        }
+        return true;
+    }
 
-	public void setResultClass(String queryResultClass) {
-		this.resultClass = queryResultClass;
-	}
+    /**
+     * 得到select查询返回的resultClass,可以通过setResultClass()自定义，如果没有自定义则为你自动生成<br />
+     * resultClass可以为com.company.User的完全路径 示例:
+     * 
+     * <pre>
+     * select count(*) from user, 返回值为: Long
+     * select * from user 返回值为: User
+     * select count(*) cnt, sum(age) sum_age 返回值为: getOperation()+"Result";
+     * </pre>
+     * 
+     * @return
+     */
+    public String getResultClass() {
+        if (StringUtils.isNotBlank(resultClass))
+            return resultClass;
+        if (columns.size() == 1) {
+            return columns.iterator().next().getSimpleJavaType();
+        }
+        if (isColumnsInSameTable()) {
+            return columns.iterator().next().getTable().getClassName();
+        } else {
+            if (operation == null)
+                return null;
+            return StringUtils.makeAllWordFirstLetterUpperCase(StringUtils.toUnderscoreName(operation)) + "Result";
+        }
+    }
 
-	/**
-	 * 返回getResultClass()的类名称 <br />
-	 * 示例: <br />
-	 * 如getResultClass()=com.company.User,将返回User
-	 */
-	public String getResultClassName() {
-		int lastIndexOf = getResultClass().lastIndexOf(".");
-		return lastIndexOf >= 0 ? getResultClass().substring(lastIndexOf + 1) : getResultClass();
-	}
+    public void setResultClass(String queryResultClass) {
+        this.resultClass = queryResultClass;
+    }
 
-	/**
-	 * SQL参数过多时用于封装为一个ParameterObject的class<br />
-	 * 
-	 * <pre>
-	 * 可以通过setParameterClass()自定义 没有自定义则: 如果是select查询,返回 operation+"Query"
-	 * 其它则返回operation+"Parameter"
-	 * 
-	 * <pre>
-	 */
-	public String getParameterClass() {
-		if (StringUtils.isNotBlank(parameterClass))
-			return parameterClass;
-		if (StringUtils.isBlank(operation))
-			return null;
-		if (isSelectSql()) {
-			return StringUtils.makeAllWordFirstLetterUpperCase(StringUtils.toUnderscoreName(operation)) + "Query";
-		} else {
-			return StringUtils.makeAllWordFirstLetterUpperCase(StringUtils.toUnderscoreName(operation)) + "Parameter";
-		}
-	}
+    /**
+     * 返回getResultClass()的类名称 <br />
+     * 示例: <br />
+     * 如getResultClass()=com.company.User,将返回User
+     */
+    public String getResultClassName() {
+        int lastIndexOf = getResultClass().lastIndexOf(".");
+        return lastIndexOf >= 0 ? getResultClass().substring(lastIndexOf + 1) : getResultClass();
+    }
 
-	public void setParameterClass(String parameterClass) {
-		this.parameterClass = parameterClass;
-	}
+    /**
+     * SQL参数过多时用于封装为一个ParameterObject的class<br />
+     * 
+     * <pre>
+     * 可以通过setParameterClass()自定义 没有自定义则: 如果是select查询,返回 operation+"Query" 其它则返回operation+"Parameter"
+     * 
+     * <pre>
+     */
+    public String getParameterClass() {
+        if (StringUtils.isNotBlank(parameterClass))
+            return parameterClass;
+        if (StringUtils.isBlank(operation))
+            return null;
+        if (isSelectSql()) {
+            return StringUtils.makeAllWordFirstLetterUpperCase(StringUtils.toUnderscoreName(operation)) + "Query";
+        } else {
+            return StringUtils.makeAllWordFirstLetterUpperCase(StringUtils.toUnderscoreName(operation)) + "Parameter";
+        }
+    }
 
-	/**
-	 * 返回getParameterClass()的类名称 <br />
-	 * 示例: <br />
-	 * 如getParameterClass()=com.company.UserQuery,将返回UserQuery
-	 */
-	public String getParameterClassName() {
-		int lastIndexOf = getParameterClass().lastIndexOf(".");
-		return lastIndexOf >= 0 ? getParameterClass().substring(lastIndexOf + 1) : getParameterClass();
-	}
+    public void setParameterClass(String parameterClass) {
+        this.parameterClass = parameterClass;
+    }
 
-	// TODO columnsSize大于二并且不是在同一张表中,将创建一个QueryResultClassName类,同一张表中也要考虑创建类
-	public int getColumnsCount() {
-		return columns.size();
-	}
+    /**
+     * 返回getParameterClass()的类名称 <br />
+     * 示例: <br />
+     * 如getParameterClass()=com.company.UserQuery,将返回UserQuery
+     */
+    public String getParameterClassName() {
+        int lastIndexOf = getParameterClass().lastIndexOf(".");
+        return lastIndexOf >= 0 ? getParameterClass().substring(lastIndexOf + 1) : getParameterClass();
+    }
 
-	public void addColumn(Column c) {
-		columns.add(c);
-	}
+    // TODO columnsSize大于二并且不是在同一张表中,将创建一个QueryResultClassName类,同一张表中也要考虑创建类
+    public int getColumnsCount() {
+        return columns.size();
+    }
 
-	/**
-	 * 得到该sql方法相对应的操作名称,模板中的使用方式为: public List ${operation}(),示例值:
-	 * findByUsername
-	 * 
-	 * @return
-	 */
-	public String getOperation() {
-		return operation;
-	}
+    public void addColumn(Column c) {
+        columns.add(c);
+    }
 
-	public void setOperation(String operation) {
-		this.operation = operation;
-	}
+    /**
+     * 得到该sql方法相对应的操作名称,模板中的使用方式为: public List ${operation}(),示例值: findByUsername
+     * @return
+     */
+    public String getOperation() {
+        return operation;
+    }
 
-	public String getOperationFirstUpper() {
-		return StringUtils.changeFirstCharacterCase(getOperation(), true);
-	}
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
 
-	/**
-	 * 用于控制查询结果,固定值为:one,many
-	 * 
-	 * @return
-	 */
-	public String getMultiplicity() {
-		return multiplicity;
-	}
+    public String getOperationFirstUpper() {
+        return StringUtils.changeFirstCharacterCase(getOperation(), true);
+    }
 
-	public void setMultiplicity(String multiplicity) {
-		// TODO 是否要增加验证数据为 one,many
-		this.multiplicity = multiplicity;
-	}
+    /**
+     * 用于控制查询结果,固定值为:one,many
+     * @return
+     */
+    public String getMultiplicity() {
+        return multiplicity;
+    }
 
-	/**
-	 * 得到sqlect 查询的列对象(column),如果是insert,delete,update语句,则返回empty Set.<br />
-	 * 示例:
-	 * 
-	 * <pre>
-	 * SQL : select count(*) cnt, sum(age) sum_age from user_info
-	 * columns: cnt,sum_age
-	 * </pre>
-	 * 
-	 * @return
-	 */
-	public LinkedHashSet<Column> getColumns() {
-		return columns;
-	}
+    public void setMultiplicity(String multiplicity) {
+        // TODO 是否要增加验证数据为 one,many
+        this.multiplicity = multiplicity;
+    }
 
-	public void setColumns(LinkedHashSet<Column> columns) {
-		this.columns = columns;
-	}
+    /**
+     * 得到sqlect 查询的列对象(column),如果是insert,delete,update语句,则返回empty Set.<br />
+     * 示例:
+     * 
+     * <pre>
+     * SQL : select count(*) cnt, sum(age) sum_age from user_info
+     * columns: cnt,sum_age
+     * </pre>
+     * 
+     * @return
+     */
+    public LinkedHashSet<Column> getColumns() {
+        return columns;
+    }
 
-	/**
-	 * 得到SQL的参数对象<br />
-	 * 示例:
-	 * 
-	 * <pre>
-	 * SQL : select * from user_info where username=:user and password=:pwd limit :offset,:limit
-	 * params: user,pwd,offset,limit
-	 * </pre>
-	 * 
-	 * @return
-	 */
-	public LinkedHashSet<SqlParameter> getParams() {
-		return params;
-	}
+    public void setColumns(LinkedHashSet<Column> columns) {
+        this.columns = columns;
+    }
 
-	public void setParams(LinkedHashSet<SqlParameter> params) {
-		this.params = params;
-	}
+    /**
+     * 得到SQL的参数对象<br />
+     * 示例:
+     * 
+     * <pre>
+     * SQL : select * from user_info where username=:user and password=:pwd limit :offset,:limit
+     * params: user,pwd,offset,limit
+     * </pre>
+     * 
+     * @return
+     */
+    public LinkedHashSet<SqlParameter> getParams() {
+        return params;
+    }
 
-	public SqlParameter getParam(String paramName) {
-		for (SqlParameter p : getParams()) {
-			if (p.getParamName().equals(paramName)) {
-				return p;
-			}
-		}
-		return null;
-	}
+    public void setParams(LinkedHashSet<SqlParameter> params) {
+        this.params = params;
+    }
 
-	/**
-	 * 得到SQL原始语句
-	 * 
-	 * @return
-	 */
-	public String getSourceSql() {
-		return sourceSql;
-	}
+    public SqlParameter getParam(String paramName) {
+        for (SqlParameter p : getParams()) {
+            if (p.getParamName().equals(paramName)) {
+                return p;
+            }
+        }
+        return null;
+    }
 
-	public void setSourceSql(String sourceSql) {
-		this.sourceSql = sourceSql;
-	}
+    /**
+     * 得到SQL原始语句
+     * @return
+     */
+    public String getSourceSql() {
+        return sourceSql;
+    }
 
-	public String getSqlmap() {
-		return sqlmap;
-	}
+    public void setSourceSql(String sourceSql) {
+        this.sourceSql = sourceSql;
+    }
 
-	public void setSqlmap(String sqlmap) {
-		this.sqlmap = sqlmap;
-	}
-	
-	/**
-	 * sourceSql转换为在数据库实际执行的SQL, 示例:
-	 * 
-	 * <pre>
-	 * sourceSql: select * from user where username=:username and password=:password
-	 * executeSql: select * from user where username=? and password=?
-	 * </pre>
-	 * 
-	 * @return
-	 */
-	public String getExecuteSql() {
-		return executeSql;
-	}
+    public String getSqlmap() {
+        return sqlmap;
+    }
 
-	public void setExecuteSql(String executeSql) {
-		this.executeSql = executeSql;
-	}
+    public void setSqlmap(String sqlmap) {
+        this.sqlmap = sqlmap;
+    }
 
-	public String getCountHql() {
-		if (isSelectSql()) {
-			return countQueryPrefix + SqlParseHelper.removeSelect(getHql());
-		} else {
-			return getHql();
-		}
-	}
+    /**
+     * sourceSql转换为在数据库实际执行的SQL, 示例:
+     * 
+     * <pre>
+     * sourceSql: select * from user where username=:username and password=:password
+     * executeSql: select * from user where username=? and password=?
+     * </pre>
+     * 
+     * @return
+     */
+    public String getExecuteSql() {
+        return executeSql;
+    }
 
-	private String countQueryPrefix = "select count(*) ";
+    public void setExecuteSql(String executeSql) {
+        this.executeSql = executeSql;
+    }
 
-	public String getCountSql() {
-		if (isSelectSql()) {
-			return countQueryPrefix + SqlParseHelper.removeSelect(getSql());
-		} else {
-			return getSql();
-		}
-	}
+    public String getCountHql() {
+        if (isSelectSql()) {
+            return countQueryPrefix + SqlParseHelper.removeSelect(getHql());
+        } else {
+            return getHql();
+        }
+    }
 
-	public String getIbatisCountSql() {
-		if (isSelectSql()) {
-			return countQueryPrefix + SqlParseHelper.removeSelect(getIbatisSql());
-		} else {
-			return getIbatisSql();
-		}
-	}
+    private String countQueryPrefix = "select count(*) ";
 
-	public String getIbatis3CountSql() {
-		if (isSelectSql()) {
-			return countQueryPrefix + SqlParseHelper.removeSelect(getIbatis3Sql());
-		} else {
-			return getIbatis3Sql();
-		}
-	}
+    public String getCountSql() {
+        if (isSelectSql()) {
+            return countQueryPrefix + SqlParseHelper.removeSelect(getSql());
+        } else {
+            return getSql();
+        }
+    }
 
-	public String getSql() {
-		return replaceWildcardWithColumnsSqlName(sourceSql);
-	}
+    public String getIbatisCountSql() {
+        if (isSelectSql()) {
+            return countQueryPrefix + SqlParseHelper.removeSelect(getIbatisSql());
+        } else {
+            return getIbatisSql();
+        }
+    }
 
-	public String getSpringJdbcSql() {
-		return SqlParseHelper.convert2NamedParametersSql(getSql(), ":", "");
-	}
+    public String getIbatis3CountSql() {
+        if (isSelectSql()) {
+            return countQueryPrefix + SqlParseHelper.removeSelect(getIbatis3Sql());
+        } else {
+            return getIbatis3Sql();
+        }
+    }
 
-	public String getHql() {
-		return SqlParseHelper.convert2NamedParametersSql(getSql(), ":", "");
-	}
+    public String getSql() {
+        return replaceWildcardWithColumnsSqlName(sourceSql);
+    }
 
-	public String getIbatisSql() {
-		return StringUtils.isBlank(ibatisSql) ? SqlParseHelper.convert2NamedParametersSql(getSql(), "#", "#") : ibatisSql;
-	}
+    public String getSpringJdbcSql() {
+        return SqlParseHelper.convert2NamedParametersSql(getSql(), ":", "");
+    }
 
-	public String getIbatis3Sql() {
-		return StringUtils.isBlank(ibatis3Sql) ? SqlParseHelper.convert2NamedParametersSql(getSql(), "#{", "}") : ibatis3Sql;
-	}
+    public String getHql() {
+        return SqlParseHelper.convert2NamedParametersSql(getSql(), ":", "");
+    }
 
-	public void setIbatisSql(String ibatisSql) {
-		this.ibatisSql = ibatisSql;
-	}
+    public String getIbatisSql() {
+        return StringUtils.isBlank(ibatisSql) ? SqlParseHelper.convert2NamedParametersSql(getSql(), "#", "#") : ibatisSql;
+    }
 
-	public void setIbatis3Sql(String ibatis3Sql) {
-		this.ibatis3Sql = ibatis3Sql;
-	}
+    public String getIbatis3Sql() {
+        return StringUtils.isBlank(ibatis3Sql) ? SqlParseHelper.convert2NamedParametersSql(getSql(), "#{", "}") : ibatis3Sql;
+    }
 
-	private String joinColumnsSqlName() {
-		// TODO 未解决 a.*,b.*问题
-		StringBuffer sb = new StringBuffer();
-		for (Iterator<Column> it = columns.iterator(); it.hasNext();) {
-			Column c = it.next();
-			sb.append(c.getSqlName());
-			if (it.hasNext())
-				sb.append(",");
-		}
-		return sb.toString();
-	}
+    public void setIbatisSql(String ibatisSql) {
+        this.ibatisSql = ibatisSql;
+    }
 
-	public String replaceWildcardWithColumnsSqlName(String sql) {
-		if (isSelectSql() && SqlParseHelper.getSelect(sql).indexOf("*") >= 0
-				&& SqlParseHelper.getSelect(sql).indexOf("count(") < 0) {
-			return SqlParseHelper
-					.getPrettySql("select " + joinColumnsSqlName() + " " + SqlParseHelper.removeSelect(sql));
-		} else {
-			return sql;
-		}
-	}
+    public void setIbatis3Sql(String ibatis3Sql) {
+        this.ibatis3Sql = ibatis3Sql;
+    }
 
-	/**
-	 * 当前的sourceSql是否是select语句
-	 * 
-	 * @return
-	 */
-	public boolean isSelectSql() {
-		return sourceSql.trim().toLowerCase().matches("(?is)\\s*select\\s.*from\\s+.*");
-	}
+    private String joinColumnsSqlName() {
+        // TODO 未解决 a.*,b.*问题
+        StringBuffer sb = new StringBuffer();
+        for (Iterator<Column> it = columns.iterator(); it.hasNext();) {
+            Column c = it.next();
+            sb.append(c.getSqlName());
+            if (it.hasNext())
+                sb.append(",");
+        }
+        return sb.toString();
+    }
 
-	/**
-	 * 当前的sourceSql是否是update语句
-	 * 
-	 * @return
-	 */
-	public boolean isUpdateSql() {
-		return sourceSql.trim().toLowerCase().matches("(?is)\\s*update\\s+.*");
-	}
+    public String replaceWildcardWithColumnsSqlName(String sql) {
+        if (isSelectSql() && SqlParseHelper.getSelect(sql).indexOf("*") >= 0 && SqlParseHelper.getSelect(sql).indexOf("count(") < 0) {
+            return SqlParseHelper.getPrettySql("select " + joinColumnsSqlName() + " " + SqlParseHelper.removeSelect(sql));
+        } else {
+            return sql;
+        }
+    }
 
-	/**
-	 * 当前的sourceSql是否是delete语句
-	 * 
-	 * @return
-	 */
-	public boolean isDeleteSql() {
-		return sourceSql.trim().toLowerCase().matches("(?is)\\s*delete\\s+from\\s.*");
-	}
+    /**
+     * 当前的sourceSql是否是select语句
+     * @return
+     */
+    public boolean isSelectSql() {
+        return sourceSql.trim().toLowerCase().matches("(?is)\\s*select\\s.*from\\s+.*");
+    }
 
-	/**
-	 * 当前的sourceSql是否是insert语句
-	 * 
-	 * @return
-	 */
-	public boolean isInsertSql() {
-		return sourceSql.trim().toLowerCase().matches("(?is)\\s*insert\\s+into\\s+.*");
-	}
+    /**
+     * 当前的sourceSql是否是update语句
+     * @return
+     */
+    public boolean isUpdateSql() {
+        return sourceSql.trim().toLowerCase().matches("(?is)\\s*update\\s+.*");
+    }
 
-	/**
-	 * 得到表相对应的sqlName,主要用途为生成文件时的分组.
-	 * 
-	 * @return
-	 */
-	public String getTableSqlName() {
-		return tableSqlName;
-	}
+    /**
+     * 当前的sourceSql是否是delete语句
+     * @return
+     */
+    public boolean isDeleteSql() {
+        return sourceSql.trim().toLowerCase().matches("(?is)\\s*delete\\s+from\\s.*");
+    }
 
-	public void setTableSqlName(String tableName) {
-		this.tableSqlName = tableName;
-	}
+    /**
+     * 当前的sourceSql是否是insert语句
+     * @return
+     */
+    public boolean isInsertSql() {
+        return sourceSql.trim().toLowerCase().matches("(?is)\\s*insert\\s+into\\s+.*");
+    }
 
-	/**
-	 * 得到备注
-	 * 
-	 * @return
-	 */
-	public String getRemarks() {
-		return remarks;
-	}
+    /**
+     * 得到表相对应的sqlName,主要用途为生成文件时的分组.
+     * @return
+     */
+    public String getTableSqlName() {
+        return tableSqlName;
+    }
 
-	public void setRemarks(String comments) {
-		this.remarks = comments;
-	}
+    public void setTableSqlName(String tableName) {
+        this.tableSqlName = tableName;
+    }
 
-	public boolean isPaging() {
-		if (MULTIPLICITY_PAGING.equalsIgnoreCase(multiplicity)) {
-			return true;
-		}
-		return paging;
-	}
+    /**
+     * 得到备注
+     * @return
+     */
+    public String getRemarks() {
+        return remarks;
+    }
 
-	public void setPaging(boolean paging) {
-		this.paging = paging;
-	}
+    public void setRemarks(String comments) {
+        this.remarks = comments;
+    }
 
-	/**
-	 * 根据tableSqlName和成相对应的tableClassName,主要用途路径变量引用.如${tableClassName}Dao.java
-	 * 
-	 * @return
-	 */
-	public String getTableClassName() {
-		if (StringUtils.isBlank(tableSqlName))
-			return null;
-		String removedPrefixSqlName = TableUtils.removeTableSqlNamePrefix(tableSqlName);
-		return StringUtils.makeAllWordFirstLetterUpperCase(StringUtils.toUnderscoreName(removedPrefixSqlName));
-	}
+    public boolean isPaging() {
+        if (MULTIPLICITY_PAGING.equalsIgnoreCase(multiplicity)) {
+            return true;
+        }
+        return paging;
+    }
 
-	public Column getColumnBySqlName(String sqlName) {
-		for (Column c : getColumns()) {
-			if (c.getSqlName().equalsIgnoreCase(sqlName)) {
-				return c;
-			}
-		}
-		return null;
-	}
+    public void setPaging(boolean paging) {
+        this.paging = paging;
+    }
 
-	public Column getColumnByName(String name) {
-		Column c = getColumnBySqlName(name);
-		if (c == null) {
-			c = getColumnBySqlName(StringUtils.toUnderscoreName(name));
-		}
-		return c;
-	}
+    /**
+     * 根据tableSqlName和成相对应的tableClassName,主要用途路径变量引用.如${tableClassName}Dao.java
+     * @return
+     */
+    public String getTableClassName() {
+        if (StringUtils.isBlank(tableSqlName))
+            return null;
+        String removedPrefixSqlName = TableUtils.removeTableSqlNamePrefix(tableSqlName);
+        return StringUtils.makeAllWordFirstLetterUpperCase(StringUtils.toUnderscoreName(removedPrefixSqlName));
+    }
 
-	public String toString() {
-		return "sourceSql:\n" + sourceSql + "\nsql:" + getSql();
-	}
+    public Column getColumnBySqlName(String sqlName) {
+        for (Column c : getColumns()) {
+            if (c.getSqlName().equalsIgnoreCase(sqlName)) {
+                return c;
+            }
+        }
+        return null;
+    }
 
-	private String ibatisSql;
-	private String ibatis3Sql;
+    public Column getColumnByName(String name) {
+        Column c = getColumnBySqlName(name);
+        if (c == null) {
+            c = getColumnBySqlName(StringUtils.toUnderscoreName(name));
+        }
+        return c;
+    }
+
+    public String toString() {
+        return "sourceSql:\n" + sourceSql + "\nsql:" + getSql();
+    }
+
+    private String ibatisSql;
+    private String ibatis3Sql;
 }

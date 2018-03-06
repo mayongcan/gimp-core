@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 public class RestfulInfo extends JobInfo {
-	
-	private String restType;
-	
-	private String restUrl;
-	
-	private List<?> restParams;
+
+    private String restType;
+
+    private String restUrl;
+
+    private List<?> restParams;
 }

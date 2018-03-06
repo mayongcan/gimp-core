@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 /**
  * 区域实体类
  * @author zzd
- *
  */
 @Data
 @NoArgsConstructor
@@ -24,43 +23,43 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "sys_district")
 public class District implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@Column(name = "ID", unique = true, nullable = false, precision = 10, scale = 0)
-	@GeneratedValue(strategy = GenerationType.TABLE,generator="DistrictIdGenerator")
-    @TableGenerator(name = "DistrictIdGenerator",table="sys_tb_generator",pkColumnName="GEN_NAME",valueColumnName="GEN_VALUE",pkColumnValue="SYS_DISTRICT_PK",allocationSize=1)
-	private Long id;
 
-	@Column(name = "PARENT_ID", precision = 10, scale = 0)
-	private Long parentId;
+    private static final long serialVersionUID = 1L;
 
-	@Column(name = "NAME", length = 270)
-	private String name;
+    @Id
+    @Column(name = "ID", unique = true, nullable = false, precision = 10, scale = 0)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "DistrictIdGenerator")
+    @TableGenerator(name = "DistrictIdGenerator", table = "sys_tb_generator", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "SYS_DISTRICT_PK", allocationSize = 1)
+    private Long id;
 
-	@Column(name = "FIRST_LETTER", length = 3)
-	private String firstLetter;
+    @Column(name = "PARENT_ID", precision = 10, scale = 0)
+    private Long parentId;
 
-	@Column(name = "INITIALS", length = 30)
-	private String initials;
+    @Column(name = "NAME", length = 270)
+    private String name;
 
-	@Column(name = "PINYIN", length = 600)
-	private String pinyin;
+    @Column(name = "FIRST_LETTER", length = 3)
+    private String firstLetter;
 
-	@Column(name = "EXTRA", length = 60)
-	private String extra;
+    @Column(name = "INITIALS", length = 30)
+    private String initials;
 
-	@Column(name = "SUFFIX", length = 15)
-	private String suffix;
+    @Column(name = "PINYIN", length = 600)
+    private String pinyin;
 
-	@Column(name = "CODE", length = 30)
-	private String code;
+    @Column(name = "EXTRA", length = 60)
+    private String extra;
 
-	@Column(name = "AREA_CODE", length = 30)
-	private String areaCode;
+    @Column(name = "SUFFIX", length = 15)
+    private String suffix;
 
-	@Column(name = "DISP_ORDER")
-	private Integer dispOrder;
+    @Column(name = "CODE", length = 30)
+    private String code;
+
+    @Column(name = "AREA_CODE", length = 30)
+    private String areaCode;
+
+    @Column(name = "DISP_ORDER")
+    private Integer dispOrder;
 
 }

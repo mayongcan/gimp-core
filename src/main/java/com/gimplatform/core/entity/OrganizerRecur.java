@@ -14,7 +14,6 @@ import lombok.NonNull;
 /**
  * 组织扩展对象实体类
  * @author zzd
- *
  */
 @Data
 @NoArgsConstructor
@@ -22,17 +21,17 @@ import lombok.NonNull;
 @Entity
 @Table(name = "sys_organizer_recur")
 public class OrganizerRecur implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-    @NonNull
-	@Column(name = "ORGANIZER_ID", unique = true, nullable = false, precision = 10, scale = 0)
-	private Long organizerId;
 
-	@Id
+    private static final long serialVersionUID = 1L;
+
+    @Id
     @NonNull
-	@Column(name = "ORGANIZER_CHILD_ID", unique = true, nullable = false, precision = 10, scale = 0)
-	private Long organizerChildId;
+    @Column(name = "ORGANIZER_ID", unique = true, nullable = false, precision = 10, scale = 0)
+    private Long organizerId;
+
+    @Id
+    @NonNull
+    @Column(name = "ORGANIZER_CHILD_ID", unique = true, nullable = false, precision = 10, scale = 0)
+    private Long organizerChildId;
 
 }

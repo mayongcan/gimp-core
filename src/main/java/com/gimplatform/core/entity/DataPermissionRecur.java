@@ -14,7 +14,6 @@ import lombok.NonNull;
 /**
  * 数据权限递归子表对象实体类
  * @author zzd
- *
  */
 @Data
 @NoArgsConstructor
@@ -22,17 +21,17 @@ import lombok.NonNull;
 @Entity
 @Table(name = "sys_data_permission_recur")
 public class DataPermissionRecur implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-    @NonNull
-	@Column(name = "PERMISSION_ID", unique = true, nullable = false, precision = 10, scale = 0)
-	private Long permissionId;
 
-	@Id
+    private static final long serialVersionUID = 1L;
+
+    @Id
     @NonNull
-	@Column(name = "PERMISSION_CHILD_ID", unique = true, nullable = false, precision = 10, scale = 0)
-	private Long permissionChildId;
+    @Column(name = "PERMISSION_ID", unique = true, nullable = false, precision = 10, scale = 0)
+    private Long permissionId;
+
+    @Id
+    @NonNull
+    @Column(name = "PERMISSION_CHILD_ID", unique = true, nullable = false, precision = 10, scale = 0)
+    private Long permissionChildId;
 
 }
