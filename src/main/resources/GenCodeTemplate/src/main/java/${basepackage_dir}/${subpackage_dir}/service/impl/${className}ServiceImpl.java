@@ -46,7 +46,8 @@ public class ${className}ServiceImpl implements ${className}Service {
 	}
 
 	@Override
-	public JSONObject add(${className} ${classNameLower}, UserInfo userInfo) {
+	public JSONObject add(Map<String, Object> params, UserInfo userInfo) {
+	    ${className} ${classNameLower} = (${className}) BeanUtils.mapToBean(params, ${className}.class);
 		<#if table.hasIsValid>
 		${classNameLower}.setIsValid(Constants.IS_VALID_VALID);
 		</#if>
@@ -67,7 +68,8 @@ public class ${className}ServiceImpl implements ${className}Service {
 	}
 
 	@Override
-	public JSONObject edit(${className} ${classNameLower}, UserInfo userInfo) {
+	public JSONObject edit(Map<String, Object> params, UserInfo userInfo) {
+        ${className} ${classNameLower} = (${className}) BeanUtils.mapToBean(params, ${className}.class);
 		${className} ${classNameLower}InDb = ${classNameLower}Repository.findOne(${classNameLower}.get${table.pkColumn.columnName}());
 		if(${classNameLower}InDb == null){
 			return RestfulRetUtils.getErrorMsg("51006","当前编辑的对象不存在");

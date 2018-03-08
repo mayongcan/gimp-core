@@ -32,19 +32,19 @@ public interface ${className}Service {
 	
 	/**
 	 * 新增
-	 * @param ${classNameLower}
+	 * @param params
 	 * @param userInfo
 	 * @return
 	 */
-	public JSONObject add(${className} ${classNameLower}, UserInfo userInfo);
+	public JSONObject add(Map<String, Object> params, UserInfo userInfo);
 	
 	/**
 	 * 编辑
-	 * @param ${classNameLower}
+	 * @param params
 	 * @param userInfo
 	 * @return
 	 */
-	public JSONObject edit(${className} ${classNameLower}, UserInfo userInfo);
+	public JSONObject edit(Map<String, Object> params, UserInfo userInfo);
 	
 	/**
 	 * 删除

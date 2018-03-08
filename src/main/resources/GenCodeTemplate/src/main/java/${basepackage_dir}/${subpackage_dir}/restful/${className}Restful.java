@@ -19,8 +19,6 @@ import com.gimplatform.core.entity.UserInfo;
 import com.gimplatform.core.utils.BeanUtils;
 import com.gimplatform.core.utils.RestfulRetUtils;
 import com.gimplatform.core.utils.SessionUtils;
-
-import org.apache.commons.collections4.MapUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,17 +94,17 @@ public class ${className}Restful {
 	/**
 	 * 新增信息
 	 * @param request
-	 * @param ${classNameLower}
+	 * @param params
 	 * @return
 	 */
 	@RequestMapping(value="/add",method=RequestMethod.POST)
-	public JSONObject add(HttpServletRequest request, @RequestBody ${className} ${classNameLower}){
+	public JSONObject add(HttpServletRequest request, @RequestBody Map<String, Object> params){
 		JSONObject json = new JSONObject();
 		try{
 			UserInfo userInfo = SessionUtils.getUserInfo();
 			if(userInfo == null) json = RestfulRetUtils.getErrorNoUser();
 			else {
-				json = ${classNameLower}Service.add(${classNameLower}, userInfo);
+				json = ${classNameLower}Service.add(params, userInfo);
 			}
 		}catch(Exception e){
 			json = RestfulRetUtils.getErrorMsg("51002","新增信息失败");
@@ -118,17 +116,17 @@ public class ${className}Restful {
 	/**
 	 * 编辑信息
 	 * @param request
-	 * @param ${classNameLower}
+	 * @param params
 	 * @return
 	 */
 	@RequestMapping(value="/edit",method=RequestMethod.POST)
-	public JSONObject edit(HttpServletRequest request, @RequestBody ${className} ${classNameLower}){
+	public JSONObject edit(HttpServletRequest request, @RequestBody Map<String, Object> params){
 		JSONObject json = new JSONObject();
 		try{
 			UserInfo userInfo = SessionUtils.getUserInfo();
 			if(userInfo == null) json = RestfulRetUtils.getErrorNoUser();
 			else {
-				json = ${classNameLower}Service.edit(${classNameLower}, userInfo);
+				json = ${classNameLower}Service.edit(params, userInfo);
 			}
 		}catch(Exception e){
 			json = RestfulRetUtils.getErrorMsg("51003","编辑信息失败");
