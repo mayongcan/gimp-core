@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.alibaba.fastjson.JSONObject;
 
-public class AddressUtils {
+public class AddressUtils { 
 
     protected static final Logger logger = LogManager.getLogger(AddressUtils.class);
 
