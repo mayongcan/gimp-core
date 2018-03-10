@@ -389,7 +389,10 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
                         date = (Date) value;
                     } else {
                         // 根据文件内的格式不同修改，时间格式太多在此不做通用格式处理。
-                        if (value.toString().length() > 10) {
+                        if (value.toString().length() == 19) {
+                            String format = "yyyy-MM-dd HH:mm:ss";
+                            date = parseDateTime("" + value, format);
+                        } else if (value.toString().length() == 17) {
                             String format = "yyyy-MM-dd HHmmss";
                             date = parseDateTime("" + value, format);
                         } else if (value.toString().length() == 10) {
