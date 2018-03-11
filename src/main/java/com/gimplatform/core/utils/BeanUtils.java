@@ -388,25 +388,26 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
                     if (value.getClass().getName().equals("java.util.Date")) {
                         date = (Date) value;
                     } else {
+                        String tmpStr = StringUtils.toString(value, "").trim();
                         // 根据文件内的格式不同修改，时间格式太多在此不做通用格式处理。
-                        if (value.toString().length() == 19) {
+                        if (tmpStr.length() == 19) {
                             String format = "yyyy-MM-dd HH:mm:ss";
-                            date = parseDateTime("" + value, format);
-                        } else if (value.toString().length() == 17) {
+                            date = parseDateTime(tmpStr, format);
+                        } else if (tmpStr.length() == 17) {
                             String format = "yyyy-MM-dd HHmmss";
-                            date = parseDateTime("" + value, format);
-                        } else if (value.toString().length() == 10) {
+                            date = parseDateTime(tmpStr, format);
+                        } else if (tmpStr.length() == 10) {
                             String format = "yyyy-MM-dd";
-                            date = parseDateTime("" + value, format);
-                        } else if (value.toString().length() == 8) {
+                            date = parseDateTime(tmpStr, format);
+                        } else if (tmpStr.length() == 8) {
                             String format = "yyyyMMdd";
-                            date = parseDateTime("" + value, format);
-                        } else if (value.toString().length() == 14) {
+                            date = parseDateTime(tmpStr, format);
+                        } else if (tmpStr.length() == 14) {
                             String format = "yyyyMMddHHmmss";
-                            date = parseDateTime("" + value, format);
-                        } else if (value.toString().length() == 6) {
+                            date = parseDateTime(tmpStr, format);
+                        } else if (tmpStr.length() == 6) {
                             String format = "HHmmss";
-                            date = parseDateTime("" + value, format);
+                            date = parseDateTime(tmpStr, format);
                         }
                     }
                     if (date != null) {
