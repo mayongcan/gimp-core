@@ -174,6 +174,7 @@ function submitAction(){
 		data:JSON.stringify(submitData),
 		contentType: "application/json",
 		success: function(data){
+			top.app.message.loadingClose();
 			if(top.app.message.code.success == data.RetCode){
 				//关闭页面前设置结果
 				parent.app.layer.editLayerRet = true;
