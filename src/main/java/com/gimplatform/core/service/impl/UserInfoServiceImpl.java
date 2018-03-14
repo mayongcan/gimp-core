@@ -232,6 +232,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         userLogon.setValidBeginDate(tenantsInfo.getBeginDate());
         userLogon.setValidEndDate(tenantsInfo.getEndDate());
         userLogon.setFaileCount(0);
+        userLogon.setLockBeginDate(null);
+        userLogon.setLockEndDate(null);
+        userLogon.setLockReason("");
         userLogon = userLogonRepository.save(userLogon);
         userLogonRepository.flush();
         return userLogon;

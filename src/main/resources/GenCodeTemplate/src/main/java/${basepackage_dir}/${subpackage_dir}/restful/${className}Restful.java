@@ -62,8 +62,7 @@ public class ${className}Restful {
 			if(userInfo == null) json = RestfulRetUtils.getErrorNoUser();
 			else {
 				Pageable pageable = new PageRequest(SessionUtils.getPageIndex(request), SessionUtils.getPageSize(request));  
-				${className} ${classNameLower} = new ${className}();
-				${classNameLower} = (${className})BeanUtils.mapToBean(params, ${className}.class);				
+				${className} ${classNameLower} = (${className})BeanUtils.mapToBean(params, ${className}.class);				
 				json = ${classNameLower}Service.getList(pageable, ${classNameLower}, params);
 			}
 		}catch(Exception e){
