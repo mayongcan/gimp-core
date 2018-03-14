@@ -26,4 +26,18 @@ public class TableUtils {
         }
         return sqlName;
     }
+    
+    public static void main(String args[]) {
+//        String removedPrefixSqlName = TableUtils.removeTableSqlNamePrefix("cc_doll");
+//        String tmp = StringUtils.toUnderscoreName(removedPrefixSqlName);
+//        System.out.println(tmp);
+//        String className = StringUtils.makeAllWordFirstLetterUpperCase(StringUtils.toUnderscoreName(removedPrefixSqlName));
+//        System.out.println(className);
+        
+        String removedPrefixSqlName = TableUtils.removeTableSqlNamePrefix("c_doll");
+        String tmp = StringUtils.toUnderscoreName(removedPrefixSqlName);
+        System.out.println(tmp);
+        String className = StringUtils.makeAllWordFirstLetterUpperCase(StringUtils.toUnderscoreName(removedPrefixSqlName));
+        System.out.println(className);
+    }
 }

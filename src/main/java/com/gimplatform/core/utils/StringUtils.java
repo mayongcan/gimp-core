@@ -477,14 +477,16 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     public static String makeAllWordFirstLetterUpperCase(String sqlName) {
         String[] strs = sqlName.toLowerCase().split("_");
         String result = "";
-        String preStr = "";
+//        String preStr = "";
         for (int i = 0; i < strs.length; i++) {
-            if (preStr.length() == 1) {
-                result += strs[i];
-            } else {
-                result += capitalize(strs[i]);
-            }
-            preStr = strs[i];
+//            if (preStr.length() == 1) {
+//                result += strs[i];
+//            } else {
+//                result += capitalize(strs[i]);
+//            }
+//            preStr = strs[i];
+            //上面注释的原因：c_doll生成Cdoll, 新代码c_doll生成CDoll
+            result += capitalize(strs[i]);
         }
         return result;
     }
