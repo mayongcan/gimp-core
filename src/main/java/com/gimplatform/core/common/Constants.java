@@ -30,4 +30,7 @@ public interface Constants {
     public static final String SPLIT_CHAR_5 = String.valueOf((char) 5);
     public static final String SPLIT_CHAR_6 = String.valueOf((char) 6);
     public static final String SPLIT_CHAR_7 = String.valueOf((char) 7);
+    
+    public static final String WORK_FLOW_KEY = "WORK_FLOW_KEY";
+    public static final String WORK_FLOW_BUSINESS_KEY = "WORK_FLOW_BUSINESS_KEY";
 }
