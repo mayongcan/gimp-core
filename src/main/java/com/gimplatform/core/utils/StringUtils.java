@@ -682,6 +682,29 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         return list;
     }
 
+    /**
+     * 字符串数组转换int数组
+     * @param array
+     * @param def
+     * @return
+     */
+    public static int[] arrayToInts(String array[], int def) {
+        int[] n = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            n[i] = StringUtils.toInteger(array[i], def);
+        }
+        return n;
+    }
+    
+    public static boolean isInList(List<Integer> list, int value) {
+        for (int i = 0; i < list.size(); i++) {
+            if(value == list.get(i)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         System.out.println(makeAllWordFirstLetterUpperCase("userinfo"));
     }
