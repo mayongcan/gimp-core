@@ -13,7 +13,6 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.gimplatform.core.utils.AddressUtils;
 
 /**
  * 自定义日期序列化
@@ -21,7 +20,7 @@ import com.gimplatform.core.utils.AddressUtils;
  */
 public class CustomerDateAndTimeDeserialize extends JsonDeserializer<Date> {
 
-    protected static final Logger logger = LogManager.getLogger(AddressUtils.class);
+    protected static final Logger logger = LogManager.getLogger(CustomerDateAndTimeDeserialize.class);
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

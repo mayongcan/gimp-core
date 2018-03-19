@@ -1,12 +1,19 @@
 package com.gimplatform.core.utils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.collections4.MapUtils;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,6 +24,80 @@ import org.jsoup.select.Elements;
  * @author zzd
  */
 public class HtmlUtils {
+
+    protected static final Logger logger = LogManager.getLogger(HtmlUtils.class);
+    
+    /**
+     * 获取分页源码的第一页（基于.net的分页）
+     * @param url
+     * @return
+     */
+    public static Map<String, Object> getFirstPageHtml(String url) {
+        // 设置用户代理
+        String user_Agent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.87 Safari/537.36";
+        // 获取登录框的隐含参数 type="hidden"
+        Connection connection = Jsoup.connect(url).timeout(60000);
+        connection.header("User-Agent", user_Agent);// 配置模拟浏览器
+        Connection.Response response = null;
+        try {
+            response = connection.method(Connection.Method.POST).execute();// 获取响应
+        } catch (ClientProtocolException e) {
+            logger.error(e.getMessage(), e);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+        // 应用JsoupHtml解析包解析html包含参数
+        Map<String, Object> retVal = new HashMap<String, Object>();
+        retVal.put("htmlBody", response.body());
+        retVal.put("cookies", response.cookies());
+        return retVal;
+    }
+
+    /**
+     * 获取分页源码的分页内容（基于.net的分页）
+     * @param url
+     * @param params
+     * @return
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public static Map<String, Object> getPaginationHtml(String url, Map<String, Object> params) {
+        String htmlBody = MapUtils.getString(params, "htmlBody");
+        Map<String, String> cookies = (Map<String, String>) MapUtils.getMap(params, "cookies");
+        if(cookies == null) cookies = new HashMap<String, String>();
+        String pageName = MapUtils.getString(params, "pageName");
+        String pageValue = MapUtils.getString(params, "pageValue");
+        String __EVENTTARGET = MapUtils.getString(params, "__EVENTTARGET");
+        String __EVENTARGUMENT = MapUtils.getString(params, "__EVENTARGUMENT");
+        Document doc = Jsoup.parse(htmlBody);// 转换为Dom树  
+        
+        // 存放post时的数据  
+        Map<String, String> datas = new HashMap<>();  
+        Elements inputElemets = doc.select("form[method=post]").first().select("input[name]");  
+        for (Iterator it = inputElemets.iterator(); it.hasNext();) {  
+            Element inputElement = (Element) it.next();  
+            if("btnOK".equals(inputElement.attr("name")) || "Button1".equals(inputElement.attr("name"))){   
+            }else{  
+                datas.put(inputElement.attr("name"), inputElement.attr("value"));  
+            }  
+        }  
+        datas.put("__EVENTTARGET", __EVENTTARGET);  
+        datas.put("__EVENTARGUMENT", __EVENTARGUMENT); 
+        datas.put(pageName, pageValue); 
+        Connection connection2 = Jsoup.connect(url).timeout(60000);  
+
+        // 应用JsoupHtml解析包解析html包含参数
+        Map<String, Object> retVal = new HashMap<String, Object>();
+        try {    
+            
+            Connection connection1 = connection2.ignoreContentType(true).method(Connection.Method.POST).data(datas).cookies(cookies);  
+            Connection.Response response =  connection1.execute(); 
+            retVal.put("htmlBody", response.body());
+            retVal.put("cookies", response.cookies());
+        } catch (IOException e) {  
+            logger.error(e.getMessage(), e);
+        }  
+        return retVal;
+    }
 
     /**
      * 替换掉HTML标签方法

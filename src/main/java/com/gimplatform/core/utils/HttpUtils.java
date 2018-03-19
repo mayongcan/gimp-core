@@ -24,6 +24,10 @@ import com.alibaba.fastjson.JSONObject;
 public class HttpUtils {
 
     protected static final Logger logger = LogManager.getLogger(HttpUtils.class);
+    
+    private static int CONNECT_TIMEOUT = 60 * 1000;
+    
+    private static int READ_TIMEOUT = 60 * 1000;
 
     /**
      * 支持的Http method
@@ -246,7 +250,7 @@ public class HttpUtils {
      */
     @SuppressWarnings("rawtypes")
     public static String post(String url, Map params) {
-        return invokeUrl(url, params, null, 30 * 1000, 30 * 1000, "UTF-8", HttpMethod.POST);
+        return invokeUrl(url, params, null, CONNECT_TIMEOUT, READ_TIMEOUT, "UTF-8", HttpMethod.POST);
     }
 
     /**
@@ -258,7 +262,7 @@ public class HttpUtils {
      */
     @SuppressWarnings("rawtypes")
     public static String post(String url, Map params, Map<String, String> headers) {
-        return invokeUrl(url, params, headers, 30 * 1000, 30 * 1000, "UTF-8", HttpMethod.POST);
+        return invokeUrl(url, params, headers, CONNECT_TIMEOUT, READ_TIMEOUT, "UTF-8", HttpMethod.POST);
     }
 
     /**
@@ -269,7 +273,7 @@ public class HttpUtils {
      * @return
      */
     public static String post(String url, JSONObject json, Map<String, String> headers) {
-        return invokePostJson(url, json, headers, 30 * 1000, 30 * 1000, "UTF-8", HttpMethod.POST);
+        return invokePostJson(url, json, headers, CONNECT_TIMEOUT, READ_TIMEOUT, "UTF-8", HttpMethod.POST);
     }
 
     /**
@@ -309,7 +313,7 @@ public class HttpUtils {
      * @return
      */
     public static String get(String url) {
-        return invokeUrl(url, null, null, 30 * 1000, 30 * 1000, "UTF-8", HttpMethod.GET);
+        return invokeUrl(url, null, null, CONNECT_TIMEOUT, READ_TIMEOUT, "UTF-8", HttpMethod.GET);
     }
 
     /**
@@ -319,11 +323,11 @@ public class HttpUtils {
      * @return
      */
     public static String get(String url, Map<String, String> headers) {
-        return invokeUrl(url, null, headers, 30 * 1000, 30 * 1000, "UTF-8", HttpMethod.GET);
+        return invokeUrl(url, null, headers, CONNECT_TIMEOUT, READ_TIMEOUT, "UTF-8", HttpMethod.GET);
     }
 
     public static String get(String url, Map<String, String> params, Map<String, String> headers) {
-        return invokeUrl(url, params, headers, 30 * 1000, 30 * 1000, "UTF-8", HttpMethod.GET);
+        return invokeUrl(url, params, headers, CONNECT_TIMEOUT, READ_TIMEOUT, "UTF-8", HttpMethod.GET);
     }
 
     /**

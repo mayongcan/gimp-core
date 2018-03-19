@@ -349,15 +349,26 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
      * @param now
      * @return
      */
-    public static boolean isBetweenTwoDate(Date date1, Date date2, Date now){
-    	if(date1 == null || date2 == null) return false;
-    	if(DateUtils.truncatedCompareTo(date1, now, Calendar.MILLISECOND) == -1 && 
-    			DateUtils.truncatedCompareTo(date2, now, Calendar.MILLISECOND) == 1){
-    		return true;
-    	}
-    	else
-    		return false;
+    public static boolean isBetweenTwoDate(Date date1, Date date2, Date now) {
+        if (date1 == null || date2 == null)
+            return false;
+        if (DateUtils.truncatedCompareTo(date1, now, Calendar.MILLISECOND) == -1 && DateUtils.truncatedCompareTo(date2, now, Calendar.MILLISECOND) == 1) {
+            return true;
+        } else
+            return false;
     }
+    
+    /**
+     * 获取当月的 天数 
+     * @return
+     */
+    public static int getCurrentMonthDay() {  
+        Calendar a = Calendar.getInstance();  
+        a.set(Calendar.DATE, 1);  
+        a.roll(Calendar.DATE, -1);  
+        int maxDate = a.get(Calendar.DATE);  
+        return maxDate;  
+    }  
 
     public static void main(String[] args) {
     }

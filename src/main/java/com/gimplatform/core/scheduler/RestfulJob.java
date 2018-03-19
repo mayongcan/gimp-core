@@ -8,6 +8,10 @@ import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.PersistJobDataAfterExecution;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.gimplatform.core.utils.HttpUtils;
@@ -20,12 +24,20 @@ import com.gimplatform.core.utils.StringUtils;
 public class RestfulJob implements Job {
 
     private static final Logger logger = LogManager.getLogger(RestfulJob.class);
+    
+    @Autowired
+    LoadBalancerClient loadBalancerClient;
 
     @Override
     public void execute(JobExecutionContext jobContext) throws JobExecutionException {
         JobDetail jobDetail = jobContext.getJobDetail();
         JSONObject restJson = JSONObject.parseObject(jobDetail.getJobDataMap().getString("jobDetail"));
         String restUrl = restJson.getString("restUrl");
+        if(!restUrl.startsWith("http")) {
+            //获取API-gateway地址
+            ServiceInstance serviceInstance = loadBalancerClient.choose("gimp-api-gateway");
+            restUrl = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort() + restUrl;
+        }
         String restType = restJson.getString("restType");
         JSONArray restParams = restJson.getJSONArray("restParams");
         JSONObject jParam = null;
