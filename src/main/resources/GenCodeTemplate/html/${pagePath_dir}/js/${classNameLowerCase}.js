@@ -54,7 +54,7 @@ function initSearchPanel(){
 	</#if>
 	<#-- 添加搜索框字典，并初始化搜索框 -->
 	<#if column.searchType = "4">
-	top.app.addComboBoxOption($("#${column.columnNameFirstLower}"), g_${column.columnNameFirstLower}Dict, true);
+	top.app.addComboBoxOption($("#search${column.columnName}"), g_${column.columnNameFirstLower}Dict, true);
 	</#if>
 	</#if>
 	</#list>
