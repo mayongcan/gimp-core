@@ -5,7 +5,7 @@
 <#-- ******************************** 输出列表js ********************************* -->
 <#-- *************************************************************************** -->
 <#if pageType = "1">
-var $table = $('#tableList');
+var $table = $('#tableList'), g_operRights = [];
 <#-- 定义全局字典变量 -->
 <#list table.columns as column>
 <#if column.valueType = "2">
@@ -64,14 +64,17 @@ function initSearchPanel(){
  * 初始化权限
  */
 function initFunc(){
-	var g_operRights = top.app.getUserRights($.utils.getUrlParam(window.location.search,"_pid"));
+	g_operRights = top.app.getUserRights($.utils.getUrlParam(window.location.search,"_pid"));
 	$("#tableToolbar").empty();
 	var htmlTable = "";
 	var length = g_operRights.length;
 	for (var i = 0; i < length; i++) {
-		htmlTable += "<button type='button' class='btn btn-outline btn-default' id='" + g_operRights[i].funcFlag  + "' data-action-url='" + g_operRights[i].funcLink + "'>" + 
-						"<i class=\""+ g_operRights[i].funcIcon + "\" aria-hidden=\"true\"></i> " + g_operRights[i].funcName + 
-					 "</button>";
+		//显示在列表上方的权限菜单
+		if(g_operRights[i].dispPosition == '1'){
+			htmlTable += "<button type='button' class='btn btn-outline btn-default' id='" + g_operRights[i].funcFlag  + "' data-action-url='" + g_operRights[i].funcLink + "'>" + 
+							"<i class=\""+ g_operRights[i].funcIcon + "\" aria-hidden=\"true\"></i> " + g_operRights[i].funcName + 
+						 "</button>";
+		}
 	}
 	//添加默认权限
 	htmlTable += appTable.addDefaultFuncButton();
@@ -188,6 +191,43 @@ function initFuncBtnEvent(){
     	});
 		appTable.delData($table, $("#${table.classNameLower}Del").data('action-url'), idsList);
     });
+}
+
+//格式化列表右侧的操作按钮
+function formatOperate(value, row, index){
+	//根据权限是否显示操作菜单
+	var length = g_operRights.length;
+	var operateBtn = "";
+	for (var i = 0; i < length; i++) {
+		if(g_operRights[i].dispPosition == '2'){
+			operateBtn += '<button type="button" class="btn btn-outline btn-default btn-table-opreate" onclick="' + g_operRights[i].funcFlag  + '(' + row.id + ', \'' + g_operRights[i].funcLink + '\')">' + 
+								'<i class="' + g_operRights[i].funcIcon + '" aria-hidden="true"></i> ' + g_operRights[i].funcName + 
+						  '</button>';
+		}
+	}
+	return operateBtn;
+}
+
+function ${table.classNameLower}Edit(id, url){
+	var row = $table.bootstrapTable("getRowByUniqueId", id);
+	//设置参数
+	var params = {};
+	params.type = 'edit';
+	params.rows = row;
+	<#list table.columns as column>
+	<#if column.valueType = "2">
+	params.${column.columnNameFirstLower}Dict = g_${column.columnNameFirstLower}Dict;
+	</#if>
+	</#list>
+	params.operUrl = top.app.conf.url.apigateway + url;
+	top.app.layer.editLayer('编辑${moduleName}', ['710px', '${table.editBoxHeight}'], '${pagePath}/${table.classNameLowerCase}-edit.html', params, function(){
+			//重新加载列表
+		$table.bootstrapTable('refresh');
+	});
+}
+
+function ${table.classNameLower}Del(id, url){
+	appTable.delData($table, url, id + "");
 }
 
 <#-- 输出格式化函数 -->

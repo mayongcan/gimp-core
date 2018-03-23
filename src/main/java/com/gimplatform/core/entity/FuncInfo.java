@@ -56,6 +56,9 @@ public class FuncInfo implements Serializable {
     @Column(name = "FUNC_ICON", length = 100)
     private String funcIcon;
 
+    @Column(name = "DISP_POSITION", length = 10)
+    private String dispPosition;
+
     @Column(name = "FUNC_DESC", length = 500)
     private String funcDesc;
 

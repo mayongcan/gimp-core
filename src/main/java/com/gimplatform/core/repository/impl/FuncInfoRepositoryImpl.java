@@ -23,18 +23,18 @@ public class FuncInfoRepositoryImpl extends BaseRepository implements FuncInfoRe
 
 	//用户权限子菜单
 	private static final String SQL_GET_ALL_FUNC_DATA = "SELECT F.FUNC_ID as \"funcId\", F.PARENT_FUNC_ID as \"parentFuncId\", F.FUNC_NAME as \"funcName\", F.IS_BASE as \"isBase\", "
-					+ "F.FUNC_TYPE as \"funcType\", F.FUNC_LEVEL as \"funcLevel\", F.FUNC_LINK as \"funcLink\" , F.FUNC_DESC as \"funcDesc\" "
+					+ "F.FUNC_TYPE as \"funcType\", F.FUNC_LEVEL as \"funcLevel\", F.FUNC_LINK as \"funcLink\", F.DISP_POSITION as \"dispPosition\", F.FUNC_DESC as \"funcDesc\" "
 			+ "FROM SYS_FUNC_INFO F "
 			+ "WHERE F.IS_VALID='Y'";
 	
 	private static final String SQL_GET_FUNC_TREE_LIST = "SELECT FUNC_ID as \"funcId\", FUNC_NAME as \"funcName\", PARENT_FUNC_ID as \"parentFuncId\", DISP_ORDER as \"dispOrder\", "
 					+ "FUNC_TYPE as \"funcType\", FUNC_LEVEL as \"funcLevel\", FUNC_LINK as \"funcLink\", FUNC_FLAG as \"funcFlag\", IS_SHOW as \"isShow\", "
-					+ "IS_BLANK as \"isBlank\", FUNC_ICON as \"funcIcon\", FUNC_DESC as \"funcDesc\", IS_BASE as \"isBase\" "
+					+ "IS_BLANK as \"isBlank\", FUNC_ICON as \"funcIcon\", DISP_POSITION as \"dispPosition\", FUNC_DESC as \"funcDesc\", IS_BASE as \"isBase\" "
 			+ "FROM SYS_FUNC_INFO WHERE IS_VALID = 'Y'";
 	
 	private static final String SQL_GET_FUNC_BY_TENANTSID = "SELECT func.FUNC_ID as \"funcId\", func.FUNC_NAME as \"funcName\", func.PARENT_FUNC_ID as \"parentFuncId\", "
 					+ "func.DISP_ORDER as \"dispOrder\", func.FUNC_TYPE as \"funcType\", func.FUNC_LEVEL as \"funcLevel\", func.FUNC_LINK as \"funcLink\", func.FUNC_FLAG as \"funcFlag\", "
-					+ "func.IS_SHOW as \"isShow\", func.IS_BLANK as \"isBlank\", func.FUNC_ICON as \"funcIcon\", func.FUNC_DESC as \"funcDesc\" , func.IS_BASE as \"isBase\" "
+					+ "func.IS_SHOW as \"isShow\", func.IS_BLANK as \"isBlank\", func.FUNC_ICON as \"funcIcon\", func.DISP_POSITION as \"dispPosition\", func.FUNC_DESC as \"funcDesc\" , func.IS_BASE as \"isBase\" "
 			+ "FROM sys_tenants_func tf INNER JOIN sys_func_info func ON tf.FUNC_ID = func.FUNC_ID AND func.IS_VALID = 'Y' "
 			+ "WHERE tf.TENANTS_ID = :tenantsId "
 			+ "ORDER BY func.PARENT_FUNC_ID, func.DISP_ORDER, func.FUNC_ID";

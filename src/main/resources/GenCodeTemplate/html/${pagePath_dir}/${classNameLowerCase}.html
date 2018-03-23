@@ -88,18 +88,19 @@
 				data-mobile-responsive="true">
                 <thead>
                     <tr>
-                        <th data-field="tableMulti" data-formatter="appTable.tableFormatCheckbox" data-checkbox="true" data-visible="false"></th>
-                        <#list table.columns as column>
+              			<th data-field="tableMulti" data-formatter="appTable.tableFormatCheckbox" data-checkbox="true" data-visible="false"></th>
+                        	<#list table.columns as column>
 						<#-- 输出页面显示 -->
 						<#if column.display>
 						<#-- 是否需要从字典中取值 -->
 						<#if column.valueType = "1">
-                        <th data-field="${column.columnNameFirstLower}">${column.displayName}</th>
-                        <#else>
-                        <th data-field="${column.columnNameFirstLower}" data-formatter="format${column.columnName}">${column.displayName}</th>
+                        	<th data-field="${column.columnNameFirstLower}">${column.displayName}</th>
+                        	<#else>
+                        	<th data-field="${column.columnNameFirstLower}" data-formatter="format${column.columnName}">${column.displayName}</th>
 						</#if>
 						</#if>
 						</#list>
+						<th data-field="operate" data-formatter="formatOperate">操作</th>
                     </tr>
                 </thead>
             </table>
