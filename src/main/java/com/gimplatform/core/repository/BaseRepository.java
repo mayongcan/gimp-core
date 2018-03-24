@@ -76,6 +76,24 @@ public class BaseRepository {
 	protected SqlParams getPageableSql(SqlParams sqlParams, int pageIndex, int pageSize){
 		return getPageableSql(sqlParams, pageIndex, pageSize, null, null);
 	}
+    
+    /**
+     * 获取模糊查询SQL字符串
+     * @param key
+     * @param value
+     * @return
+     */
+    protected String getLikeSql(String key, String value) {
+        int databaseType = getDatabaseType();
+        if (databaseType == DATABASE_MYSQL) {
+            return " AND " + key + " like concat('%', " + value + ", '%') ";
+        } else if (databaseType == DATABASE_ORACLE) {
+            return " AND " + key + " like CONCAT(CONCAT('%', " + value + "), '%') ";
+        } else {
+
+        }
+        return "";
+    }
 	
 	/**
 	 * 根据不同的数据库获取分页sql
