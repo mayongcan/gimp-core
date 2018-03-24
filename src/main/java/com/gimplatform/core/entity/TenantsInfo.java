@@ -2,11 +2,15 @@ package com.gimplatform.core.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -62,6 +66,11 @@ public class TenantsInfo implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "END_DATE", nullable = false, length = 19)
     private Date endDate;
+
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "EXTEND_DATA")
+    private String extendData;
 
     @Column(name = "CREATE_BY", precision = 10, scale = 0)
     private Long createBy;
