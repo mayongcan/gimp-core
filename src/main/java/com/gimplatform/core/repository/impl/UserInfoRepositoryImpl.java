@@ -149,12 +149,14 @@ public class UserInfoRepositoryImpl extends BaseRepository implements UserInfoRe
 		Long roleId = MapUtils.getLong(params, "roleId");
 		//添加查询参数
 		if(null != userInfo && !StringUtils.isBlank(userInfo.getUserName())) {
-			sqlParams.querySql.append(" AND a.user_name like concat(:userName,'%') ");
+            sqlParams.querySql.append(getLikeSql("a.user_name", ":userName"));
+//			sqlParams.querySql.append(" AND a.user_name like concat(:userName,'%') ");
 			sqlParams.paramsList.add("userName");
 			sqlParams.valueList.add(userInfo.getUserName());
         }
 		if(null != userInfo && !StringUtils.isBlank(userInfo.getUserCode())) {
-			sqlParams.querySql.append(" AND a.user_code like concat(:userCode,'%') ");
+            sqlParams.querySql.append(getLikeSql("a.user_code", ":userCode"));
+//			sqlParams.querySql.append(" AND a.user_code like concat(:userCode,'%') ");
 			sqlParams.paramsList.add("userCode");
 			sqlParams.valueList.add(userInfo.getUserCode());
         }

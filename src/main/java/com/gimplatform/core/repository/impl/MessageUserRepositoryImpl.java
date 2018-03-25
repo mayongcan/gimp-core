@@ -74,7 +74,8 @@ public class MessageUserRepositoryImpl extends BaseRepository implements Message
 			sqlParams.valueList.add(messageUser.getIsRead());
 		}
 		if (StringUtils.isNotBlank(msgTitle)) {
-			sqlParams.querySql.append(" AND m.MSG_TITLE like concat('%', :msgTitle,'%') ");
+            sqlParams.querySql.append(getLikeSql("m.MSG_TITLE", ":msgTitle"));
+//			sqlParams.querySql.append(" AND m.MSG_TITLE like concat('%', :msgTitle,'%') ");
 			sqlParams.paramsList.add("msgTitle");
 			sqlParams.valueList.add(msgTitle);
 		}

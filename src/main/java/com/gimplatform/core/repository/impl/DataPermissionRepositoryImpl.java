@@ -71,7 +71,8 @@ public class DataPermissionRepositoryImpl extends BaseRepository implements Data
 		String userName = MapUtils.getString(params, "userName");
 		//添加查询参数
 		if(!StringUtils.isBlank(userName)) {
-			sqlParams.querySql.append(" AND u.user_name like concat('%', :userName,'%') ");
+		    sqlParams.querySql.append(getLikeSql("u.user_name", ":userName"));
+			//sqlParams.querySql.append(" AND u.user_name like concat('%', :userName,'%') ");
 			sqlParams.paramsList.add("userName");
 			sqlParams.valueList.add(userName);
         }

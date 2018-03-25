@@ -73,7 +73,8 @@ public class MessageInfoRepositoryImpl extends BaseRepository implements Message
 		sqlParams.querySql.append(sql);
 		//添加查询参数
 		if (messageInfo != null && !StringUtils.isBlank(messageInfo.getMsgTitle())) {
-			sqlParams.querySql.append(" AND tb.MSG_TITLE like concat('%', :msgTitle,'%') ");
+            sqlParams.querySql.append(getLikeSql("tb.MSG_TITLE", ":msgTitle"));
+//			sqlParams.querySql.append(" AND tb.MSG_TITLE like concat('%', :msgTitle,'%') ");
 			sqlParams.paramsList.add("msgTitle");
 			sqlParams.valueList.add(messageInfo.getMsgTitle());
 		}

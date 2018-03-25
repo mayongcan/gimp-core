@@ -60,7 +60,7 @@ public class ${className}RepositoryImpl extends BaseRepository implements ${clas
 			<#if column.searchType = "1">
 			sqlParams.querySql.append(" AND tb.${column.sqlName} = :${column.columnNameFirstLower} ");
 			<#elseif column.searchType = "2">
-			sqlParams.querySql.append(" AND tb.${column.sqlName} like concat('%', :${column.columnNameFirstLower},'%') ");
+            sqlParams.querySql.append(getLikeSql("tb.${column.sqlName}", ":${column.columnNameFirstLower}"));
 			<#elseif column.searchType = "3">
 			sqlParams.querySql.append(" AND tb.${column.sqlName} between :${column.columnNameFirstLower}Begin AND :${column.columnNameFirstLower}End ");
 			<#else>

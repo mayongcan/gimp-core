@@ -47,7 +47,8 @@ public class LogInfoRepositoryImpl extends BaseRepository implements LogInfoRepo
 		sqlParams.querySql.append(sql);
 		//添加查询参数
 		if(!StringUtils.isBlank(title)) {
-			sqlParams.querySql.append(" AND log.LOG_TITLE like concat('%', :title, '%') ");
+            sqlParams.querySql.append(getLikeSql("log.LOG_TITLE", ":title"));
+//			sqlParams.querySql.append(" AND log.LOG_TITLE like concat('%', :title, '%') ");
 			sqlParams.paramsList.add("title");
 			sqlParams.valueList.add(title);
         }
