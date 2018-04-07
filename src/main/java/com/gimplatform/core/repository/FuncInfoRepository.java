@@ -27,58 +27,7 @@ public interface FuncInfoRepository extends JpaRepository<FuncInfo, Long>, FuncI
 	 * @param isValid
 	 * @return
 	 */
-	public List<FuncInfo> findByFuncFlagAndIsValid(String funcFlag, String isValid);
-
-	
-//	@Query(value = "SELECT DISTINCT(func.FUNC_ID), func.* "
-//			+ "FROM sys_user_role ur LEFT JOIN sys_role_func rf ON ur.ROLE_ID=rf.ROLE_ID LEFT JOIN sys_func_info func ON rf.FUNC_ID=func.FUNC_ID "
-//			+ "WHERE func.IS_VALID='Y' AND func.IS_SHOW = 'Y' AND rf.FUNC_ID IS NOT NULL AND ur.USER_ID = :userId "
-//			+ "ORDER BY func.DISP_ORDER ASC, func.FUNC_ID ASC", nativeQuery = true)
-//    public List<FuncInfo> getUserFunc(@Param("userId")Long userId);  
-//
-//	//获取用户继承组织的权限
-//	@Query(value = "SELECT DISTINCT(func.FUNC_ID), func.* "
-//			+ "FROM sys_organizer_role tb LEFT JOIN sys_role_func rf ON tb.ROLE_ID=rf.ROLE_ID LEFT JOIN sys_func_info func ON rf.FUNC_ID=func.FUNC_ID "
-//			+ "WHERE func.IS_VALID='Y' AND func.IS_SHOW = 'Y' AND rf.FUNC_ID IS NOT NULL AND tb.ORGANIZER_ID = :organizerId "
-//			+ "ORDER BY func.DISP_ORDER ASC, func.FUNC_ID ASC", nativeQuery = true)
-//    public List<FuncInfo> getUserOrganizerFunc(@Param("organizerId")Long organizerId);  
-	
-//	@Query(value = "SELECT f.* "
-//			+ "FROM sys_func_info f "
-//			+ "WHERE f.func_id IN (SELECT DISTINCT func.func_id "
-//					+ "FROM sys_user_role ur INNER JOIN sys_role_info r ON ur.role_id = r.role_id INNER JOIN sys_role_func rf ON r.role_id = rf.role_id "
-//					+ "INNER JOIN sys_func_info func ON rf.func_id = func.func_id  INNER JOIN sys_tenants_func tf on rf.func_id = tf.func_id "
-//					+ "WHERE ur.user_id = :userId and tf.tenants_id = :tenantsId and func.PARENT_FUNC_ID is not null AND func.is_show = 'Y' AND func.is_valid = 'Y' AND r.is_valid = 'Y' "
-//					+ "AND func.PARENT_FUNC_ID = (SELECT FUNC_ID FROM SYS_FUNC_INFO WHERE PARENT_FUNC_ID IS NULL )) "
-//			+ "AND f.func_level = 1 "
-//			+ "ORDER BY f.disp_order, f.FUNC_NAME", nativeQuery = true)
-//    public List<FuncInfo> getUserFuncFolder(@Param("userId")Long userId, @Param("tenantsId")Long tenantsId);  
-//
-//	
-//	@Query(value = "SELECT DISTINCT(F.FUNC_ID), F.*  "
-//			+ "FROM sys_func_info F INNER JOIN sys_role_func R ON F.FUNC_ID=R.FUNC_ID INNER JOIN sys_user_role U ON R.ROLE_ID=U.ROLE_ID "
-//			+ "WHERE F.IS_VALID='Y' AND (F.FUNC_TYPE=100200 OR F.FUNC_TYPE=100300) AND F.IS_SHOW='Y' AND F.PARENT_FUNC_ID=:folderId AND U.USER_ID = :userId " //支持目录查询
-//			+ "ORDER BY F.DISP_ORDER, F.FUNC_ID", nativeQuery = true)
-//    public List<FuncInfo> getUserFuncListByFd(@Param("userId")Long userId, @Param("folderId")Long folderId);  
-//
-//	@Query(value = "SELECT f.* "
-//			+ "FROM sys_func_info f "
-//			+ "WHERE f.func_id IN (SELECT DISTINCT func.func_id "
-//					+ "FROM sys_organizer_role tb INNER JOIN sys_role_info r ON tb.role_id = r.role_id INNER JOIN sys_role_func rf ON r.role_id = rf.role_id "
-//					+ "INNER JOIN sys_func_info func ON rf.func_id = func.func_id INNER JOIN sys_tenants_func tf on rf.func_id = tf.func_id "
-//					+ "WHERE tb.organizer_id = :organizerId and tf.tenants_id = :tenantsId and func.PARENT_FUNC_ID is not null AND func.is_show = 'Y' AND func.is_valid = 'Y' AND r.is_valid = 'Y' "
-//					+ "AND func.PARENT_FUNC_ID = (SELECT FUNC_ID FROM SYS_FUNC_INFO WHERE PARENT_FUNC_ID IS NULL )) "
-//			+ "AND f.func_level = 1 "
-//			+ "ORDER BY f.disp_order, f.FUNC_NAME", nativeQuery = true)
-//    public List<FuncInfo> getOrganizerFuncFolder(@Param("organizerId")Long organizerId, @Param("tenantsId")Long tenantsId);  
-//
-//	
-//	@Query(value = "SELECT DISTINCT(F.FUNC_ID), F.*  "
-//			+ "FROM sys_func_info F INNER JOIN sys_role_func R ON F.FUNC_ID=R.FUNC_ID INNER JOIN sys_organizer_role tb ON R.ROLE_ID=tb.ROLE_ID "
-//			+ "WHERE F.IS_VALID='Y' AND (F.FUNC_TYPE=100200 OR F.FUNC_TYPE=100300) AND F.IS_SHOW='Y' AND F.PARENT_FUNC_ID=:folderId AND tb.organizer_id = :organizerId " //支持目录查询
-//			+ "ORDER BY F.DISP_ORDER, F.FUNC_ID", nativeQuery = true)
-//    public List<FuncInfo> getOrganizerFuncListByFd(@Param("organizerId")Long organizerId, @Param("folderId")Long folderId);
-	
+	public List<FuncInfo> findByFuncFlagAndIsValid(String funcFlag, String isValid);	
 
 	@Query(value = "SELECT DISTINCT(tmp.FUNC_ID), tmp.* FROM( "
 			+ "SELECT func.* "

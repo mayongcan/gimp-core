@@ -140,7 +140,7 @@ public class SessionUtils {
         if (!StringUtils.isBlank(userCode)) {
             RedisUtils.hsetObject(SESSION_PREFIX + userCode, SESSION_USER_DATA_PERMISSION, dataPermissionIdList, SESSION_SAVE_TIME);
         } else {
-            logger.warn("setUserInfo:当前用户未登陆");
+            logger.warn("setUserDataPermission:当前用户未登陆");
         }
     }
 
@@ -166,7 +166,7 @@ public class SessionUtils {
                 return retList;
             }
         } else {
-            logger.warn("getUserInfo:当前用户未登陆");
+            logger.warn("getUserDataPermission:当前用户未登陆");
         }
         return retList;
     }
@@ -180,7 +180,7 @@ public class SessionUtils {
         if (!StringUtils.isBlank(userCode)) {
             RedisUtils.hsetObject(SESSION_PREFIX + userCode, SESSION_USER_TOP_ORGANIZER_ID, organizerId, SESSION_SAVE_TIME);
         } else {
-            logger.warn("setUserInfo:当前用户未登陆");
+            logger.warn("setUserTopOrganizerId:当前用户未登陆");
         }
     }
 
@@ -194,7 +194,7 @@ public class SessionUtils {
         if (!StringUtils.isBlank(userCode)) {
             organizerId = (Long) RedisUtils.hgetObject(SESSION_PREFIX + userCode, SESSION_USER_TOP_ORGANIZER_ID);
         } else {
-            logger.warn("getUserInfo:当前用户未登陆");
+            logger.warn("getUserTopOrganizerId:当前用户未登陆");
         }
         return organizerId;
     }
@@ -208,7 +208,7 @@ public class SessionUtils {
         if (!StringUtils.isBlank(userCode)) {
             RedisUtils.hsetObject(SESSION_PREFIX + userCode, SESSION_USER_ROOT_ORGANIZER_ID, organizerId, SESSION_SAVE_TIME);
         } else {
-            logger.warn("setUserInfo:当前用户未登陆");
+            logger.warn("setUserRootOrganizerId:当前用户未登陆");
         }
     }
 
@@ -222,7 +222,7 @@ public class SessionUtils {
         if (!StringUtils.isBlank(userCode)) {
             organizerId = (Long) RedisUtils.hgetObject(SESSION_PREFIX + userCode, SESSION_USER_ROOT_ORGANIZER_ID);
         } else {
-            logger.warn("getUserInfo:当前用户未登陆");
+            logger.warn("getUserRootOrganizerId:当前用户未登陆");
         }
         return organizerId;
     }

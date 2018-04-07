@@ -70,7 +70,7 @@ function initFunc(){
 	var length = g_operRights.length;
 	for (var i = 0; i < length; i++) {
 		//显示在列表上方的权限菜单
-		if(g_operRights[i].dispPosition == '1'){
+		if(g_operRights[i].dispPosition == '1' || g_operRights[i].dispPosition == undefined){
 			htmlTable += "<button type='button' class='btn btn-outline btn-default' id='" + g_operRights[i].funcFlag  + "' data-action-url='" + g_operRights[i].funcLink + "'>" + 
 							"<i class=\""+ g_operRights[i].funcIcon + "\" aria-hidden=\"true\"></i> " + g_operRights[i].funcName + 
 						 "</button>";

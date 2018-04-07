@@ -62,20 +62,6 @@ public class FuncInfoServiceImpl implements FuncInfoService {
     @Override
     public List<FuncInfo> getUserFunc(UserInfo userInfo) {
         return funcInfoRepository.getUserFunc(userInfo.getUserId(), userInfo.getOrganizerId());
-        // List<FuncInfo> userFuncList = funcInfoRepository.getUserFunc(userInfo.getUserId());
-        // List<FuncInfo> userOrganizerFuncList = funcInfoRepository.getUserOrganizerFunc(userInfo.getOrganizerId());
-        // //去重
-        // List<FuncInfo> compareList = new ArrayList<FuncInfo>();
-        // compareList.addAll(userFuncList);
-        // compareList.addAll(userOrganizerFuncList);
-        // Set<FuncInfo> set = new TreeSet<FuncInfo>(new Comparator<FuncInfo>(){
-        // @Override
-        // public int compare(FuncInfo o1, FuncInfo o2) {
-        // return o1.getFuncId().compareTo(o2.getFuncId());
-        // }
-        // });
-        // set.addAll(compareList);
-        // return new ArrayList<FuncInfo>(set);
     }
 
     @Override
@@ -251,6 +237,7 @@ public class FuncInfoServiceImpl implements FuncInfoService {
             mapAttr.put("funcLink", MapUtils.getString(mapObj, "funcLink"));
             mapAttr.put("dispOrder", MapUtils.getString(mapObj, "dispOrder"));
             mapAttr.put("funcFlag", MapUtils.getString(mapObj, "funcFlag"));
+            mapAttr.put("dispPosition", MapUtils.getString(mapObj, "dispPosition"));
             mapAttr.put("isBase", MapUtils.getString(mapObj, "isBase"));
             mapAttr.put("isShow", MapUtils.getString(mapObj, "isShow"));
             mapAttr.put("isBlank", MapUtils.getString(mapObj, "isBlank"));
@@ -359,6 +346,7 @@ public class FuncInfoServiceImpl implements FuncInfoService {
         funcInfo.setFuncLink(attrJson.getString("funcLink"));
         funcInfo.setFuncFlag(attrJson.getString("funcFlag"));
         funcInfo.setFuncIcon(attrJson.getString("funcIcon"));
+        funcInfo.setDispPosition(attrJson.getString("dispPosition"));
         funcInfo.setDispOrder(attrJson.getLong("dispOrder"));
         funcInfo.setIsBase(attrJson.getString("isBase"));
         funcInfo.setIsShow(attrJson.getString("isShow"));
