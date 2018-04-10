@@ -45,6 +45,9 @@ public class DictType implements Serializable {
     @Column(name = "SHARE_TYPE", nullable = false, length = 2)
     private String shareType;
 
+    @Column(name = "TENANTS_ID", precision = 10, scale = 0)
+    private Long tenantsId;
+
     @Column(name = "CREATE_BY", precision = 10, scale = 0)
     private Long createBy;
 

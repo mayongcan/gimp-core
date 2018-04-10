@@ -39,7 +39,7 @@ public interface DictTypeRepository extends JpaRepository<DictType, Long>, JpaSp
 	@Transactional
 	@Modifying(clearAutomatically = true)
 	@Query(value = "UPDATE sys_dict_type "
-			+ "SET IS_VALID=:isValid, MODIFY_BY=:userId, MODIFY_DATE=:date "
+			+ "SET IS_VALID = :isValid, MODIFY_BY = :userId, MODIFY_DATE = :date "
 			+ "WHERE DICT_TYPE_ID IN (:idList)", nativeQuery = true)
 	public void delDictType(@Param("isValid")String isValid, @Param("userId")Long userId, @Param("date")Date date, @Param("idList")List<Long> idList);
 }

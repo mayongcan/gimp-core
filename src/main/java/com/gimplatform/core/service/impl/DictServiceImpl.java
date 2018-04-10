@@ -150,6 +150,8 @@ public class DictServiceImpl implements DictService {
     @Override
     public Page<DictType> getDictTypeList(Pageable page, DictType dictType) {
         Criteria<DictType> criteria = new Criteria<DictType>();
+        //过滤租户
+        if(dictType.getTenantsId() != null) criteria.add(CriteriaFactory.equal("tenantsId", dictType.getTenantsId()));
         criteria.add(CriteriaFactory.like("name", dictType.getName()));
         criteria.add(CriteriaFactory.like("value", dictType.getValue()));
         criteria.add(CriteriaFactory.equal("shareType", dictType.getShareType()));
@@ -290,5 +292,23 @@ public class DictServiceImpl implements DictService {
         if (idList.size() > 0)
             dictDataRepository.delDictData(Constants.IS_VALID_INVALID, userInfo.getUserId(), new Date(), idList);
         return RestfulRetUtils.getRetSuccess();
+    }
+
+    @Override
+    public JSONObject updateDictDataSort(String params) {
+        JSONArray jsonArray = JSONArray.parseArray(params);
+        if(jsonArray != null && jsonArray.size() > 0) {
+            Long dictDataId = null, dispOrder = null;;
+            for(int i = 0; i < jsonArray.size(); i++) {
+                JSONObject json = jsonArray.getJSONObject(i);
+                if(json != null) {
+                    dictDataId = json.getLong("id");
+                    dispOrder = json.getLong("disOrder");
+                    if(dictDataId != null && dispOrder != null)
+                        dictDataRepository.updateDispOrderById(dictDataId, dispOrder);
+                }
+            }
+            return RestfulRetUtils.getRetSuccess();
+        }else return RestfulRetUtils.getErrorParams();
     }
 }

@@ -45,7 +45,20 @@ public interface DictDataRepository extends JpaRepository<DictData, Long>, JpaSp
 	@Transactional
 	@Modifying(clearAutomatically = true)
 	@Query(value = "UPDATE sys_dict_data "
-			+ "SET IS_VALID=:isValid, MODIFY_BY=:userId, MODIFY_DATE=:date "
+			+ "SET IS_VALID = :isValid, MODIFY_BY = :userId, MODIFY_DATE = :date "
 			+ "WHERE DICT_DATA_ID IN (:idList)", nativeQuery = true)
 	public void delDictData(@Param("isValid")String isValid, @Param("userId")Long userId, @Param("date")Date date, @Param("idList")List<Long> idList);
+	
+
+    /**
+     * 更新排序ID
+     * @param dictDataId
+     * @param dispOrder
+     */
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE sys_dict_data "
+            + "SET DISP_ORDER = :dispOrder "
+            + "WHERE DICT_DATA_ID = :dictDataId ", nativeQuery = true)
+    public void updateDispOrderById(@Param("dictDataId")Long dictDataId, @Param("dispOrder")Long dispOrder);
 }

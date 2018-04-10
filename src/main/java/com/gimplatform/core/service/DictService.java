@@ -110,4 +110,11 @@ public interface DictService {
      * @return
      */
     public JSONObject delDictDataType(String idsList, UserInfo userInfo);
+    
+    /**
+     * 更新字典数据排序
+     * @param params
+     * @return
+     */
+    public JSONObject updateDictDataSort(String params);
 }
