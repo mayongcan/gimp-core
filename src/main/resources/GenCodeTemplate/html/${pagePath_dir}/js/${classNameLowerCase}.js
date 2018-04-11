@@ -44,8 +44,6 @@ function initDict(){
  * @returns
  */
 function initSearchPanel(){
-	//搜索面板高度
-	appTable.searchPannelHeight = $('#searchPannel').outerHeight(true);
 	<#list table.columns as column>
 	<#if column.search>
 	<#if column.searchType = "3">

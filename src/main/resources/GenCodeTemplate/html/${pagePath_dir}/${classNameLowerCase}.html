@@ -29,9 +29,9 @@
 	<#-- ******************************** 输出列表 ************************************* -->
 	<#-- *************************************************************************** -->
     <#if pageType = "1">
-		<div class="ibox-content" style="border-width: 5px 0px;">
+		<div class="ibox-content">
        		<#if table.hasSearch>
-			<div class="panel panel-default" id="searchPannel" style="margin-bottom:5px">
+			<div class="panel panel-default search-panel" id="searchPannel">
        			<div class="panel-body form-horizontal">
        				<#list table.columns as column>
 					<#-- 判断是否显示搜索内容 -->
