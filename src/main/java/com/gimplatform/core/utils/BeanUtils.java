@@ -31,6 +31,11 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
 
     private static final Logger logger = LogManager.getLogger(BeanUtils.class);
 
+    /**
+     * 合并bean
+     * @param origin
+     * @param destination
+     */
     public static <T> void mergeBean(T origin, T destination) {
         if (origin == null || destination == null)
             return;
@@ -135,6 +140,48 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
                 }
             }
         }
+    }
+    
+    /**
+     * HashMap转换成JavaBean
+     * @param map
+     * @param cls
+     * @return
+     */
+    public static Object mapToBean(Map<?, ?> map, Class<?> cls) {
+        Object obj = null;
+        try {
+            obj = cls.newInstance();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        // 取出bean里的所有方法
+        Method[] methods = cls.getMethods();
+        for (int i = 0; i < methods.length; i++) {
+            // 取方法名
+            String method = methods[i].getName();
+            // 取出方法的类型
+            Class<?>[] cc = methods[i].getParameterTypes();
+            if (cc.length != 1)
+                continue;
+            // 如果方法名没有以set开头的则退出本次for
+            if (!method.startsWith("set"))
+                continue;
+            // 类型
+            String type = cc[0].getSimpleName();
+            try {
+                //
+                Object value = method.substring(3, 4).toLowerCase().concat(method.substring(4));
+                // 如果map里有该key
+                if (map.containsKey(value)) {
+                    // 调用其底层方法
+                    setValue(type, map.get(value), i, methods, obj);
+                }
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
+        return obj;
     }
 
     /**
@@ -292,72 +339,6 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
         }
 
         throw new IllegalArgumentException("cannot convert value:" + value + " to targetType:" + targetType);
-    }
-
-    // /**
-    // * bean to map
-    // * @param ojt
-    // * @return
-    // */
-    // public static Map<String, Object> beanToMap(Object ojt) {
-    // Class<?> cls = ojt.getClass();
-    // Field[] field = cls.getDeclaredFields();
-    //
-    // HashMap<String, Object> mapbean = new HashMap<String, Object>();
-    // for(int i=0;i<field.length;i++){
-    // Field f = field[i];
-    // f.setAccessible(true);
-    // try {
-    // mapbean.put(f.getName(), f.get(cls));
-    // } catch (IllegalArgumentException e) {
-    // e.printStackTrace();
-    // } catch (IllegalAccessException e) {
-    // e.printStackTrace();
-    // }
-    // }
-    // return mapbean;
-    // }
-
-    /**
-     * HashMap转换成JavaBean
-     * @param map
-     * @param cls
-     * @return
-     */
-    public static Object mapToBean(Map<?, ?> map, Class<?> cls) {
-        Object obj = null;
-        try {
-            obj = cls.newInstance();
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-        // 取出bean里的所有方法
-        Method[] methods = cls.getMethods();
-        for (int i = 0; i < methods.length; i++) {
-            // 取方法名
-            String method = methods[i].getName();
-            // 取出方法的类型
-            Class<?>[] cc = methods[i].getParameterTypes();
-            if (cc.length != 1)
-                continue;
-            // 如果方法名没有以set开头的则退出本次for
-            if (!method.startsWith("set"))
-                continue;
-            // 类型
-            String type = cc[0].getSimpleName();
-            try {
-                //
-                Object value = method.substring(3, 4).toLowerCase().concat(method.substring(4));
-                // 如果map里有该key
-                if (map.containsKey(value)) {
-                    // 调用其底层方法
-                    setValue(type, map.get(value), i, methods, obj);
-                }
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }
-        }
-        return obj;
     }
 
     /**

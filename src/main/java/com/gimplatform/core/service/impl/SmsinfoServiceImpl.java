@@ -47,7 +47,7 @@ public class SmsinfoServiceImpl implements SmsinfoService {
      * 使用百度服务发送短信
      * @param phone
      */
-    private void sendByBaiduSms(String phone) {
+    public void sendByBaiduSms(String phone) {
         // 生成6位随机码
         int radomInt = new Random().nextInt(999999);
         String code = String.valueOf(radomInt);
@@ -73,7 +73,7 @@ public class SmsinfoServiceImpl implements SmsinfoService {
      * @param phone
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private void sendByHssmSms(String phone) {
+    public void sendByHssmSms(String phone) {
         // 生成6位随机码
         int radomInt = new Random().nextInt(999999);
         String code = String.valueOf(radomInt);

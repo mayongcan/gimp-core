@@ -2,8 +2,7 @@ package com.gimplatform.core.generator.utils.type;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import com.gimplatform.core.utils.StringUtils;
+import com.gimplatform.core.utils.FileUtils;
 
 public class JavaPrimitiveTypeMapping {
 
@@ -28,7 +27,7 @@ public class JavaPrimitiveTypeMapping {
     }
 
     public static String getPrimitiveType(String clazz) {
-        String className = StringUtils.getExtension(clazz);
+        String className = FileUtils.getFileExtension(clazz, false);
         String result = wraper2primitive.get(className);
         return result == null ? clazz : result;
     }

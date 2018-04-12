@@ -31,10 +31,10 @@ public class SystemPath {
         return System.getProperty("file.separator");
     }
 
-    // public static void main(String[] args) {
-    // System.out.println(getSysPath());
-    // System.out.println(System.getProperty("java.io.tmpdir"));
-    // System.out.println(getSeparator());
-    // System.out.println(getClassPath());
-    // }
+     public static void main(String[] args) {
+         System.out.println(getSysPath());
+         System.out.println(System.getProperty("java.io.tmpdir"));
+         System.out.println(getSeparator());
+         System.out.println(getClassPath());
+     }
 }

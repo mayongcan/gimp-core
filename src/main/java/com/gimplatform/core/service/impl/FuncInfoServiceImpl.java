@@ -9,6 +9,10 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -16,6 +20,8 @@ import com.gimplatform.core.common.Constants;
 import com.gimplatform.core.common.GlobalVal;
 import com.gimplatform.core.entity.FuncInfo;
 import com.gimplatform.core.entity.UserInfo;
+import com.gimplatform.core.query.Criteria;
+import com.gimplatform.core.query.CriteriaFactory;
 import com.gimplatform.core.repository.FuncInfoRepository;
 import com.gimplatform.core.repository.RoleInfoRepository;
 import com.gimplatform.core.repository.TenantsInfoRepository;
@@ -45,6 +51,17 @@ public class FuncInfoServiceImpl implements FuncInfoService {
 
     @Autowired
     private TenantsInfoRepository tenantsInfoRepository;
+
+    @Override
+    public Page<FuncInfo> getFuncList(Map<String, Object> params) {
+        String groupName = MapUtils.getString(params, "groupName");
+        int page = MapUtils.getIntValue(params, "page");
+        int size = MapUtils.getIntValue(params, "size");
+        Criteria<FuncInfo> criteria = new Criteria<FuncInfo>();
+        criteria.add(CriteriaFactory.like("groupName", groupName));
+        criteria.add(CriteriaFactory.equal("isValid", Constants.IS_VALID_VALID));
+        return funcInfoRepository.findAll(criteria, new PageRequest(page, size, new Sort(Direction.ASC, "funcId")));
+    }
 
     @Override
     public boolean loadFuncDataToCache() {

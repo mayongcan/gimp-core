@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import com.google.common.collect.Lists;
 
 /**
@@ -19,6 +19,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     public static boolean isWindowsOS = System.getProperty("os.name").toLowerCase().indexOf("windows") >= 0;
 
     private static final char SEPARATOR = '_';
+    
     private static final String CHARSET_NAME = "UTF-8";
 
     /**
@@ -98,95 +99,6 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
             }
         }
         return false;
-    }
-
-    /**
-     * 缩略字符串（不区分中英文字符）
-     * @param str 目标字符串
-     * @param length 截取长度
-     * @return
-     */
-    public static String abbr(String str, int length) {
-        if (str == null) {
-            return "";
-        }
-        try {
-            StringBuilder sb = new StringBuilder();
-            int currentLength = 0;
-            for (char c : HtmlUtils.replaceHtml(StringEscapeUtils.unescapeHtml4(str)).toCharArray()) {
-                currentLength += String.valueOf(c).getBytes("GBK").length;
-                if (currentLength <= length - 3) {
-                    sb.append(c);
-                } else {
-                    sb.append("...");
-                    break;
-                }
-            }
-            return sb.toString();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    public static String abbr2(String param, int length) {
-        if (param == null) {
-            return "";
-        }
-        StringBuffer result = new StringBuffer();
-        int n = 0;
-        char temp;
-        boolean isCode = false; // 是不是HTML代码
-        boolean isHTML = false; // 是不是HTML特殊字符,如&nbsp;
-        for (int i = 0; i < param.length(); i++) {
-            temp = param.charAt(i);
-            if (temp == '<') {
-                isCode = true;
-            } else if (temp == '&') {
-                isHTML = true;
-            } else if (temp == '>' && isCode) {
-                n = n - 1;
-                isCode = false;
-            } else if (temp == ';' && isHTML) {
-                isHTML = false;
-            }
-            try {
-                if (!isCode && !isHTML) {
-                    n += String.valueOf(temp).getBytes("GBK").length;
-                }
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-
-            if (n <= length - 3) {
-                result.append(temp);
-            } else {
-                result.append("...");
-                break;
-            }
-        }
-        // 取出截取字符串中的HTML标记
-        String temp_result = result.toString().replaceAll("(>)[^<>]*(<?)", "$1$2");
-        // 去掉不需要结素标记的HTML标记
-        temp_result = temp_result.replaceAll(
-                "</?(AREA|BASE|BASEFONT|BODY|BR|COL|COLGROUP|DD|DT|FRAME|HEAD|HR|HTML|IMG|INPUT|ISINDEX|LI|LINK|META|OPTION|P|PARAM|TBODY|TD|TFOOT|TH|THEAD|TR|area|base|basefont|body|br|col|colgroup|dd|dt|frame|head|hr|html|img|input|isindex|li|link|meta|option|p|param|tbody|td|tfoot|th|thead|tr)[^<>]*/?>",
-                "");
-        // 去掉成对的HTML标记
-        temp_result = temp_result.replaceAll("<([a-zA-Z]+)[^<>]*>(.*?)</\\1>", "$2");
-        // 用正则表达式取出标记
-        Pattern p = Pattern.compile("<([a-zA-Z]+)[^<>]*>");
-        Matcher m = p.matcher(temp_result);
-        List<String> endHTML = Lists.newArrayList();
-        while (m.find()) {
-            endHTML.add(m.group(1));
-        }
-        // 补全不成对的HTML标记
-        for (int i = endHTML.size() - 1; i >= 0; i--) {
-            result.append("</");
-            result.append(endHTML.get(i));
-            result.append(">");
-        }
-        return result.toString();
     }
 
     /**
@@ -283,32 +195,17 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
             return toDouble(val).intValue();
     }
 
-    // /**
-    // * 获得用户远程地址
-    // */
-    // public static String getRemoteAddr(HttpServletRequest request){
-    // String remoteAddr = request.getHeader("X-Real-IP");
-    // if (isNotBlank(remoteAddr)) {
-    // remoteAddr = request.getHeader("X-Forwarded-For");
-    // }else if (isNotBlank(remoteAddr)) {
-    // remoteAddr = request.getHeader("Proxy-Client-IP");
-    // }else if (isNotBlank(remoteAddr)) {
-    // remoteAddr = request.getHeader("WL-Proxy-Client-IP");
-    // }
-    // return remoteAddr != null ? remoteAddr : request.getRemoteAddr();
-    // }
-
     /**
      * 驼峰命名法工具
-     * @return toCamelCase("hello_world") == "helloWorld" toCapitalizeCamelCase("hello_world") == "HelloWorld" toUnderScoreCase("helloWorld") = "hello_world"
+     * @return toCamelCase("hello_world") == "helloWorld" 
+     * toCapitalizeCamelCase("hello_world") == "HelloWorld" 
+     * toUnderScoreCase("helloWorld") = "hello_world"
      */
     public static String toCamelCase(String s) {
         if (s == null) {
             return null;
         }
-
         s = s.toLowerCase();
-
         StringBuilder sb = new StringBuilder(s.length());
         boolean upperCase = false;
         for (int i = 0; i < s.length(); i++) {
@@ -323,13 +220,14 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
                 sb.append(c);
             }
         }
-
         return sb.toString();
     }
 
     /**
      * 驼峰命名法工具
-     * @return toCamelCase("hello_world") == "helloWorld" toCapitalizeCamelCase("hello_world") == "HelloWorld" toUnderScoreCase("helloWorld") = "hello_world"
+     * @return toCamelCase("hello_world") == "helloWorld" 
+     * toCapitalizeCamelCase("hello_world") == "HelloWorld" 
+     * toUnderScoreCase("helloWorld") = "hello_world"
      */
     public static String toCapitalizeCamelCase(String s) {
         if (s == null) {
@@ -341,24 +239,22 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
     /**
      * 驼峰命名法工具
-     * @return toCamelCase("hello_world") == "helloWorld" toCapitalizeCamelCase("hello_world") == "HelloWorld" toUnderScoreCase("helloWorld") = "hello_world"
+     * @return toCamelCase("hello_world") == "helloWorld" 
+     * toCapitalizeCamelCase("hello_world") == "HelloWorld" 
+     * toUnderScoreCase("helloWorld") = "hello_world"
      */
     public static String toUnderScoreCase(String s) {
         if (s == null) {
             return null;
         }
-
         StringBuilder sb = new StringBuilder();
         boolean upperCase = false;
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-
             boolean nextUpperCase = true;
-
             if (i < (s.length() - 1)) {
                 nextUpperCase = Character.isUpperCase(s.charAt(i + 1));
             }
-
             if ((i > 0) && Character.isUpperCase(c)) {
                 if (!upperCase || !nextUpperCase) {
                     sb.append(SEPARATOR);
@@ -367,10 +263,8 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
             } else {
                 upperCase = false;
             }
-
             sb.append(Character.toLowerCase(c));
         }
-
         return sb.toString();
     }
 
@@ -388,21 +282,6 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
         result.append(val.substring(1));
         return result.toString();
-    }
-
-    /**
-     * 获取扩展名
-     * @param str
-     * @return
-     */
-    public static String getExtension(String str) {
-        if (str == null)
-            return null;
-        int i = str.lastIndexOf('.');
-        if (i >= 0) {
-            return str.substring(i + 1);
-        }
-        return null;
     }
 
     /**
@@ -433,7 +312,6 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     public static String toUnderscoreName(String name) {
         if (name == null)
             return null;
-
         String filteredName = name;
         if (filteredName.indexOf("_") >= 0 && filteredName.equals(filteredName.toUpperCase())) {
             filteredName = filteredName.toLowerCase();
@@ -441,7 +319,6 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         if (filteredName.indexOf("_") == -1 && filteredName.equals(filteredName.toUpperCase())) {
             filteredName = filteredName.toLowerCase();
         }
-
         StringBuffer result = new StringBuffer();
         if (filteredName != null && filteredName.length() > 0) {
             result.append(filteredName.substring(0, 1).toLowerCase());
@@ -502,7 +379,6 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
             return false;
         if (keywords == null)
             throw new IllegalArgumentException("'keywords' must be not null");
-
         for (String keyword : keywords) {
             if (str.contains(keyword.toLowerCase())) {
                 return true;
@@ -536,7 +412,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     }
 
     /**
-     * 结合字符串
+     * 连接字符串
      * @param array
      * @param seperator
      * @return
@@ -703,6 +579,95 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * 缩略字符串（不区分中英文字符）
+     * @param str 目标字符串
+     * @param length 截取长度
+     * @return
+     */
+    public static String abbr(String str, int length) {
+        if (str == null) {
+            return "";
+        }
+        try {
+            StringBuilder sb = new StringBuilder();
+            int currentLength = 0;
+            for (char c : HtmlUtils.replaceHtml(StringEscapeUtils.unescapeHtml4(str)).toCharArray()) {
+                currentLength += String.valueOf(c).getBytes("GBK").length;
+                if (currentLength <= length - 3) {
+                    sb.append(c);
+                } else {
+                    sb.append("...");
+                    break;
+                }
+            }
+            return sb.toString();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public static String abbr2(String param, int length) {
+        if (param == null) {
+            return "";
+        }
+        StringBuffer result = new StringBuffer();
+        int n = 0;
+        char temp;
+        boolean isCode = false; // 是不是HTML代码
+        boolean isHTML = false; // 是不是HTML特殊字符,如&nbsp;
+        for (int i = 0; i < param.length(); i++) {
+            temp = param.charAt(i);
+            if (temp == '<') {
+                isCode = true;
+            } else if (temp == '&') {
+                isHTML = true;
+            } else if (temp == '>' && isCode) {
+                n = n - 1;
+                isCode = false;
+            } else if (temp == ';' && isHTML) {
+                isHTML = false;
+            }
+            try {
+                if (!isCode && !isHTML) {
+                    n += String.valueOf(temp).getBytes("GBK").length;
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            if (n <= length - 3) {
+                result.append(temp);
+            } else {
+                result.append("...");
+                break;
+            }
+        }
+        // 取出截取字符串中的HTML标记
+        String temp_result = result.toString().replaceAll("(>)[^<>]*(<?)", "$1$2");
+        // 去掉不需要结素标记的HTML标记
+        temp_result = temp_result.replaceAll(
+                "</?(AREA|BASE|BASEFONT|BODY|BR|COL|COLGROUP|DD|DT|FRAME|HEAD|HR|HTML|IMG|INPUT|ISINDEX|LI|LINK|META|OPTION|P|PARAM|TBODY|TD|TFOOT|TH|THEAD|TR|area|base|basefont|body|br|col|colgroup|dd|dt|frame|head|hr|html|img|input|isindex|li|link|meta|option|p|param|tbody|td|tfoot|th|thead|tr)[^<>]*/?>",
+                "");
+        // 去掉成对的HTML标记
+        temp_result = temp_result.replaceAll("<([a-zA-Z]+)[^<>]*>(.*?)</\\1>", "$2");
+        // 用正则表达式取出标记
+        Pattern p = Pattern.compile("<([a-zA-Z]+)[^<>]*>");
+        Matcher m = p.matcher(temp_result);
+        List<String> endHTML = Lists.newArrayList();
+        while (m.find()) {
+            endHTML.add(m.group(1));
+        }
+        // 补全不成对的HTML标记
+        for (int i = endHTML.size() - 1; i >= 0; i--) {
+            result.append("</");
+            result.append(endHTML.get(i));
+            result.append(">");
+        }
+        return result.toString();
     }
 
     public static void main(String[] args) {

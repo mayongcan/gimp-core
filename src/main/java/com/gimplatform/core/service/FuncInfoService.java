@@ -3,6 +3,8 @@ package com.gimplatform.core.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.gimplatform.core.entity.FuncInfo;
@@ -19,6 +21,13 @@ public interface FuncInfoService {
      * @return
      */
     public boolean loadFuncDataToCache();
+    
+    /**
+     * 获取权限列表
+     * @param params
+     * @return
+     */
+    public Page<FuncInfo> getFuncList(Map<String, Object> params);
 
     /**
      * 根据用户ID获取用户权限

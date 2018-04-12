@@ -14,6 +14,7 @@ import java.util.Set;
 
 import com.gimplatform.core.generator.utils.type.ActionScriptDataTypesUtils;
 import com.gimplatform.core.generator.utils.type.JavaPrimitiveTypeMapping;
+import com.gimplatform.core.utils.FileUtils;
 import com.gimplatform.core.utils.StringUtils;
 
 @SuppressWarnings("rawtypes")
@@ -34,7 +35,7 @@ public class JavaClass {
     }
 
     public String getLastPackageName() {
-        return StringUtils.getExtension(getPackageName());
+        return FileUtils.getFileExtension(getPackageName(), false);
     }
 
     public String getLastPackageNameFirstUpper() {
