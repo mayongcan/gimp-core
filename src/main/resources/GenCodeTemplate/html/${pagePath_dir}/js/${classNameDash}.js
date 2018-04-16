@@ -15,9 +15,7 @@ var g_${column.columnNameFirstLower}Dict = null;
 
 $(function () {
 	//初始化字典
-	initDict();
-	//初始化搜索面板
-	initSearchPanel();
+	initView();
 	//初始化权限
 	initFunc();
 	//初始化列表信息
@@ -27,28 +25,21 @@ $(function () {
 });
 
 /**
- * 初始化字典
+ * 初始基础视图
  * @returns
  */
-function initDict(){
+function initView(){
 	<#-- 定义全局字典变量 -->
 	<#list table.columns as column>
 	<#if column.valueType = "2">
 	g_${column.columnNameFirstLower}Dict = top.app.getDictDataByDictTypeValue('${column.valueTypeDict}');
 	</#if>
 	</#list>
-}
-
-/**
- * 初始化搜索面板
- * @returns
- */
-function initSearchPanel(){
+	<#-- 添加时间搜索 -->
 	<#list table.columns as column>
 	<#if column.search>
 	<#if column.searchType = "3">
-	$('#div${column.columnName}Begin').datetimepicker({locale: 'zh-CN',format: 'YYYY-MM-DD HH:mm:ss'});
-	$('#div${column.columnName}End').datetimepicker({locale: 'zh-CN',format: 'YYYY-MM-DD HH:mm:ss'});
+	$.date.initSearchDate('#div${column.columnName}Begin', '#div${column.columnName}End', 'YYYY-MM-DD HH:mm:ss');
 	</#if>
 	<#-- 添加搜索框字典，并初始化搜索框 -->
 	<#if column.searchType = "4">
