@@ -362,6 +362,8 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
                     method[i].invoke(bean, new Object[] { new BigDecimal((String) value) });
                 } else if (type.equals("long") || type.equals("Long")) {
                     method[i].invoke(bean, new Object[] { new Long("" + value) });
+                } else if (type.equals("double") || type.equals("Double")) {
+                    method[i].invoke(bean, new Object[] { new Double("" + value) });
                 } else if (type.equals("boolean") || type.equals("Boolean")) {
                     method[i].invoke(bean, new Object[] { Boolean.valueOf("" + value) });
                 } else if (type.equals("Date")) {
