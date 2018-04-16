@@ -297,7 +297,8 @@ public class FuncInfoServiceImpl implements FuncInfoService {
     private String checkCanSave(JSONObject json) {
         if (json == null)
             return null;
-        JSONObject attrJson = json.getJSONObject("attributes");
+        //JSONObject attrJson = json.getJSONObject("attributes");
+        JSONObject attrJson = json.getJSONObject("data");
         String funcFlag = attrJson.getString("funcFlag");
         if (funcInfoRepository.findByFuncFlagAndIsValid(funcFlag, Constants.IS_VALID_VALID).size() > 0) {
             return funcFlag;
@@ -307,7 +308,8 @@ public class FuncInfoServiceImpl implements FuncInfoService {
             if (obj instanceof Boolean) {
             } else if (obj instanceof JSONObject) {
                 JSONObject tmpJson = (JSONObject) obj;
-                attrJson = tmpJson.getJSONObject("attributes");
+                //attrJson = tmpJson.getJSONObject("attributes");
+                attrJson = tmpJson.getJSONObject("data");
                 funcFlag = attrJson.getString("funcFlag");
                 if (funcInfoRepository.findByFuncFlagAndIsValid(funcFlag, Constants.IS_VALID_VALID).size() > 0) {
                     return funcFlag;
@@ -355,7 +357,8 @@ public class FuncInfoServiceImpl implements FuncInfoService {
      */
     private Long saveFuncWithJson(JSONObject json, UserInfo userInfo, Long parentId) {
         FuncInfo funcInfo = new FuncInfo();
-        JSONObject attrJson = json.getJSONObject("attributes");
+        //JSONObject attrJson = json.getJSONObject("attributes");
+        JSONObject attrJson = json.getJSONObject("data");
         funcInfo.setIsValid(Constants.IS_VALID_VALID);
         funcInfo.setParentFuncId(parentId);
         funcInfo.setFuncName(json.getString("text"));

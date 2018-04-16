@@ -30,6 +30,7 @@ public class Table {
     String remarks;
     String className;
     String classNameLower;
+    String classNameDash;
     private String ownerSynonymName = null;
     LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
 
@@ -45,6 +46,7 @@ public class Table {
         this.remarks = t.getRemarks();
         this.className = t.getSqlName();
         this.classNameLower = TableUtils.firstLower(className);
+        this.classNameDash = sqlName.toLowerCase().replace("_", "-");
         this.ownerSynonymName = t.getOwnerSynonymName();
         this.columns = t.getColumns();
         this.tableAlias = t.getTableAlias();
@@ -127,6 +129,14 @@ public class Table {
 
     public void setClassNameLower(String classNameLower) {
         this.classNameLower = classNameLower;
+    }
+
+    public String getClassNameDash() {
+        return sqlName.toLowerCase().replace("_", "-");
+    }
+
+    public void setClassNameDash(String classNameDash) {
+        this.classNameDash = classNameDash;
     }
 
     public String getOwnerSynonymName() {

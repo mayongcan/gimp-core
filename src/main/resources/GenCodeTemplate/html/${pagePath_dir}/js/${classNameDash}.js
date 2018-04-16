@@ -150,7 +150,7 @@ function initFuncBtnEvent(){
 		</#if>
 		</#list>
 		params.operUrl = top.app.conf.url.apigateway + $("#${table.classNameLower}Add").data('action-url');
-		top.app.layer.editLayer('新增${moduleName}', ['710px', '${table.editBoxHeight}'], '${pagePath}/${table.classNameLowerCase}-edit.html', params, function(){
+		top.app.layer.editLayer('新增${moduleName}', ['710px', '${table.editBoxHeight}'], '${pagePath}/${table.classNameDash}-edit.html', params, function(){
    			//重新加载列表
 			$table.bootstrapTable('refresh');
 		});
@@ -171,7 +171,7 @@ function initFuncBtnEvent(){
 		</#if>
 		</#list>
 		params.operUrl = top.app.conf.url.apigateway + $("#${table.classNameLower}Edit").data('action-url');
-		top.app.layer.editLayer('编辑${moduleName}', ['710px', '${table.editBoxHeight}'], '${pagePath}/${table.classNameLowerCase}-edit.html', params, function(){
+		top.app.layer.editLayer('编辑${moduleName}', ['710px', '${table.editBoxHeight}'], '${pagePath}/${table.classNameDash}-edit.html', params, function(){
    			//重新加载列表
 			$table.bootstrapTable('refresh');
 		});
@@ -218,7 +218,7 @@ function ${table.classNameLower}Edit(id, url){
 	</#if>
 	</#list>
 	params.operUrl = top.app.conf.url.apigateway + url;
-	top.app.layer.editLayer('编辑${moduleName}', ['710px', '${table.editBoxHeight}'], '${pagePath}/${table.classNameLowerCase}-edit.html', params, function(){
+	top.app.layer.editLayer('编辑${moduleName}', ['710px', '${table.editBoxHeight}'], '${pagePath}/${table.classNameDash}-edit.html', params, function(){
 			//重新加载列表
 		$table.bootstrapTable('refresh');
 	});
@@ -352,7 +352,7 @@ function initFuncBtnEvent(){
 		params.parentNode = getSelNodeParent();
 		params.allTreeData = g_allTreeData;
 		params.operUrl = top.app.conf.url.apigateway + $("#${table.classNameLower}Add").data('action-url');
-		top.app.layer.editLayer('新增${moduleName}', ['710px', '${table.editBoxHeight}'], '${pagePath}/${table.classNameLowerCase}-edit.html', params, function(){
+		top.app.layer.editLayer('新增${moduleName}', ['710px', '${table.editBoxHeight}'], '${pagePath}/${table.classNameDash}-edit.html', params, function(){
    			//重新加载
 			$treeView.jstree(true).refresh();
 		});
@@ -369,7 +369,7 @@ function initFuncBtnEvent(){
 		params.parentNode = getSelNodeParent();
 		params.allTreeData = g_allTreeData;
 		params.operUrl = top.app.conf.url.apigateway + $("#${table.classNameLower}Edit").data('action-url');
-		top.app.layer.editLayer('编辑${moduleName}', ['710px', '${table.editBoxHeight}'], '${pagePath}/${table.classNameLowerCase}-edit.html', params, function(){
+		top.app.layer.editLayer('编辑${moduleName}', ['710px', '${table.editBoxHeight}'], '${pagePath}/${table.classNameDash}-edit.html', params, function(){
    			//重新加载列表
 			$treeView.jstree(true).refresh();
 		});

@@ -63,7 +63,6 @@ function initView(){
 	</#if>
 	</#if>
 	</#list>
-	
 	//判断是新增还是修改
 	if(g_params.type == "edit"){
 		<#list table.columns as column>
@@ -75,6 +74,17 @@ function initView(){
 	    CKEDITOR.instances.${column.columnNameFirstLower}EditorContent.setData(g_params.rows.${column.columnNameFirstLower});
 	    <#else>
 		$('#${column.columnNameFirstLower}').val(g_params.rows.${column.columnNameFirstLower});
+		</#if>
+		</#if>
+		</#list>
+		
+		<#-- 初始化编辑框 -->
+		<#list table.columns as column>
+		<#if column.edit>
+	    <#if column.editType = "5">
+		$('#${column.columnNameFirstLower}').prettyFile({text:"请选择文件", placeholder:"若不需要修改，请留空"});
+	    <#elseif column.editType = "6">
+		$('#${column.columnNameFirstLower}').prettyFile({text:"请选择图片", placeholder:"若不需要修改，请留空"});
 		</#if>
 		</#if>
 		</#list>
@@ -102,7 +112,7 @@ function formValidate(){
     			<#elseif column.vaildataRule = "5">
         	${column.columnNameFirstLower}: {isMobile: true},
     			<#elseif column.vaildataRule = "6">
-        	${column.columnNameFirstLower}: {isTel: true},
+        	${column.columnNameFirstLower}: {isPhone: true},
 				<#elseif column.vaildataRule = "7">
         	${column.columnNameFirstLower}: {email: true },
 				<#elseif column.vaildataRule = "8">
@@ -122,7 +132,7 @@ function formValidate(){
         showErrors: function (errorMap, errorList) {
             $.each(errorList, function (i, v) {
                 //在此处用了layer的方法
-                layer.tips(v.message, v.element, { time: 2000 });
+                layer.tips(v.message, v.element, { tips: [1, '#3595CC'], time: 2000 });
                 return false;
             });  
         },
@@ -147,7 +157,6 @@ function formValidate(){
 function submitAction(){
 	//定义提交数据
 	var submitData = {};
-	//如果变更了clientId，则需要传送到后端
 	if(g_params.type == "edit")
 		submitData["${table.pkColumn.columnNameFirstLower}"] = g_params.rows.${table.pkColumn.columnNameFirstLower};
 		
@@ -264,6 +273,17 @@ function initView(){//判断是新增还是修改
 		</#if>
 		</#if>
 		</#list>
+
+		<#-- 初始化编辑框 -->
+		<#list table.columns as column>
+		<#if column.edit>
+	    <#if column.editType = "5">
+		$('#${column.columnNameFirstLower}').prettyFile({text:"请选择文件", placeholder:"若不需要修改，请留空"});
+	    <#elseif column.editType = "6">
+		$('#${column.columnNameFirstLower}').prettyFile({text:"请选择图片", placeholder:"若不需要修改，请留空"});
+		</#if>
+		</#if>
+		</#list>
 	}else{
 		g_comboBoxTree.setValue(g_params.node);
 	}
@@ -309,7 +329,7 @@ function formValidate(){
         showErrors: function (errorMap, errorList) {
             $.each(errorList, function (i, v) {
                 //在此处用了layer的方法
-                layer.tips(v.message, v.element, { time: 2000 });
+                layer.tips(v.message, v.element, { tips: [1, '#3595CC'], time: 2000 });
                 return false;
             });  
         },
