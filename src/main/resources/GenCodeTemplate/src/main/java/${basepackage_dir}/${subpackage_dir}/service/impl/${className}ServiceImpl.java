@@ -186,14 +186,15 @@ public class ${className}ServiceImpl implements ${className}Service {
 				text = obj.get${table.treeNodeName}();
 				parent = obj.getParentId() == null ? "" : obj.getParentId().toString();
 
-				mapAttr = new HashMap<String, String>();
-				<#list table.columns as column>
-				<#if column.simpleJavaType = "String">
-				mapAttr.put("${column.columnNameFirstLower}", obj.get${column.columnName}());
-				<#else>
-				mapAttr.put("${column.columnNameFirstLower}", obj.get${column.columnName}() == null ? "" : obj.get${column.columnName}().toString());
-				</#if>
-				</#list>
+                mapAttr = BeanUtils.beanToMapStr(obj);
+//				mapAttr = new HashMap<String, String>();
+//				<#list table.columns as column>
+//				<#if column.simpleJavaType = "String">
+//				mapAttr.put("${column.columnNameFirstLower}", obj.get${column.columnName}());
+//				<#else>
+//				mapAttr.put("${column.columnNameFirstLower}", obj.get${column.columnName}() == null ? "" : obj.get${column.columnName}().toString());
+//				</#if>
+//				</#list>
 
 				treeNode = new TreeNodeExtend(id, text, parent, false, mapAttr);
 				tree.addNode(treeNode);

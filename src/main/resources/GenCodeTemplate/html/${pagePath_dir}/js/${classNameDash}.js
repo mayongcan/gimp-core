@@ -291,11 +291,27 @@ function initTree(){
 				});
 			}
 		},
-		"plugins": ["types"],
+		"plugins": ["types", "grid"],
 		"types": {
 			"default": {
 				"icon": "fa fa-folder"
 			}
+		},
+		grid: {
+			columns: [
+				<#list table.columns as column>
+				<#-- 输出页面显示 -->
+				<#if column.display>
+					<#if table.treeNodeNameFirstLower = column.columnNameFirstLower>
+					{header: "${column.displayName}",title:"_DATA_", minWidth: 300,},
+					<#else>
+					{header: "${column.displayName}", value: "${column.columnNameFirstLower}", title:"${column.columnNameFirstLower}", headerClass: 'jstree-grid-header-middle'},
+					</#if>
+				</#if>
+				</#list>
+			],
+			resizable:true,
+			height: getHeight(g_toolBarPanelHeight),
 		}
     });
 	
@@ -310,25 +326,17 @@ function initTree(){
 	$treeView.bind("activate_node.jstree", function (obj, e) {
 	    // 获取当前节点
 		g_selectNode = e.node;
-		showInfo();
 	});
 	$treeView.bind("refresh.jstree", function (e, data) {
 		// 更新选中节点
 		if(g_selectNode != null){
 			g_selectNode = $treeView.jstree('get_node', g_selectNode);
-			showInfo();
 		}
 	    //隐藏虚拟节点
 		var inst = data.instance;  
 	    var rootNode = inst.get_node(e.target.firstChild.firstChild.lastChild); 
 	    if(rootNode.id == '-1') $treeView.jstree('hide_node', rootNode);
 	});
-	$treeView.css("height", getHeight(g_toolBarPanelHeight));
-	$('#divInfo').css("height", getHeight(g_toolBarPanelHeight - 39));
-    $(window).resize(function () {
-    	$treeView.css("height", getHeight(g_toolBarPanelHeight));
-    	$('#divInfo').css("height", getHeight(g_toolBarPanelHeight - 39));
-    });
 }
 
 /**
@@ -418,21 +426,5 @@ function getHeight(pannelHeight, paginationHeight) {
 	if(paginationHeight == null || paginationHeight == undefined || !$.isNumeric (paginationHeight)) 
 		paginationHeight = 0;
     return $(window).height() - pannelHeight - paginationHeight - 26;
-}
-
-/**
- * 显示详细内容
- */
-function showInfo(){
-	if(g_selectNode != null){
-		if(g_selectNode.original != null && g_selectNode.original != undefined && g_selectNode.original.attributes != null && g_selectNode.original.attributes != undefined){
-		<#list table.columns as column>
-		<#-- 输出页面显示 -->
-		<#if column.display>
-			$('#${column.columnNameFirstLower}').text(g_selectNode.original.attributes.${column.columnNameFirstLower} == undefined ? "" : g_selectNode.original.attributes.${column.columnNameFirstLower});
-		</#if>
-		</#list>
-		}
-	}
 }
 </#if>

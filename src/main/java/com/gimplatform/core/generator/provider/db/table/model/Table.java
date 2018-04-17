@@ -472,6 +472,11 @@ public class Table {
         }
         return "";
     }
+    
+
+    public String getTreeNodeNameFirstLower() {
+        return TableUtils.firstLower(getTreeNodeName());
+    }
 
     public String getTreeNodeOrder() {
         JSONObject jsonTmp = JSONObject.parseObject(GeneratorProperties.getProperty("treeInfo", ""));

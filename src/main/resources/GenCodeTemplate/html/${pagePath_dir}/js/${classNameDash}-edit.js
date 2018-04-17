@@ -47,10 +47,6 @@ function initView(){
 	$('#div${column.columnName}').datetimepicker({locale: 'zh-CN',format: 'YYYY-MM-DD'});
     <#elseif column.editType = "4">
 	$('#div${column.columnName}').datetimepicker({locale: 'zh-CN',format: 'YYYY-MM-DD HH:mm:ss'});
-    <#elseif column.editType = "5">
-	$('#${column.columnNameFirstLower}').prettyFile({text:"请选择文件"});
-    <#elseif column.editType = "6">
-	$('#${column.columnNameFirstLower}').prettyFile({text:"请选择图片"});
     <#elseif column.editType = "7">
     //var ${column.columnNameFirstLower}Dict = top.app.getDictDataByDictTypeValue('${column.editDict}');
 	top.app.addComboBoxOption($("#${column.columnNameFirstLower}"), g_params.${column.columnNameFirstLower}Dict);
@@ -85,6 +81,17 @@ function initView(){
 		$('#${column.columnNameFirstLower}').prettyFile({text:"请选择文件", placeholder:"若不需要修改，请留空"});
 	    <#elseif column.editType = "6">
 		$('#${column.columnNameFirstLower}').prettyFile({text:"请选择图片", placeholder:"若不需要修改，请留空"});
+		</#if>
+		</#if>
+		</#list>
+	}else{
+		<#-- 初始化编辑框 -->
+		<#list table.columns as column>
+		<#if column.edit>
+	    <#if column.editType = "5">
+		$('#${column.columnNameFirstLower}').prettyFile({text:"请选择文件"});
+	    <#elseif column.editType = "6">
+		$('#${column.columnNameFirstLower}').prettyFile({text:"请选择图片"});
 		</#if>
 		</#if>
 		</#list>
@@ -242,10 +249,6 @@ function initView(){//判断是新增还是修改
 	$('#div${column.columnName}').datetimepicker({locale: 'zh-CN',format: 'YYYY-MM-DD'});
     <#elseif column.editType = "4">
 	$('#div${column.columnName}').datetimepicker({locale: 'zh-CN',format: 'YYYY-MM-DD HH:mm:ss'});
-    <#elseif column.editType = "5">
-	$('#${column.columnNameFirstLower}').prettyFile({text:"请选择文件"});
-    <#elseif column.editType = "6">
-	$('#${column.columnNameFirstLower}').prettyFile({text:"请选择图片"});
     <#elseif column.editType = "7">
     var ${column.columnNameFirstLower}Dict = top.app.getDictDataByDictTypeValue('${column.editDict}');
 	top.app.addComboBoxOption($("#${column.columnNameFirstLower}"), ${column.columnNameFirstLower}Dict);
@@ -267,9 +270,9 @@ function initView(){//判断是新增还是修改
 		<#if column.editType = "5">
 	    <#elseif column.editType = "6">
 	    <#elseif column.editType = "8">
-	    CKEDITOR.instances.${column.columnNameFirstLower}EditorContent.setData(g_params.node.original.attributes.${column.columnNameFirstLower} == undefined ? "" : g_params.node.original.attributes.${column.columnNameFirstLower});
+	    CKEDITOR.instances.${column.columnNameFirstLower}EditorContent.setData(g_params.node.data.${column.columnNameFirstLower} == undefined ? "" : g_params.node.data.${column.columnNameFirstLower});
 	    <#else>
-		$('#${column.columnNameFirstLower}').val(g_params.node.original.attributes.${column.columnNameFirstLower} == undefined ? "" : g_params.node.original.attributes.${column.columnNameFirstLower});
+		$('#${column.columnNameFirstLower}').val(g_params.node.data.${column.columnNameFirstLower} == undefined ? "" : g_params.node.data.${column.columnNameFirstLower});
 		</#if>
 		</#if>
 		</#list>
@@ -286,6 +289,17 @@ function initView(){//判断是新增还是修改
 		</#list>
 	}else{
 		g_comboBoxTree.setValue(g_params.node);
+
+		<#-- 初始化编辑框 -->
+		<#list table.columns as column>
+		<#if column.edit>
+	    <#if column.editType = "5">
+		$('#${column.columnNameFirstLower}').prettyFile({text:"请选择文件"});
+	    <#elseif column.editType = "6">
+		$('#${column.columnNameFirstLower}').prettyFile({text:"请选择图片"});
+		</#if>
+		</#if>
+		</#list>
 	}
 	//刷新数据，否则下拉框显示不出内容
 	$('.selectpicker').selectpicker('refresh');
@@ -352,20 +366,13 @@ function formValidate(){
  * 提交数据
  */
 function submitAction(){
-	if(g_params.node != null && g_params.node != undefined && g_params.type == "edit"){
-		//判断当前编辑的父ID和ID是否一致
-		if(g_params.node.id == g_comboBoxTree.getNodeId()){
-			top.app.message.notice("父节点不能与当前节点一致！");
-			return;
-		}
-	}
 	//定义提交数据
 	var submitData = {};
 	if(g_params.node != null && g_params.node != undefined && g_params.type == "edit"){
 		submitData['${table.pkColumn.columnNameFirstLower}'] = g_params.node.id;
 		//判断当前编辑的父ID和ID是否一致
 		if(g_params.node.id == g_comboBoxTree.getNodeId()){
-			top.app.message.notice("权限父节点不能与当前权限节点一致！");
+			top.app.message.notice("父节点不能与当前节点一致！");
 			return;
 		}
 	}
