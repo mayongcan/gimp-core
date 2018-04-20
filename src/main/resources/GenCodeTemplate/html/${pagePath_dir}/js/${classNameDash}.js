@@ -223,13 +223,7 @@ function ${table.classNameLower}Del(id, url){
 <#list table.columns as column>
 <#if column.valueType = "2">
 function format${column.columnName}(value,row,index){
-	var i = g_${column.columnNameFirstLower}Dict.length;
-	while (i--) {
-		if(g_${column.columnNameFirstLower}Dict[i].ID == value){
-			return g_${column.columnNameFirstLower}Dict[i].NAME;
-		}
-	}
-	return "未知";
+	return appTable.tableFormatDictValue(g_${column.columnNameFirstLower}Dict, value);
 }
 </#if>
 </#list>
