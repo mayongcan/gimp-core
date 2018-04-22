@@ -355,7 +355,8 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
             try {
                 if (type.equals("String")) {
                     // 第一个参数:从中调用基础方法的对象 第二个参数:用于方法调用的参数
-                    method[i].invoke(bean, new Object[] { value });
+//                    method[i].invoke(bean, new Object[] { value });
+                    method[i].invoke(bean, new Object[] { StringUtils.toString(value, "") });
                 } else if (type.equals("int") || type.equals("Integer")) {
                     method[i].invoke(bean, new Object[] { new Integer("" + value) });
                 } else if (type.equals("BigDecimal")) {
