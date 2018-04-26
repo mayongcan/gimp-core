@@ -15,6 +15,9 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Set;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -622,5 +625,28 @@ public class HttpUtils {
             }
         }
         return null;
+    }
+    
+    /**
+     * 查询JDK默认支持的SSL/TSL版本
+     */
+    public static void checkSSLAndTSLVersion() {
+        try {
+            SSLContext context = SSLContext.getInstance("TLS");  
+            context.init(null, null, null);  
+            SSLSocketFactory factory = (SSLSocketFactory) context.getSocketFactory();  
+            SSLSocket socket = (SSLSocket) factory.createSocket();  
+            String[] protocols = socket.getSupportedProtocols();  
+            System.out.println("Supported Protocols: " + protocols.length);  
+            for (int i = 0; i < protocols.length; i++) {  
+                System.out.println(" " + protocols[i]);  
+            }  
+            protocols = socket.getEnabledProtocols();  
+            System.out.println("Enabled Protocols: " + protocols.length);  
+            for (int i = 0; i < protocols.length; i++) {  
+                System.out.println(" " + protocols[i]);  
+            }  
+        } catch (Exception e) {
+        }  
     }
 }
