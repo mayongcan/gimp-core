@@ -7,6 +7,7 @@ package ${basepackage}.${subpackage}.repository.impl;
 
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.collections4.MapUtils;
 import com.gimplatform.core.common.SqlParams;
 import com.gimplatform.core.repository.BaseRepository;
 import com.gimplatform.core.utils.StringUtils;
