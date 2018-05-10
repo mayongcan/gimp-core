@@ -107,4 +107,11 @@ public interface RoleInfoService {
      */
     public JSONObject getRolesKeyValByOrganizerId(Long organizerId);
 
+    /**
+     * 设置用户角色
+     * @param roleName
+     * @param tenantsId
+     * @param userId
+     */
+    public void setUserRole(String roleName, Long tenantsId, Long userId);
 }
