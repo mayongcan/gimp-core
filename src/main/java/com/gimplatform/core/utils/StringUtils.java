@@ -521,6 +521,22 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     }
 
     /**
+     * str to list
+     * @param str
+     * @param delimiter
+     * @return
+     */
+    public static List<String> splitToList(String str, String delimiter) {
+        List<String> list = new ArrayList<String>();
+        if (isBlank(str)) return list;
+        String array[] = str.split(delimiter);
+        for (String tmp : array) {
+            list.add(tmp);
+        }
+        return list;
+    }
+    
+    /**
      * @param str
      * @param delimiter
      * @param total
