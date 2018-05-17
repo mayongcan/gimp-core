@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gimplatform.core.repository.BaseRepository;
 import com.gimplatform.core.repository.custom.OrganizerInfoRepositoryCustom;
 import com.gimplatform.core.utils.SessionUtils;
+import com.gimplatform.core.utils.StringUtils;
 
 @Transactional
 public class OrganizerInfoRepositoryImpl extends BaseRepository implements OrganizerInfoRepositoryCustom{
@@ -30,15 +31,15 @@ public class OrganizerInfoRepositoryImpl extends BaseRepository implements Organ
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> getOrganizerTree(Map<String, Object> params) {
 		StringBuffer querySql = new StringBuffer(SQL_GET_ORGANIZER_TREE);
-		Long parentOrgId = MapUtils.getLong(params, "parentOrgId");
-		Long organizerId = MapUtils.getLong(params, "organizerId");
-		Long organizerType = MapUtils.getLong(params, "organizerType");
+		Long parentOrgId = MapUtils.getLong(params, "parentOrgId", null);
+		Long organizerId = MapUtils.getLong(params, "organizerId", null);
+		String organizerType = MapUtils.getString(params, "organizerType");
 		boolean filterDept = MapUtils.getBooleanValue(params, "filterDept", false);
 		boolean filterPost = MapUtils.getBooleanValue(params, "filterPost", false);
 		boolean filterSub = MapUtils.getBooleanValue(params, "filterSub", false);
 		//过滤数据权限
 		boolean filterDataFunc = MapUtils.getBooleanValue(params, "filterDataFunc", false);
-		Long tenantsId = MapUtils.getLong(params, "tenantsId");
+		Long tenantsId = MapUtils.getLong(params, "tenantsId", null);
 		//添加查询参数
 		List<String> paramsList = new ArrayList<String>();
 		List<Object> valueList = new ArrayList<Object>();
@@ -70,7 +71,7 @@ public class OrganizerInfoRepositoryImpl extends BaseRepository implements Organ
 			paramsList.add("tenantsId");
 			valueList.add(tenantsId);
         }
-        if(organizerType != null) {
+        if(!StringUtils.isBlank(organizerType)) {
 			querySql.append(" AND org.ORGANIZER_TYPE = :organizerType ");
 			paramsList.add("organizerType");
 			valueList.add(organizerType);

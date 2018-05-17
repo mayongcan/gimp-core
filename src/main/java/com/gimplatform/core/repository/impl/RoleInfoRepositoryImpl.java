@@ -46,9 +46,9 @@ public class RoleInfoRepositoryImpl extends BaseRepository implements RoleInfoRe
 	private SqlParams genRoleUserListWhere(String sql, Map<String, Object> params){
 		SqlParams sqlParams = new SqlParams();
 		sqlParams.querySql.append(sql);
-		String roleId = MapUtils.getString(params, "roleId", null);
-		String organizerId = MapUtils.getString(params, "organizerId");
-		String tenantsId = MapUtils.getString(params, "tenantsId");
+		Long roleId = MapUtils.getLong(params, "roleId", null);
+		Long organizerId = MapUtils.getLong(params, "organizerId", null);
+		Long tenantsId = MapUtils.getLong(params, "tenantsId", null);
 		String dataType = MapUtils.getString(params, "dataType");
 		String userType = MapUtils.getString(params, "userType");
 		String userName = MapUtils.getString(params, "userName");

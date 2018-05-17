@@ -120,7 +120,7 @@ public class UserInfoRepositoryImpl extends BaseRepository implements UserInfoRe
 		sqlParams.querySql.append(sql);
 		String organizerName = MapUtils.getString(params, "organizerName");
 		int findChildUsers = MapUtils.getIntValue(params, "findChildUsers", 1);
-		Long roleId = MapUtils.getLong(params, "roleId");
+		Long roleId = MapUtils.getLong(params, "roleId", null);
 		//添加查询参数
 		if(null != userInfo && !StringUtils.isBlank(userInfo.getUserName())) {
             sqlParams.querySql.append(getLikeSql("a.user_name", ":userName"));
