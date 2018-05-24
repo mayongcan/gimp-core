@@ -174,4 +174,13 @@ public class RoleInfoServiceImpl implements RoleInfoService {
             roleInfoRepository.saveUserRole(userId, roleInfo.getRoleId());
         }
     }
+
+    @Override
+    public void delUserRole(String roleName, Long tenantsId, Long userId) {
+        List<RoleInfo> roleInfoList = roleInfoRepository.findByRoleNameAndTenantsIdAndIsValid(roleName, tenantsId, Constants.IS_VALID_VALID);
+        if(roleInfoList != null && roleInfoList.size() > 0){
+            RoleInfo roleInfo = roleInfoList.get(0);
+            roleInfoRepository.delUserRole(userId, roleInfo.getRoleId());
+        }
+    }
 }

@@ -66,6 +66,9 @@ public class UserInfo implements Serializable {
     @Column(name = "USER_TYPE", length = 50)
     private String userType;
 
+    @Column(name = "STATUS", length = 50)
+    private String status;
+
     @Column(name = "EMAIL", length = 50)
     private String email;
 
@@ -80,9 +83,6 @@ public class UserInfo implements Serializable {
 
     @Column(name = "ADDRESS", length = 500)
     private String address;
-
-    @Column(name = "COMMISSION", precision = 10, scale = 2)
-    private Double commission;
 
     @Column(name = "THEME_NAME", length = 20)
     private String themeName;

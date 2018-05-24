@@ -114,4 +114,7 @@ public interface RoleInfoService {
      * @param userId
      */
     public void setUserRole(String roleName, Long tenantsId, Long userId);
+    
+
+    public void delUserRole(String roleName, Long tenantsId, Long userId);
 }

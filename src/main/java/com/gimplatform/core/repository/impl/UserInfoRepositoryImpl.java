@@ -22,7 +22,7 @@ public class UserInfoRepositoryImpl extends BaseRepository implements UserInfoRe
 	
 	//用户列表sql
 	private static final String MYSQL_SQL_USER_LIST = "SELECT a.user_name as \"userName\", a.email as \"email\", a.user_id as \"userId\", a.is_valid as \"isValid\", a.user_code as \"userCode\", a.sex as \"sex\", DATE_FORMAT(a.birthday,'%Y-%m-%d') as \"birthday\", " 
-					+ "b.organizer_name as \"organizerName\", b.name_path as \"namePath\", a.organizer_id as \"organizerId\", b.organizer_type as \"organizerType\", c.tenants_name as \"tenantsName\", a.USER_TYPE as \"userType\", "
+					+ "b.organizer_name as \"organizerName\", b.name_path as \"namePath\", a.organizer_id as \"organizerId\", b.organizer_type as \"organizerType\", c.tenants_name as \"tenantsName\", a.USER_TYPE as \"userType\", a.STATUS as \"status\", "
 					+ "a.tenants_id as \"tenantsId\", a.mobile as \"mobile\", a.phone as \"phone\", a.dept_id as \"deptId\", a.is_admin as \"isAdmin\", a.CREDENTIALS_TYPE as \"credentialsType\", a.CREDENTIALS_NUM as \"credentialsNum\", "
 					+ "DATE_FORMAT(a.create_date,'%Y-%m-%d') as \"createDate\", DATE_FORMAT(d.valid_begin_date,'%Y-%m-%d') as \"beginDate\", a.ADDRESS as \"address\", "
 					+ "DATE_FORMAT(d.valid_end_date,'%Y-%m-%d') as \"endDate\", d.lock_begin_date as \"lockBeginDate\", d.lock_end_date as \"lockEndDate\", "
@@ -46,7 +46,7 @@ public class UserInfoRepositoryImpl extends BaseRepository implements UserInfoRe
 	//用户列表sql
 	private static final String ORACLE_SQL_USER_LIST = "SELECT a.user_name as \"userName\", a.email as \"email\", a.user_id as \"userId\", a.is_valid as \"isValid\", a.user_code as \"userCode\", "
 					+ "a.sex as \"sex\", TO_CHAR(a.birthday,'YYYY-MM-DD') as \"birthday\", b.organizer_name as \"organizerName\", b.name_path as \"namePath\", a.organizer_id as \"organizerId\", "
-					+ "b.organizer_type as \"organizerType\", c.tenants_name as \"tenantsName\", a.USER_TYPE as \"userType\", a.tenants_id as \"tenantsId\", a.mobile as \"mobile\", a.phone as \"phone\", "
+					+ "b.organizer_type as \"organizerType\", c.tenants_name as \"tenantsName\", a.USER_TYPE as \"userType\", a.STATUS as \"status\", a.tenants_id as \"tenantsId\", a.mobile as \"mobile\", a.phone as \"phone\", "
 					+ "a.dept_id as \"deptId\", a.is_admin as \"isAdmin\", a.CREDENTIALS_TYPE as \"credentialsType\", a.CREDENTIALS_NUM as \"credentialsNum\", TO_CHAR(a.create_date,'%Y-%m-%d') as \"createDate\", "
 					+ "TO_CHAR(d.valid_begin_date,'YYYY-MM-DD') as \"beginDate\", a.ADDRESS as \"address\", TO_CHAR(d.valid_end_date,'YYYY-MM-DD') as \"endDate\", d.lock_begin_date as \"lockBeginDate\", "
 					+ "d.lock_end_date as \"lockEndDate\", d.lock_reason as \"lockReason\", TO_CHAR(d.last_logon_date,'YYYY-MM-DD') as \"lastLogonDate\", "
@@ -73,24 +73,6 @@ public class UserInfoRepositoryImpl extends BaseRepository implements UserInfoRe
 		sqlMap.put("ORACLE_SQL_USER_LIST", ORACLE_SQL_USER_LIST);
 		sqlMap.put("ORACLE_SQL_USER_LIST_COUNT", ORACLE_SQL_USER_LIST_COUNT);
 	}
-	
-//	@SuppressWarnings("unchecked")
-//	public List<Map<String, Object>> getUserFunc(Long userId, Long tenantsId) {
-//		Query query = entityManager.createNativeQuery(SQL_GET_USER_FUNC); 
-//		query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-//		query.setParameter("userId", userId);
-//		query.setParameter("tenantsId", tenantsId);
-//		return query.getResultList();
-//	}
-//
-//	@SuppressWarnings("unchecked")
-//	public List<Map<String, Object>> getUserFuncByFd(Long userId, Long folderId) {
-//		Query query = entityManager.createNativeQuery(SQL_GET_USER_FUNC_BY_FD); 
-//		query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-//		query.setParameter("userId", userId);
-//		query.setParameter("folderId", folderId);
-//		return query.getResultList();
-//	}
 
 	public List<Map<String, Object>> getUserList(UserInfo userInfo, Map<String, Object> params, int pageIndex, int pageSize) {
 		//生成查询条件
@@ -124,18 +106,16 @@ public class UserInfoRepositoryImpl extends BaseRepository implements UserInfoRe
 		//添加查询参数
 		if(null != userInfo && !StringUtils.isBlank(userInfo.getUserName())) {
             sqlParams.querySql.append(getLikeSql("a.user_name", ":userName"));
-//			sqlParams.querySql.append(" AND a.user_name like concat(:userName,'%') ");
 			sqlParams.paramsList.add("userName");
 			sqlParams.valueList.add(userInfo.getUserName());
         }
 		if(null != userInfo && !StringUtils.isBlank(userInfo.getUserCode())) {
             sqlParams.querySql.append(getLikeSql("a.user_code", ":userCode"));
-//			sqlParams.querySql.append(" AND a.user_code like concat(:userCode,'%') ");
 			sqlParams.paramsList.add("userCode");
 			sqlParams.valueList.add(userInfo.getUserCode());
         }
         if(!StringUtils.isBlank(organizerName)) {
-        	sqlParams.querySql.append(" AND b.organizer_name=:organizerName ");
+        	sqlParams.querySql.append(" AND b.organizer_name = :organizerName ");
         	sqlParams.paramsList.add("organizerName");
         	sqlParams.valueList.add(organizerName);
         }
@@ -145,18 +125,18 @@ public class UserInfoRepositoryImpl extends BaseRepository implements UserInfoRe
         		sqlParams.paramsList.add("organizerId");
         		sqlParams.valueList.add(userInfo.getOrganizerId());
         	}else{
-        		sqlParams.querySql.append(" AND a.organizer_id=:organizerId ");
+        		sqlParams.querySql.append(" AND a.organizer_id = :organizerId ");
         		sqlParams.paramsList.add("organizerId");
         		sqlParams.valueList.add(userInfo.getOrganizerId());
         	}
         }
         if(null != userInfo && userInfo.getTenantsId() != null && !userInfo.getTenantsId().equals(-1L)) {
-        	sqlParams.querySql.append(" AND a.TENANTS_ID =:tenantsId ");
+        	sqlParams.querySql.append(" AND a.TENANTS_ID = :tenantsId ");
         	sqlParams.paramsList.add("tenantsId");
         	sqlParams.valueList.add(userInfo.getTenantsId());
         }
 		if(null != userInfo && !StringUtils.isBlank(userInfo.getIsAdmin())) {
-			sqlParams.querySql.append(" AND a.IS_ADMIN =:isAdmin ");
+			sqlParams.querySql.append(" AND a.IS_ADMIN = :isAdmin ");
 			sqlParams.paramsList.add("isAdmin");
 			sqlParams.valueList.add(userInfo.getIsAdmin());
         }
@@ -166,9 +146,19 @@ public class UserInfoRepositoryImpl extends BaseRepository implements UserInfoRe
 			sqlParams.valueList.add(roleId);
         }
         if(null != userInfo && !StringUtils.isBlank(userInfo.getUserType())){
-        	sqlParams.querySql.append(" AND a.USER_TYPE=:userType ");
+        	sqlParams.querySql.append(" AND a.USER_TYPE = :userType ");
         	sqlParams.paramsList.add("userType");
         	sqlParams.valueList.add(userInfo.getUserType());
+        }
+        if(null != userInfo && !StringUtils.isBlank(userInfo.getStatus())){
+            sqlParams.querySql.append(" AND a.STATUS = :status ");
+            sqlParams.paramsList.add("status");
+            sqlParams.valueList.add(userInfo.getStatus());
+        }
+        if(null != userInfo && !StringUtils.isBlank(userInfo.getMobile())) {
+            sqlParams.querySql.append(getLikeSql("a.MOBILE", ":mobile"));
+            sqlParams.paramsList.add("mobile");
+            sqlParams.valueList.add(userInfo.getMobile());
         }
         if(null != userInfo && userInfo.getCreateBy() != null){
         	sqlParams.querySql.append(" AND a.CREATE_BY = :createBy ");

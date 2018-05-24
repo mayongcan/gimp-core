@@ -69,6 +69,9 @@ public class MessageInfo implements Serializable {
     @Column(name = "SEND_DATE")
     private Date sendDate;
 
+    @Column(name = "IS_REVOKE", length = 2)
+    private String isRevoke;
+
     // 创建人
     @Column(name = "CREATE_BY", precision = 10, scale = 0)
     private Long createBy;

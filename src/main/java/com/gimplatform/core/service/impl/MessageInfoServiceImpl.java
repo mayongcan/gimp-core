@@ -56,6 +56,7 @@ public class MessageInfoServiceImpl implements MessageInfoService {
         else
             messageInfo.setCreateBy(userInfo.getUserId());
         messageInfo.setCreateDate(new Date());
+        messageInfo.setIsRevoke("0");
         messageInfo = messageInfoRepository.save(messageInfo);
         messageInfoRepository.flush();
         // 判断是否发给所有人

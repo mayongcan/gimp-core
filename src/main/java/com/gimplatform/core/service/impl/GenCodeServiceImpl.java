@@ -42,7 +42,7 @@ public class GenCodeServiceImpl implements GenCodeService {
         criteria.add(CriteriaFactory.like("tableDesc", genCode.getTableDesc()));
         criteria.add(CriteriaFactory.equal("pageType", genCode.getPageType()));
         criteria.add(CriteriaFactory.equal("isValid", Constants.IS_VALID_VALID));
-        Page<GenCode> pageList = genCodeRepository.findAll(criteria, new PageRequest(page.getPageNumber(), page.getPageSize(), new Sort(Direction.ASC, "codeId")));
+        Page<GenCode> pageList = genCodeRepository.findAll(criteria, new PageRequest(page.getPageNumber(), page.getPageSize(), new Sort(Direction.DESC, "codeId")));
         return RestfulRetUtils.getRetSuccessWithPage(pageList.getContent(), pageList.getTotalElements());
     }
 

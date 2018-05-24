@@ -24,14 +24,6 @@ public interface RoleInfoRepository extends JpaRepository<RoleInfo, Long>, JpaSp
 	
 	public List<RoleInfo> findByRoleNameAndTenantsIdAndIsValid(String roleName, Long tenantsId, String isValid);
 	
-//	@Query(value = "SELECT r.role_name FROM sys_user_role ur inner join sys_user_info u on ur.user_id = u.user_id inner join sys_role_info r on ur.role_id = r.role_id "
-//			+ "WHERE u.user_code =:userCode", nativeQuery = true)
-//    public List<String> getRolesNameByUserCode(@Param("userCode")String userCode);  
-//
-//	@Query(value = "SELECT r.role_name FROM sys_organizer_role tb inner join sys_role_info r on tb.role_id = r.role_id "
-//			+ "WHERE tb.organizer_id =:organizerId", nativeQuery = true)
-//    public List<String> getRolesNameByOrganizerId(@Param("organizerId")Long organizerId); 
-
 	@Query(value = "SELECT r.role_name FROM sys_user_role ur inner join sys_user_info u on ur.user_id = u.user_id inner join sys_role_info r on ur.role_id = r.role_id "
 			+ "WHERE u.user_code =:userCode "
 			+ "union all "

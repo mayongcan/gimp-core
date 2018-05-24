@@ -21,7 +21,7 @@ public class UserLogonRepositoryImpl extends BaseRepository implements UserLogon
 	//用户列表sql
 	private static final String MYSQL_SQL_GET_LOCK_ACCOUNT = "SELECT a.user_name as userName,a.email as email,a.user_id as userId,a.is_valid as isValid, a.user_code as userCode, a.sex as sex, DATE_FORMAT(a.birthday,'%Y-%m-%d') as birthday, " 
 					+ "b.organizer_name as organizerName,b.name_path as namePath,a.organizer_id as organizerId,b.organizer_type as organizerType, c.tenants_name as tenantsName,"
-					+ "a.tenants_id as tenantsId, a.mobile as mobile,a.phone as phone,a.dept_id as deptId,a.is_admin as isAdmin, a.USER_TYPE as userType, "
+					+ "a.tenants_id as tenantsId, a.mobile as mobile,a.phone as phone,a.dept_id as deptId,a.is_admin as isAdmin, a.USER_TYPE as userType, a.STATUS as \"status\",  "
 					+ "DATE_FORMAT(a.create_date,'%Y-%m-%d') as createDate, DATE_FORMAT(d.valid_begin_date,'%Y-%m-%d') as beginDate, a.CREDENTIALS_TYPE as credentialsType, a.CREDENTIALS_NUM as credentialsNum, "
 					+ "DATE_FORMAT(d.valid_end_date,'%Y-%m-%d') as endDate, d.lock_begin_date as lockBeginDate, d.lock_end_date as lockEndDate, a.ADDRESS as address, "
 					+ "d.lock_reason as lockReason, DATE_FORMAT(d.last_logon_date,'%Y-%m-%d') as lastLogonDate, "
@@ -46,7 +46,7 @@ public class UserLogonRepositoryImpl extends BaseRepository implements UserLogon
 	private static final String ORACLE_SQL_GET_LOCK_ACCOUNT = "SELECT a.user_name as \"userName\", a.email as \"email\", a.user_id as \"userId\", a.is_valid as \"isValid\", "
 					+ "a.user_code as \"userCode\", a.sex as \"sex\", TO_CHAR(a.birthday,'%Y-%m-%d') as \"birthday\", b.organizer_name as \"organizerName\", b.name_path as \"namePath\", "
 					+ "a.organizer_id as \"organizerId\", b.organizer_type as \"organizerType\", c.tenants_name as \"tenantsName\", a.tenants_id as \"tenantsId\", a.mobile as \"mobile\", "
-					+ "a.phone as \"phone\", a.dept_id as \"deptId\", a.is_admin as \"isAdmin\", a.USER_TYPE as \"userType\", TO_CHAR(a.create_date,'YYYY-MM-DD') as \"createDate\", "
+					+ "a.phone as \"phone\", a.dept_id as \"deptId\", a.is_admin as \"isAdmin\", a.USER_TYPE as \"userType\", a.STATUS as \"status\", TO_CHAR(a.create_date,'YYYY-MM-DD') as \"createDate\", "
 					+ "TO_CHAR(d.valid_begin_date,'YYYY-MM-DD') as \"beginDate\", a.CREDENTIALS_TYPE as \"credentialsType\", a.CREDENTIALS_NUM as \"credentialsNum\", "
 					+ "TO_CHAR(d.valid_end_date,'YYYY-MM-DD') as \"endDate\", d.lock_begin_date as \"lockBeginDate\", d.lock_end_date as \"lockEndDate\", a.ADDRESS as \"address\", "
 					+ "d.lock_reason as \"lockReason\", TO_CHAR(d.last_logon_date,'YYYY-MM-DD') as \"lastLogonDate\", "

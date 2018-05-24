@@ -231,51 +231,68 @@ public class FuncInfoServiceImpl implements FuncInfoService {
      */
     public JSONArray getJsonTree(List<Map<String, Object>> listFunc, String parentId) {
         TreeNode root = new TreeNode("root", "all", null, false);
-        if (parentId != null)
+        if (!StringUtils.isBlank(parentId))
             root = new TreeNode(parentId, "all", null, false);
         root.setIcon("fa fa-sitemap");
-        Map<String, String> mapAttr = null;
-        TreeNodeExtend treeNode = null;
         String id = "", text = "", parent = "";
         Tree tree = new Tree(true);
+        
+        //如果parentId不为空，则需要先将parentId入队
+        if (!StringUtils.isBlank(parentId)) {
+            for (Map<String, Object> mapObj : listFunc) {
+                id = MapUtils.getString(mapObj, "funcId", "");
+                text = MapUtils.getString(mapObj, "funcName", "");
+                // 当获取到的根ID不为null，则将传送过来的parentId作为rootId
+                if (!StringUtils.isBlank(parentId) && parentId.equals(id)) {
+                    parent = parentId.toString();
+                    tree.addNode(getTreeNode(mapObj, id, text, parent));
+                    break;
+                }
+            }
+        }
+        
         for (Map<String, Object> mapObj : listFunc) {
             id = MapUtils.getString(mapObj, "funcId", "");
             text = MapUtils.getString(mapObj, "funcName", "");
             parent = MapUtils.getString(mapObj, "parentFuncId", "root");
             // 当获取到的根ID不为null，则将传送过来的parentId作为rootId
-            if (parentId != null && parentId.equals(id)) {
-                parent = parentId.toString();
-            }
+            if (!StringUtils.isBlank(parentId) && parentId.equals(id)) continue;
 
-            mapAttr = new HashMap<String, String>();
-            String funcType = MapUtils.getString(mapObj, "funcType");
-            mapAttr.put("funcType", funcType);
-            mapAttr.put("funcLevel", MapUtils.getString(mapObj, "funcLevel"));
-            mapAttr.put("funcLink", MapUtils.getString(mapObj, "funcLink"));
-            mapAttr.put("dispOrder", MapUtils.getString(mapObj, "dispOrder"));
-            mapAttr.put("funcFlag", MapUtils.getString(mapObj, "funcFlag"));
-            mapAttr.put("dispPosition", MapUtils.getString(mapObj, "dispPosition"));
-            mapAttr.put("isBase", MapUtils.getString(mapObj, "isBase"));
-            mapAttr.put("isShow", MapUtils.getString(mapObj, "isShow"));
-            mapAttr.put("isBlank", MapUtils.getString(mapObj, "isBlank"));
-            mapAttr.put("funcIcon", MapUtils.getString(mapObj, "funcIcon"));
-            mapAttr.put("funcDesc", MapUtils.getString(mapObj, "funcDesc"));
-
-            treeNode = new TreeNodeExtend(id, text, parent, false, mapAttr);
-
-            // 设置图标
-            if ("100300".equals(funcType))
-                treeNode.setIcon("fa fa-list");
-            else if ("100400".equals(funcType))
-                treeNode.setIcon("fa fa-key");
-            // 设置根节点图标
-            if (StringUtils.isBlank(parent)) {
-                treeNode.setIcon("fa fa-sitemap");
-            }
-            tree.addNode(treeNode);
+            //将剩余的节点入队
+            tree.addNode(getTreeNode(mapObj, id, text, parent));
         }
         String strTree = tree.getTreeJson(tree, root);
+        logger.info(strTree);
         return JSONArray.parseArray(strTree);
+    }
+    
+    private TreeNodeExtend getTreeNode(Map<String, Object> mapObj, String id, String text, String parent) {
+        Map<String, String> mapAttr = new HashMap<String, String>();
+        String funcType = MapUtils.getString(mapObj, "funcType");
+        mapAttr.put("funcType", funcType);
+        mapAttr.put("funcLevel", MapUtils.getString(mapObj, "funcLevel"));
+        mapAttr.put("funcLink", MapUtils.getString(mapObj, "funcLink"));
+        mapAttr.put("dispOrder", MapUtils.getString(mapObj, "dispOrder"));
+        mapAttr.put("funcFlag", MapUtils.getString(mapObj, "funcFlag"));
+        mapAttr.put("dispPosition", MapUtils.getString(mapObj, "dispPosition"));
+        mapAttr.put("isBase", MapUtils.getString(mapObj, "isBase"));
+        mapAttr.put("isShow", MapUtils.getString(mapObj, "isShow"));
+        mapAttr.put("isBlank", MapUtils.getString(mapObj, "isBlank"));
+        mapAttr.put("funcIcon", MapUtils.getString(mapObj, "funcIcon"));
+        mapAttr.put("funcDesc", MapUtils.getString(mapObj, "funcDesc"));
+
+        TreeNodeExtend treeNode = new TreeNodeExtend(id, text, parent, false, mapAttr);
+
+        // 设置图标
+        if ("100300".equals(funcType))
+            treeNode.setIcon("fa fa-list");
+        else if ("100400".equals(funcType))
+            treeNode.setIcon("fa fa-key");
+        // 设置根节点图标
+        if (StringUtils.isBlank(parent)) {
+            treeNode.setIcon("fa fa-sitemap");
+        }
+        return treeNode;
     }
 
     @Override

@@ -14,7 +14,7 @@ import com.gimplatform.core.repository.custom.MessageInfoRepositoryCustom;
 
 public class MessageInfoRepositoryImpl extends BaseRepository implements MessageInfoRepositoryCustom{
 
-	private static final String MYSQL_SQL_GET_LIST = "SELECT tb.MSG_ID as msgId, tb.MSG_TITLE as msgTitle, tb.MSG_CONTENT as msgContent, tb.MSG_TYPE as msgType, "
+	private static final String MYSQL_SQL_GET_LIST = "SELECT tb.MSG_ID as msgId, tb.MSG_TITLE as msgTitle, tb.MSG_CONTENT as msgContent, tb.MSG_TYPE as msgType, tb.IS_REVOKE as isRevoke, "
 					+ "tb.MSG_IMG as msgImg, tb.MSG_FILE as msgFile, tb.SEND_DATE as sendDate, tb.CREATE_BY as createBy, tb.CREATE_DATE as createDate, tb.IS_VALID as isValid,"
 					+ "u.user_code as createUserCode,"
 					+ "(select group_concat(sysuser.user_id) from sys_message_user mu left join sys_user_info sysuser on sysuser.USER_ID = mu.USER_ID where mu.MSG_ID = tb.MSG_ID ) as userIdList, "
@@ -27,7 +27,7 @@ public class MessageInfoRepositoryImpl extends BaseRepository implements Message
 			+ "FROM sys_message_info tb left join sys_user_info u on u.user_id = tb.create_by "
 			+ "WHERE 1 = 1 AND tb.IS_VALID = 'Y'";
 
-	private static final String ORACLE_SQL_GET_LIST = "SELECT tb.MSG_ID as \"msgId\", tb.MSG_TITLE as \"msgTitle\", tb.MSG_CONTENT as \"msgContent\", "
+	private static final String ORACLE_SQL_GET_LIST = "SELECT tb.MSG_ID as \"msgId\", tb.MSG_TITLE as \"msgTitle\", tb.MSG_CONTENT as \"msgContent\", tb.IS_REVOKE as \"isRevoke\", "
 					+ "tb.MSG_TYPE as \"msgType\", tb.MSG_IMG as \"msgImg\", tb.MSG_FILE as \"msgFile\", tb.SEND_DATE as \"sendDate\", tb.CREATE_BY as \"createBy\", "
 					+ "tb.CREATE_DATE as \"createDate\", tb.IS_VALID as \"isValid\", u.user_code as \"createUserCode\", "
 					+ "(select wm_concat(sysuser.user_id) from sys_message_user mu left join sys_user_info sysuser on sysuser.USER_ID = mu.USER_ID where mu.MSG_ID = tb.MSG_ID ) as \"userIdList\", "
