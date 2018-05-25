@@ -48,6 +48,12 @@ public class UserInfo implements Serializable {
     @Column(name = "PASSWORD", nullable = false, length = 50)
     private String password;
 
+    @Column(name = "PAY_PASSWORD", nullable = false, length = 50)
+    private String payPassword;
+
+    @Column(name = "SAFETY_PASSWORD", nullable = false, length = 50)
+    private String safetyPassword;
+
     @Column(name = "SEX", length = 2)
     private String sex;
 
@@ -58,6 +64,9 @@ public class UserInfo implements Serializable {
     // 证件号码
     @Column(name = "CREDENTIALS_NUM", length = 50)
     private String credentialsNum;
+
+    @Column(name = "REAL_NAME", length = 50)
+    private String realName;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "BIRTHDAY")

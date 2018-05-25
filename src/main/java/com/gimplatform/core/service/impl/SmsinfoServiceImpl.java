@@ -25,8 +25,8 @@ public class SmsinfoServiceImpl implements SmsinfoService {
 
     @Override
     public int sendSms(String phone) {
-        // sendByBaiduSms(phone);
-        sendByHssmSms(phone);
+        sendByBaiduSms(phone);
+        // sendByHssmSms(phone);
         return 0;
     }
 
@@ -57,15 +57,11 @@ public class SmsinfoServiceImpl implements SmsinfoService {
         smsinfo.setCreateDate(new Date());
         smsinfo.setIsValid("Y");
 
-        // List<SmsInfo> smsinfoList = smsinfoRepository.selectByPhone(phone);
-        // 1分钟内发送一次
-        // if (smsinfoList.size() <= 0) {
         smsinfoRepository.save(smsinfo);
         // 发送短信
         String templateCode = "smsTpl:e7476122a1c24e37b3b0de19d04ae901"; // 本次发送使用的模板Code
-        BaiduSms.sendSms(phone, templateCode, code);
-        // }
-        logger.info("发送手机号码：" + phone + " 短信验证码：" + code);
+        boolean result = BaiduSms.sendSms(phone, templateCode, code);
+        logger.info("发送手机号码：" + phone + " 短信验证码：" + code + " 发送结果：" + result);
     }
 
     /**

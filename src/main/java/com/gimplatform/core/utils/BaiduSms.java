@@ -17,7 +17,7 @@ public class BaiduSms {
     // "smsTpl:e7476122a1c24e37b3b0de19d04ae901";
     static SmsClient client;
 
-    public static int sendSms(String phoneNumber, String templateCode, String code) {
+    public static boolean sendSms(String phoneNumber, String templateCode, String code) {
         // 相关参数定义
         String endPoint = "http://sms.bj.baidubce.com"; // SMS服务域名，可根据环境选择具体域名
         // String accessKeyId = "u23487324298ewuroiew"; // 发送账号安全认证的Access Key
@@ -51,11 +51,10 @@ public class BaiduSms {
 
         // 解析请求响应 response.isSuccess()为true 表示成功
         if (response != null && response.isSuccess()) {
-            return 1;
+            return true;
         } else {
-            return 0;
+            return false;
         }
-
     }
 
     public static void main(String[] args) {

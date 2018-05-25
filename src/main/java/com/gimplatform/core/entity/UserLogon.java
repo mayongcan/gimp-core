@@ -68,4 +68,22 @@ public class UserLogon implements Serializable {
 
     @Column(name = "ONLINE_STATUS", length = 50)
     private String onlineStatus;
+
+    @Column(name = "DEVICE_TYPE", length = 50)
+    private String deviceType;
+
+    @Column(name = "DEVICE_DETAIL", length = 256)
+    private String deviceDetail;
+
+    @Column(name = "OS_DETAIL", length = 256)
+    private String osDetail;
+
+    @Column(name = "NETWORK_INFO", length = 256)
+    private String networkInfo;
+
+    @Column(name = "LNGLAT", length = 128)
+    private String lnglat;
+
+    @Column(name = "LNGLAT_ADDR", length = 256)
+    private String lnglatAddr;
 }
