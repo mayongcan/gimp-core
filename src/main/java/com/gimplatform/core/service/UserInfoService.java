@@ -120,6 +120,10 @@ public interface UserInfoService {
      */
     public JSONObject updatePassword(Long userId, String newPassword, String oldPassword);
 
+    public JSONObject updatePayPassword(Long userId, String payPassword);
+
+    public JSONObject updateSafetyPassword(Long userId, String safetyPassword);
+
     /**
      * 离职
      * @param userInfo

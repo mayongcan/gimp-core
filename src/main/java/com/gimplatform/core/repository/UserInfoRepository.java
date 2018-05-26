@@ -107,6 +107,15 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Long>, UserI
 	@Query(value = "UPDATE sys_user_info SET PASSWORD=:password WHERE user_id =:userId", nativeQuery = true)
 	public void updatePasswordByUserId(@Param("password") String password, @Param("userId") Long userId);
 
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE sys_user_info SET PAY_PASSWORD = :payPassword WHERE user_id = :userId", nativeQuery = true)
+    public void updatePayPassword(@Param("payPassword") String payPassword, @Param("userId") Long userId);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE sys_user_info SET SAFETY_PASSWORD = :safetyPassword WHERE user_id = :userId", nativeQuery = true)
+    public void updateSafetyPassword(@Param("safetyPassword") String safetyPassword, @Param("userId") Long userId);
 	
 
 	/**

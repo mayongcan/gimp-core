@@ -77,21 +77,6 @@ public class UserInfoServiceImpl implements UserInfoService {
      */
     public List<FuncInfo> getUserFunc(UserInfo userInfo) {
         return funcInfoRepository.getUserFuncFolder(userInfo.getUserId(), userInfo.getOrganizerId(), userInfo.getTenantsId());
-        // return userInfoRepository.getUserFunc(userId, tenantsId);
-        // List<FuncInfo> userFuncList = funcInfoRepository.getUserFuncFolder(userInfo.getUserId(), userInfo.getTenantsId());
-        // List<FuncInfo> userOrganizerFuncList = funcInfoRepository.getOrganizerFuncFolder(userInfo.getOrganizerId(), userInfo.getTenantsId());
-        // //去重
-        // List<FuncInfo> compareList = new ArrayList<FuncInfo>();
-        // compareList.addAll(userFuncList);
-        // compareList.addAll(userOrganizerFuncList);
-        // Set<FuncInfo> set = new TreeSet<FuncInfo>(new Comparator<FuncInfo>(){
-        // @Override
-        // public int compare(FuncInfo o1, FuncInfo o2) {
-        // return o1.getFuncId().compareTo(o2.getFuncId());
-        // }
-        // });
-        // set.addAll(compareList);
-        // return new ArrayList<FuncInfo>(set);
     }
 
     /**
@@ -102,21 +87,6 @@ public class UserInfoServiceImpl implements UserInfoService {
      */
     public List<FuncInfo> getUserFuncByFd(UserInfo userInfo, Long folderId) {
         return funcInfoRepository.getUserFuncListByFd(userInfo.getUserId(), userInfo.getOrganizerId(), folderId);
-        // return userInfoRepository.getUserFuncByFd(userInfo.getUserId(), folderId);
-        // List<FuncInfo> userFuncList = funcInfoRepository.getUserFuncListByFd(userInfo.getUserId(), folderId);
-        // List<FuncInfo> userOrganizerFuncList = funcInfoRepository.getOrganizerFuncListByFd(userInfo.getOrganizerId(), folderId);
-        // //去重
-        // List<FuncInfo> compareList = new ArrayList<FuncInfo>();
-        // compareList.addAll(userFuncList);
-        // compareList.addAll(userOrganizerFuncList);
-        // Set<FuncInfo> set = new TreeSet<FuncInfo>(new Comparator<FuncInfo>(){
-        // @Override
-        // public int compare(FuncInfo o1, FuncInfo o2) {
-        // return o1.getFuncId().compareTo(o2.getFuncId());
-        // }
-        // });
-        // set.addAll(compareList);
-        // return new ArrayList<FuncInfo>(set);
     }
 
     @Override
@@ -289,6 +259,18 @@ public class UserInfoServiceImpl implements UserInfoService {
             return RestfulRetUtils.getErrorMsg("20008", "旧密码输入不正确！");
         }
         userInfoRepository.updatePasswordByUserId(password, userId);
+        return RestfulRetUtils.getRetSuccess();
+    }
+
+    @Override
+    public JSONObject updatePayPassword(Long userId, String payPassword) {
+        userInfoRepository.updatePayPassword(payPassword, userId);
+        return RestfulRetUtils.getRetSuccess();
+    }
+
+    @Override
+    public JSONObject updateSafetyPassword(Long userId, String safetyPassword){
+        userInfoRepository.updateSafetyPassword(safetyPassword, userId);
         return RestfulRetUtils.getRetSuccess();
     }
 
