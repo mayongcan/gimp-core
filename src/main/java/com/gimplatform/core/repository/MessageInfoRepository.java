@@ -36,5 +36,16 @@ public interface MessageInfoRepository extends JpaRepository<MessageInfo, Long>,
 			+ "SET IS_VALID=:isValid "
 			+ "WHERE MSG_ID IN (:idList)", nativeQuery = true)
 	public void delEntity(@Param("isValid")String isValid, @Param("idList")List<Long> idList);
-	
+
+	/**
+	 * 撤回消息
+	 * @param isRevoke
+	 * @param idList
+	 */
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE sys_message_info "
+            + "SET IS_REVOKE = :isRevoke "
+            + "WHERE MSG_ID IN (:idList)", nativeQuery = true)
+    public void revokeMessage(@Param("isRevoke")String isRevoke, @Param("idList")List<Long> idList);
 }

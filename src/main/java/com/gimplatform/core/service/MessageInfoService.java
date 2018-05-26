@@ -66,7 +66,24 @@ public interface MessageInfoService {
      * @return
      */
     public JSONObject send(String idsList, UserInfo userInfo);
+    
+    /**
+     * 撤回消息
+     * @param idsList
+     * @param userInfo
+     * @return
+     */
+    public JSONObject revoke(String idsList, UserInfo userInfo);
 
+    /**
+     * 获取消息详情列表（指某条消息的所有发送情况）
+     * @param page
+     * @param messageUser
+     * @param params
+     * @return
+     */
+    public JSONObject getMessageDetailList(Pageable page, Map<String, Object> params);
+    
     /**
      * 获取我的消息
      * @param page

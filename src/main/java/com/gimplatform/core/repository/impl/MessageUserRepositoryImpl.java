@@ -18,9 +18,11 @@ public class MessageUserRepositoryImpl extends BaseRepository implements Message
 	private static final String SQL_GET_LIST = "SELECT tb.ID as \"id\", tb.MSG_ID as \"msgId\", tb.USER_ID as \"userId\", "
 					+ "tb.IS_SEND as \"isSend\", tb.IS_READ as \"isRead\", tb.READ_DATE as \"readDate\", tb.SEND_DATE as \"sendDate\", "
 					+ "m.MSG_TITLE AS \"msgTitle\", m.MSG_CONTENT AS \"msgContent\", m.MSG_TYPE AS \"msgType\", m.MSG_IMG AS \"msgImg\", m.MSG_FILE AS \"msgFile\","
-					+ "u.user_code as \"createUserCode\", u.user_name as \"createUserName\" "
+					+ "u.user_code as \"createUserCode\", u.user_name as \"createUserName\","
+					+ "ru.USER_NAME AS \"msgRecUserName\" "
 			+ "FROM sys_message_user tb left join sys_message_info m on tb.MSG_ID = m.MSG_ID "
 					+ "left join sys_user_info u on m.CREATE_BY = u.USER_ID "
+					+ "left join sys_user_info ru on ru.USER_ID = tb.USER_ID "
 			+ "WHERE 1 = 1 ";
 
 	private static final String SQL_GET_LIST_COUNT = "SELECT count(1) as \"count\" "
@@ -58,6 +60,11 @@ public class MessageUserRepositoryImpl extends BaseRepository implements Message
 		String msgTitle = MapUtils.getString(params, "msgTitle");
 		String msgType = MapUtils.getString(params, "msgType");
 		//添加查询参数
+        if (messageUser != null && messageUser.getMsgId() != null) {
+            sqlParams.querySql.append(" AND tb.MSG_ID = :msgId ");
+            sqlParams.paramsList.add("msgId");
+            sqlParams.valueList.add(messageUser.getMsgId());
+        }
 		if (messageUser != null && messageUser.getUserId() != null) {
 			sqlParams.querySql.append(" AND tb.USER_ID = :userId ");
 			sqlParams.paramsList.add("userId");
@@ -84,6 +91,12 @@ public class MessageUserRepositoryImpl extends BaseRepository implements Message
 			sqlParams.paramsList.add("msgType");
 			sqlParams.valueList.add(msgType);
 		}
+        String isRevoke = MapUtils.getString(params, "isRevoke");
+        if (!StringUtils.isBlank(isRevoke)) {
+            sqlParams.querySql.append(" AND m.IS_REVOKE = :isRevoke ");
+            sqlParams.paramsList.add("isRevoke");
+            sqlParams.valueList.add(isRevoke);
+        }
         return sqlParams;
 	}
 

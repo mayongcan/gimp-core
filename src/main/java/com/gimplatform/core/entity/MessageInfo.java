@@ -42,6 +42,9 @@ public class MessageInfo implements Serializable {
     @TableGenerator(name = "MessageInfoIdGenerator", table = "sys_tb_generator", pkColumnName = "GEN_NAME", valueColumnName = "GEN_VALUE", pkColumnValue = "SYS_MESSAGE_INFO_PK", allocationSize = 1)
     @Column(name = "MSG_ID", unique = true, nullable = false, precision = 10, scale = 0)
     private Long msgId;
+    
+    @Column(name = "TENANTS_ID", precision = 10, scale = 0)
+    private Long tenantsId;
 
     // 消息标题
     @Column(name = "MSG_TITLE", length = 256)

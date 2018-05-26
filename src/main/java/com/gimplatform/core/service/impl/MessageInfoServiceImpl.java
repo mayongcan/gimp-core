@@ -57,6 +57,7 @@ public class MessageInfoServiceImpl implements MessageInfoService {
             messageInfo.setCreateBy(userInfo.getUserId());
         messageInfo.setCreateDate(new Date());
         messageInfo.setIsRevoke("0");
+        messageInfo.setTenantsId(userInfo.getTenantsId());
         messageInfo = messageInfoRepository.save(messageInfo);
         messageInfoRepository.flush();
         // 判断是否发给所有人
@@ -206,6 +207,29 @@ public class MessageInfoServiceImpl implements MessageInfoService {
             }
         }
         return RestfulRetUtils.getRetSuccess();
+    }
+
+    @Override
+    public JSONObject revoke(String idsList, UserInfo userInfo) {
+        String[] ids = idsList.split(",");
+        // 判断是否需要移除
+        List<Long> idList = new ArrayList<Long>();
+        for (int i = 0; i < ids.length; i++) {
+            idList.add(StringUtils.toLong(ids[i]));
+        }
+        // 批量更新（设置IsValid 为N）
+        if (idList.size() > 0) {
+            messageInfoRepository.revokeMessage("1", idList);
+        }
+        return RestfulRetUtils.getRetSuccess();
+    }
+
+    @Override
+    public JSONObject getMessageDetailList(Pageable page, Map<String, Object> params) {
+        MessageUser messageUser = (MessageUser) BeanUtils.mapToBean(params, MessageUser.class);
+        List<Map<String, Object>> list = messageUserRepository.getList(messageUser, params, page.getPageNumber(), page.getPageSize());
+        int count = messageUserRepository.getListCount(messageUser, params);
+        return RestfulRetUtils.getRetSuccessWithPage(list, count);
     }
 
     @Override
