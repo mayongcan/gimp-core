@@ -119,9 +119,9 @@
 						<#if column.display>
 						<#-- 是否需要从字典中取值 -->
 						<#if column.valueType = "1">
-                        	<th data-field="${column.columnNameFirstLower}">${column.displayName}</th>
+                        <th data-field="${column.columnNameFirstLower}">${column.displayName}</th>
                         	<#else>
-                        	<th data-field="${column.columnNameFirstLower}" data-formatter="format${column.columnName}">${column.displayName}</th>
+                        <th data-field="${column.columnNameFirstLower}" data-formatter="format${column.columnName}">${column.displayName}</th>
 						</#if>
 						</#if>
 						</#list>
