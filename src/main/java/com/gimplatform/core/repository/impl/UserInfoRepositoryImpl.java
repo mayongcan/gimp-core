@@ -194,7 +194,7 @@ public class UserInfoRepositoryImpl extends BaseRepository implements UserInfoRe
         	sqlParams.valueList.add(userInfo.getTenantsId());
         }
         if(null != userInfo && !StringUtils.isBlank(userInfo.getUserType())){
-        	sqlParams.querySql.append(" AND a.USER_TYPE=:userType ");
+        	sqlParams.querySql.append(" AND u.USER_TYPE=:userType ");
         	sqlParams.paramsList.add("userType");
         	sqlParams.valueList.add(userInfo.getUserType());
         }
