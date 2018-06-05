@@ -28,6 +28,8 @@ public interface UserInfoService {
 
 	public UserInfo getByUserId(Long userId);
 
+    public UserInfo findByOpenId(String openId);
+
 	/**
 	 * 获取用户权限目录
 	 * 

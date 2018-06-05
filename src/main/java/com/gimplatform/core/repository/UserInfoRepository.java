@@ -20,8 +20,9 @@ import com.gimplatform.core.repository.custom.UserInfoRepositoryCustom;
  *
  */
 @Repository
-public interface UserInfoRepository
-		extends JpaRepository<UserInfo, Long>, UserInfoRepositoryCustom, JpaSpecificationExecutor<UserInfo> {
+public interface UserInfoRepository extends JpaRepository<UserInfo, Long>, UserInfoRepositoryCustom, JpaSpecificationExecutor<UserInfo> {
+    
+    List<UserInfo> findByOpenId(String openId);
 
 	/**
 	 * 根据用户Code查找用户信息

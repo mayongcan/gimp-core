@@ -69,6 +69,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return userInfoRepository.findOne(userId);
 	}
 
+    @Override
+    public UserInfo findByOpenId(String openId) {
+        if (StringUtils.isBlank(openId)) return null;
+        List<UserInfo> list = userInfoRepository.findByOpenId(openId);
+        if(list == null || list.size() == 0) return null;
+        else return list.get(0);
+    }
+
 	/**
 	 * 获取用户权限目录
 	 * 

@@ -9,24 +9,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+
 import com.gimplatform.core.entity.SmsInfo;
 import com.gimplatform.core.repository.SmsinfoRepository;
 import com.gimplatform.core.service.SmsinfoService;
 import com.gimplatform.core.utils.BaiduSms;
+import com.gimplatform.core.utils.DateUtils;
 import com.gimplatform.core.utils.HttpUtils;
 
 @Service
 public class SmsinfoServiceImpl implements SmsinfoService {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final static Logger logger = LoggerFactory.getLogger(SmsinfoServiceImpl.class);
 
     @Autowired
     private SmsinfoRepository smsinfoRepository;
 
     @Override
     public int sendSms(String phone) {
-        sendByBaiduSms(phone);
+//        sendByBaiduSms(phone);
         // sendByHssmSms(phone);
+        sendByItpSms(phone);
         return 0;
     }
 
@@ -93,5 +97,59 @@ public class SmsinfoServiceImpl implements SmsinfoService {
         headers.put("Content-Type", "application/x-www-form-urlencoded");
         HttpUtils.post("http://access.xx95.net:8886/Connect_Service.asmx/SendSms", params, headers);
         logger.info("发送手机号码：" + phone + " 短信验证码：" + code);
+    }
+
+    /**
+     * 壹分付短信平台
+     * @param phone
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public void sendByItpSms(String phone) {
+        // 生成6位随机码
+        int radomInt = new Random().nextInt(999999);
+        String code = String.valueOf(radomInt);
+        SmsInfo smsinfo = new SmsInfo();
+        smsinfo.setSmsCode(code);
+        smsinfo.setPhone(phone);
+        smsinfo.setCreateDate(new Date());
+        smsinfo.setIsValid("Y");
+        smsinfoRepository.save(smsinfo);
+
+        String user = "yifentiyu";
+        String uerSecret = "f7aee531be7282fb";
+        String time = DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String sign = DigestUtils.md5DigestAsHex((user + "," + uerSecret + "," + time).getBytes());
+        Map params = new HashMap();
+        params.put("user", user);
+        params.put("time", time);
+        params.put("mobiles", phone);
+        params.put("msg", "【壹分付】您的验证码为：" + code + "，如非本人操作，请忽略本短信。");
+        params.put("code", "SMS-AX-SW");
+        params.put("sign", sign);
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("Content-Type", "application/x-www-form-urlencoded");
+        String info = HttpUtils.post("http://39.108.193.63:8015/SMS/SendSMS", params, headers);
+        logger.info("发送结果：" + info);
+        logger.info("发送手机号码：" + phone + " 短信验证码：" + code);
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public static void main(String[] args) {
+        String code = "123456";
+        String user = "yifentiyu";
+        String uerSecret = "f7aee531be7282fb";
+        String time = DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String sign = DigestUtils.md5DigestAsHex((user + "," + uerSecret + "," + time).getBytes());
+        Map params = new HashMap();
+        params.put("user", user);
+        params.put("time", time);
+        params.put("mobiles", "15724750499");
+        params.put("msg", "【壹分付】您的验证码为：" + code + "，如非本人操作，请忽略本短信。");
+        params.put("code", "SMS-AX-SW");
+        params.put("sign", sign);
+        Map<String, String> headers = new HashMap<String, String>();
+//        headers.put("Content-Type", "application/x-www-form-urlencoded");
+        String info = HttpUtils.post("http://39.108.193.63:8015/SMS/SendSMS", params, headers);
+        System.out.println(info);
     }
 }
