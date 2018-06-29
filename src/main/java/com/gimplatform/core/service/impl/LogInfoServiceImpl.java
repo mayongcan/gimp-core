@@ -1,5 +1,6 @@
 package com.gimplatform.core.service.impl;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -38,12 +39,19 @@ public class LogInfoServiceImpl implements LogInfoService {
     private LogInfoRepository logInfoRepository;
 
     @Override
-    public void saveLog(HttpServletRequest request, String title) {
-        saveLog(request, null, null, title);
+    public JSONObject getLogList(Pageable page, UserInfo userInfo, Map<String, Object> params) {
+        List<Map<String, Object>> list = logInfoRepository.getLogList(userInfo, params, page.getPageNumber(), page.getPageSize());
+        int count = logInfoRepository.getLogListCount(userInfo, params);
+        return RestfulRetUtils.getRetSuccessWithPage(list, count);
     }
 
     @Override
-    public void saveLog(HttpServletRequest request, Object handler, Exception ex, String title) {
+    public void saveLog(HttpServletRequest request, String operateType, String logDesc) throws IOException {
+        saveLog(request, null, null, operateType, logDesc);
+    }
+
+    @Override
+    public void saveLog(HttpServletRequest request, Object handler, Exception ex, String operateType, String logDesc) throws IOException {
         UserInfo userInfo = SessionUtils.getUserInfo();
         Long userId = -1L;
         if (userInfo != null && userInfo.getUserId() != null) {
@@ -51,7 +59,8 @@ public class LogInfoServiceImpl implements LogInfoService {
         }
         // 新建日志记录
         LogInfo logInfo = new LogInfo();
-        logInfo.setLogTitle(title);
+        logInfo.setOperateType(operateType);
+        logInfo.setLogDesc(logDesc);
         logInfo.setCreateBy(userId);
         logInfo.setCreateDate(DateUtils.dateFormat(new Date()));
         logInfo.setLogType(ex == null ? LogInfo.TYPE_ACCESS : LogInfo.TYPE_EXCEPTION);
@@ -59,6 +68,7 @@ public class LogInfoServiceImpl implements LogInfoService {
         logInfo.setUserAgent(request.getHeader("user-agent"));
         logInfo.setReqeustUri(request.getRequestURI());
         logInfo.setParams(StringUtils.mapToString(request.getParameterMap()));
+        logInfo.setHttpBody(getRequestPostStr(request));
         logInfo.setMethod(request.getMethod());
         // 异步保存日志
         new SaveLogInfoThread(logInfo, handler, ex).start();
@@ -134,8 +144,8 @@ public class LogInfoServiceImpl implements LogInfoService {
             }
             // 如果有异常，设置异常信息
             logInfo.setException(Exceptions.getStackTraceAsString(ex));
-            // 如果无标题并无异常日志，则不保存信息
-            if (StringUtils.isBlank(logInfo.getLogTitle()) && StringUtils.isBlank(logInfo.getException())) {
+            // 标题、描述和异常信息都为空，则不保存信息
+            if (StringUtils.isBlank(logInfo.getLogTitle()) && StringUtils.isBlank(logInfo.getLogDesc()) && StringUtils.isBlank(logInfo.getException())) {
                 logger.debug("日志标题为空，不保存操作日志:" + logInfo.getReqeustUri());
                 return;
             }
@@ -143,11 +153,50 @@ public class LogInfoServiceImpl implements LogInfoService {
             logInfoRepository.save(logInfo);
         }
     }
+    
 
-    @Override
-    public JSONObject getLogList(Pageable page, UserInfo userInfo, Long tenantsId, Long organizerId, String title, String beginTime, String endTime) {
-        List<Map<String, Object>> list = logInfoRepository.getLogList(userInfo, tenantsId, organizerId, title, beginTime, endTime, page.getPageNumber(), page.getPageSize());
-        int count = logInfoRepository.getLogListCount(userInfo, tenantsId, organizerId, title, beginTime, endTime);
-        return RestfulRetUtils.getRetSuccessWithPage(list, count);
+    
+    /**   
+     * 描述:获取 post 请求的 byte[] 数组
+     * @param request
+     * @return
+     * @throws IOException    
+     */
+    private byte[] getRequestPostBytes(HttpServletRequest request){
+        try {
+            int contentLength = request.getContentLength();
+            if(contentLength<0){
+                return null;
+            }
+            byte buffer[] = new byte[contentLength];
+            for (int i = 0; i < contentLength;) {
+                int readlen = request.getInputStream().read(buffer, i, contentLength - i);
+                if (readlen == -1) {
+                    break;
+                }
+                i += readlen;
+            }
+            return buffer;
+        }catch(IOException e) {
+            
+        }
+        return null;
     }
+ 
+    /**   
+     * 描述:获取 post 请求内容
+     * @param request
+     * @return
+     * @throws IOException    
+     */
+    private String getRequestPostStr(HttpServletRequest request)throws IOException {
+        byte buffer[] = getRequestPostBytes(request);
+        String charEncoding = request.getCharacterEncoding();
+        if (charEncoding == null) {
+            charEncoding = "UTF-8";
+        }
+        if(buffer == null) return "";
+        else return new String(buffer, charEncoding);
+    }
+
 }

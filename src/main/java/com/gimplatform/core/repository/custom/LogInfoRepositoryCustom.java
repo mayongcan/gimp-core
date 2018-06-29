@@ -17,27 +17,19 @@ public interface LogInfoRepositoryCustom {
     /**
      * 获取日志列表详情
      * @param userInfo
-     * @param tenantsId
-     * @param organizerId
-     * @param title
-     * @param beginTime
-     * @param endTime
+     * @param params
      * @param pageIndex
      * @param pageSize
      * @return
      */
-    public List<Map<String, Object>> getLogList(UserInfo userInfo, Long tenantsId, Long organizerId, String title, String beginTime, String endTime, int pageIndex, int pageSize);
+    public List<Map<String, Object>> getLogList(UserInfo userInfo, Map<String, Object> params, int pageIndex, int pageSize);
 
     /**
      * 获取日志列表详情 分页数量
      * @param userInfo
-     * @param tenantsId
-     * @param organizerId
-     * @param title
-     * @param beginTime
-     * @param endTime
+     * @param params
      * @return
      */
-    public int getLogListCount(UserInfo userInfo, Long tenantsId, Long organizerId, String title, String beginTime, String endTime);
+    public int getLogListCount(UserInfo userInfo, Map<String, Object> params);
 
 }

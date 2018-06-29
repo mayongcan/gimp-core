@@ -45,12 +45,11 @@ public class LogInfo implements Serializable {
     @Column(name = "LOG_TITLE", nullable = false, length = 255)
     private String logTitle;
 
-    @Column(name = "CREATE_BY", precision = 10, scale = 0)
-    private Long createBy;
+    @Column(name = "OPERATE_TYPE", nullable = false, length = 2)
+    private String operateType;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "CREATE_DATE")
-    private Date createDate;
+    @Column(name = "LOG_DESC", nullable = false, length = 255)
+    private String logDesc;
 
     @Column(name = "REMOTE_ADDR", length = 255)
     private String remoteAddr;
@@ -71,8 +70,20 @@ public class LogInfo implements Serializable {
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
+    @Column(name = "HTTP_BODY")
+    private String httpBody;
+
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "EXCEPTION")
     private String exception;
+
+    @Column(name = "CREATE_BY", precision = 10, scale = 0)
+    private Long createBy;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATE_DATE")
+    private Date createDate;
 
     // 日志类型（1：接入日志；2：错误日志）
     public static final String TYPE_ACCESS = "1";
