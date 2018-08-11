@@ -1,5 +1,6 @@
 package com.gimplatform.core.repository;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -33,7 +34,14 @@ public interface UserLogonRepository extends JpaRepository<UserLogon, Long>, Use
 	 */
 	@Transactional
 	@Modifying(clearAutomatically = true)
-	@Query(value = "UPDATE sys_user_logon SET FAILE_COUNT = 0, LOCK_BEGIN_DATE = NULL, LOCK_END_DATE=NULL, LOCK_REASON= '' "
+	@Query(value = "UPDATE sys_user_logon SET FAILE_COUNT = 0, LOCK_BEGIN_DATE = NULL, LOCK_END_DATE = NULL, LOCK_REASON= '' "
 			+ "WHERE USER_ID IN (:idList)", nativeQuery = true)
 	public void unlockAccount(@Param("idList") List<Long> idList);
+	
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE sys_user_logon SET LAST_LOGON_DATE = :lastLogonDate, LNGLAT = :lnglat, LNGLAT_ADDR = :lnglatAddr "
+            + "WHERE USER_ID = :userId ", nativeQuery = true)
+    public void updateLocation(@Param("userId") Long userId, @Param("lastLogonDate") Date lastLogonDate, @Param("lnglat") String lnglat, @Param("lnglatAddr") String lnglatAddr);
 }
