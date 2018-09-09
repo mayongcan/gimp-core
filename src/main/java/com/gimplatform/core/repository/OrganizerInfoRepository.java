@@ -21,7 +21,8 @@ import com.gimplatform.core.repository.custom.OrganizerInfoRepositoryCustom;
 @Repository
 public interface OrganizerInfoRepository extends JpaRepository<OrganizerInfo, Long>, OrganizerInfoRepositoryCustom, JpaSpecificationExecutor<OrganizerInfo> {
 	
-	
+    public List<OrganizerInfo> findByOrganizerNameAndTenantsIdAndIsValid(String organizerName, Long tenantsId, String isValid);
+    
 	/**
 	 * 根据parentOrgId,isValid查找组织
 	 * @param parentOrgId
