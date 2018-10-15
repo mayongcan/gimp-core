@@ -1,5 +1,6 @@
 package com.gimplatform.core.repository.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +109,8 @@ public class UserInfoRepositoryImpl extends BaseRepository implements UserInfoRe
 		sqlParams.querySql.append(sql);
 		String organizerName = MapUtils.getString(params, "organizerName");
 		int findChildUsers = MapUtils.getIntValue(params, "findChildUsers", 1);
-		Long roleId = MapUtils.getLong(params, "roleId", null);
+//		Long roleId = MapUtils.getLong(params, "roleId", null);
+		String roleId = MapUtils.getString(params, "roleId", "");
 		//添加查询参数
 		if(null != userInfo && !StringUtils.isBlank(userInfo.getUserName())) {
             sqlParams.querySql.append(getLikeSql("a.user_name", ":userName"));
@@ -146,10 +148,12 @@ public class UserInfoRepositoryImpl extends BaseRepository implements UserInfoRe
 			sqlParams.paramsList.add("isAdmin");
 			sqlParams.valueList.add(userInfo.getIsAdmin());
         }
-		if(roleId != null && !roleId.equals(-1L)) {
-			sqlParams.querySql.append(" AND a.user_id in(select user_id from sys_user_role where role_id=:roleId) ");
-			sqlParams.paramsList.add("roleId");
-			sqlParams.valueList.add(roleId);
+		if(!StringUtils.isBlank(roleId)) {
+		    List<String> roleIdList = StringUtils.splitToList(roleId, ",");
+		    sqlParams.querySql.append(" AND a.user_id in(select user_id from sys_user_role where role_id in (:roleIdList) ) ");
+//			sqlParams.querySql.append(" AND a.user_id in(select user_id from sys_user_role where role_id=:roleId) ");
+			sqlParams.paramsList.add("roleIdList");
+			sqlParams.valueList.add(roleIdList);
         }
         if(null != userInfo && !StringUtils.isBlank(userInfo.getUserType())){
         	sqlParams.querySql.append(" AND a.USER_TYPE = :userType ");
