@@ -13,7 +13,7 @@ import com.gimplatform.core.utils.StringUtils;
 
 public class LogInfoRepositoryImpl extends BaseRepository implements LogInfoRepositoryCustom{
 	
-	private static final String SQL_LOG_LIST = "SELECT log.LOG_ID as \"logId\", log.LOG_TYPE as \"logType\", log.LOG_TITLE as \"logTitle\", log.OPERATE_TYPE as \"operateType\", log.LOG_DESC as \"logDesc\"" 
+	private static final String SQL_LOG_LIST = "SELECT log.LOG_ID as \"logId\", log.LOG_TYPE as \"logType\", log.LOG_TITLE as \"logTitle\", log.OPERATE_TYPE as \"operateType\", log.LOG_DESC as \"logDesc\", " 
 					+ "log.REMOTE_ADDR as \"remoteAddr\", log.USER_AGENT as \"userAgent\", log.REQUEST_URI as \"requestUri\", log.METHOD as \"method\", log.PARAMS as \"params\", log.HTTP_BODY as \"httpBody\", "
 					+ "log.EXCEPTION as \"exception\", user.USER_CODE as \"userCode\", org.ORGANIZER_NAME as \"organizerName\", ten.TENANTS_NAME as \"tenantsName\", log.CREATE_DATE as \"createDate\" "
 			+ "FROM sys_log_info log left join sys_user_info user on log.CREATE_BY = user.USER_ID "
