@@ -111,6 +111,7 @@ public class UserInfoRepositoryImpl extends BaseRepository implements UserInfoRe
 		int findChildUsers = MapUtils.getIntValue(params, "findChildUsers", 1);
 //		Long roleId = MapUtils.getLong(params, "roleId", null);
 		String roleId = MapUtils.getString(params, "roleId", "");
+		String notInAccount = MapUtils.getString(params, "notInAccount");
 		//添加查询参数
 		if(null != userInfo && !StringUtils.isBlank(userInfo.getUserName())) {
             sqlParams.querySql.append(getLikeSql("a.user_name", ":userName"));
@@ -174,6 +175,13 @@ public class UserInfoRepositoryImpl extends BaseRepository implements UserInfoRe
         	sqlParams.querySql.append(" AND a.CREATE_BY = :createBy ");
         	sqlParams.paramsList.add("createBy");
         	sqlParams.valueList.add(userInfo.getCreateBy());
+        }
+        //过滤
+        if(!StringUtils.isBlank(notInAccount)) {
+            List<String> accountList = StringUtils.splitToList(notInAccount, ",");
+            sqlParams.querySql.append(" AND a.user_code not in(:accountList) ");
+            sqlParams.paramsList.add("accountList");
+            sqlParams.valueList.add(accountList);
         }
         return sqlParams;
 	}
